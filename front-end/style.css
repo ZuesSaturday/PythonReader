@@ -7,25 +7,15 @@ body {
 
 header {
     position: fixed;
-    top: 0;
+    top: 0; /* move header to the very top */
     left: 0;
     width: 100vw;
-    height: 40px; /* header height */
-    background: #424242;
+    height: 40px;
+    background:linear-gradient(125deg,#3a3a3a 50%, #313131 100%);
     display: flex;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.header-line {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 10px;
-    background: #222;
     z-index: 100;
-    align-items: flex-end;
 }
 
 .header-container {
@@ -69,7 +59,7 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: #222;
+    color: #9e9e9e;
     font-size: 16px;
     padding: 4px 8px;
     border-radius: 4px;
@@ -94,18 +84,27 @@ nav a:hover {
     border: none;
     font-size: 16px;
     background: #e0e0e0;
-    color: #222;
+    color: #575757;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+main {
+    margin-top: 40px; /* header height only */
+    margin-bottom: 40px; /* footer height */
+    margin-left: 80px;
+    width: calc(100vw - 80px);
+    height: calc(100vh - 80px); /* header + footer */
+    display: flex;
 }
 
 .sidebar {
     position: fixed;
-    top: 40px; /* reduced to match header */
+    top: 40px; /* header height only */
     left: 0;
     width: 80px;
-    height: calc(100vh - 100px); /* adjust for new header/footer */
-    background: #222;
-    color: #fff;
+    height: calc(100vh - 80px); /* header + footer */
+    background: #3a3a3a;
+    color: rgb(146, 146, 146)383;
     z-index: 20;
     padding-top: 20px;
     box-sizing: border-box;
@@ -120,7 +119,7 @@ nav a:hover {
     text-align: center;
 }
 .sidebar a {
-    color: #fff;
+    color: #9e9e9e;
     text-decoration: none;
     font-size: 14px;
 }
@@ -134,6 +133,46 @@ main {
     height: calc(100vh - 80px); /* header + footer */
     display: flex;
 }
+
+.editor {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.line-numbers {
+    background: rgb(32, 32, 32);
+    color: #8b8b8b;
+    margin: 0;
+    padding: 20px 8px 20px 0;
+    text-align: right;
+    user-select: none;
+    overflow: hidden;
+    font-family: monospace;
+    font-size: 16px;
+    line-height: 1.5em;
+    white-space: pre;
+    box-sizing: border-box;
+    min-width: 32px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.line-numbers div {
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    padding-right: 4px;
+    background: transparent;
+    border-radius: 2px;
+    height: 1.5em; /* match textarea line-height */
+    display: flex;
+    align-items: center;
+}
+
 textarea {
     width: 100%;
     height: 100%;
@@ -147,7 +186,37 @@ textarea {
     background-color: rgb(32, 32, 32);
     color: white;
     box-sizing: border-box;
+    line-height: 1.5em;
     display: block;
+    overflow: auto;
+}
+
+/* Custom scrollbar for textarea and line-numbers */
+textarea::-webkit-scrollbar,
+.line-numbers::-webkit-scrollbar {
+    width: 8px;
+    background: #232323;
+}
+
+textarea::-webkit-scrollbar-thumb,
+.line-numbers::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover,
+.line-numbers::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+textarea {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #232323;
+}
+
+.line-numbers {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #232323;
 }
 
 iframe {
@@ -162,5 +231,5 @@ footer {
     height: 40px; /* match header height */
     background: #f5f5f5;
     z-index: 10;
-    box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.25); /* stronger bottom shadow */
 }
