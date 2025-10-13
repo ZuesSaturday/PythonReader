@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Python Reader</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index/style.css">
     
 </head>
 <body>
@@ -12,19 +12,21 @@
 
         <div class="header-container">
             <div class="logo">
-                <div class="logo-icon"><img src="DAROARA_icon.svg" alt=""></div>
+                <div class="logo-icon"><img src="index/DAROARA_icon.png" alt=""></div>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#">File</a></li>
-                    <li><a href="#">Edit</a></li>
-                    <li><a href="#">Selection</a></li>
-                    <li><a href="#">View</a></li>
-                    <li><a href="#">Run</a></li>
-                    <li><a href="#">Terminal</a></li>
-                    <li><a href="#">Help</a></li>
-                </ul>
-            </nav>
+            <div class="header-menu">
+                <nav>
+                    <ul>
+                        <li><a href="#">File</a></li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Selection</a></li>
+                        <li><a href="#">View</a></li>
+                        <li><a href="#">Run</a></li>
+                        <div id="terminal-caller"><li><a href="#">Terminal</a></li></div>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </nav>
+            </div>
             <div class="header-search">
                 <input type="text" placeholder="Search..." />
             </div>
@@ -32,12 +34,21 @@
     </header>
 
     <aside class="sidebar">
-        <ul>
-            <li><a href="#">Explorer</a></li>
-            <li><a href="#">Search</a></li>
-            <li><a href="#">Source Control</a></li>
-            <li><a href="#">Extensions</a></li>
-        </ul>
+        <div class="sidebar-top-section">
+            <ul>
+                <li><a href="#">Explorer</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Source Control</a></li>
+                <li><a href="#">Extensions</a></li>
+            </ul>
+        </div>
+        <div class="sidebar-bottom-section">
+            <ul>
+                <li><a href="#">Accounts</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+
     </aside>
 
     <main>
@@ -45,7 +56,24 @@
             <div class="line-numbers" id="line-numbers"><div>1</div></div>
             <textarea id="code" oninput="updateLineNumbers()" onscroll="syncScroll()"></textarea>
         </div>
+
     </main>
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span>Terminal</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+            <div>Welcome to the Basic Python Reader Terminal!</div>
+        </div>
+        <div class="terminal-input">
+            <span>&gt;</span>
+            <input type="text" id="terminal-input" autofocus />
+        </div>
+
+    </div>
 
     <footer>
         <div class="footer-content">
@@ -55,6 +83,6 @@
         </div>
         <div class="footer-bottom"></div>
     </footer>
-    <script src="func.js"></script>
+    <script src="index/func.js"></script>
 </body>
 </html>
