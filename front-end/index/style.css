@@ -262,15 +262,16 @@ footer {
 .terminal{
     margin-left: 81px;
     position: fixed;
-    bottom: 80px;
+    bottom: 45px;
     width: calc(100vw - 80px);
-    background: 8b8b8b;
+    height: auto;
+    resize:vertical;
+    background-color: rgb(32, 32, 32);
     border: 1px solid #444;
     box-shadow: 0 0 20px rgba(0,0,0,2);
-    display: flex;
+    display:none;
     flex-direction:column;
-    overflow:hidden;
-    z-index: -1;
+    /* overflow:scroll; */
 }
 
 .terminal-header {
@@ -294,23 +295,27 @@ footer {
 
 .terminal-body {
     padding: 10px;
-    color: white;
-    flex-grow: 1;
+    color: rgb(201, 201, 201);
+    /* flex-grow: 1; */
     font-size: 14px;;
 }
 .terminal-input{
     display: flex;
-    padding: 9
+    align-items: center;
+    font-family: monospace;
 }
-.terminal-input span {
-    color: #00d4ff;
-    margin-right:5px;
-}
-#input-line {
-    background:transparent;
+#terminal-input{
+    background-color: rgb(32, 32, 32);
+    width: 800px;
     border:none;
+    line-height: 1.5em;
     outline:none;
     outline: none;
-    color:rgb(0, 0, 0);
-    flex-grow: 14px;
+    color:rgb(235, 235, 235);
+    overflow:visible;
 }
+.terminal-input span {
+    color: #ffffff;
+    margin:10px;
+    margin-top: -15px;
+} 

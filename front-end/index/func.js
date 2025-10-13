@@ -1,6 +1,11 @@
 
 const textArea = document.getElementById('code');
 const lineNumbers = document.getElementById('line-numbers');
+const input = document.getElementById("terminal-input")
+const inputLine = document.getElementById("input-line");
+const terminalBody = document.getElementById("terminal-body");
+const terminalCaller = document.getElementById("terminal-caller");
+
 
 function updateLineNumbers() {
   const lines = textArea.value.split('\n').length;
@@ -18,25 +23,7 @@ function syncScroll() {
 }
 updateLineNumbers();
 
-
-const inputLine = document.getElementById("input-line");
-const terminalBody = document.getElementById("terminal-body");
-const terminalCaller = document.getElementById("terminal-caller");
-
-terminalCaller.addEventListener("click", function(event) {
-    event.preventDefault(); // ✅ prevents page reload if inside a <form>
-
-    const text = inputLine.value.trim();
-    if (text === "") return; // ✅ ignore empty input
-
-    const line = document.createElement("div");
-    line.textContent = "> " + text;
-    terminalBody.appendChild(line);
-
-    terminalBody.scrollTop = terminalBody.scrollHeight;
-    inputLine.value = "";
-});
-
-
-
-
+function showPage() {
+  const term = document.getElementById('terminal');
+  term.style.display = term.style.display === 'none' ? 'flex' : 'none';
+}

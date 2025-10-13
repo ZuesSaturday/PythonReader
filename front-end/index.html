@@ -22,7 +22,7 @@
                         <li><a href="#">Selection</a></li>
                         <li><a href="#">View</a></li>
                         <li><a href="#">Run</a></li>
-                        <div id="terminal-caller"><li><a href="#">Terminal</a></li></div>
+                        <li><a href="#" id="terminal-caller" onclick="showPage()">Terminal</a></li>
                         <li><a href="#">Help</a></li>
                     </ul>
                 </nav>
@@ -52,13 +52,13 @@
     </aside>
 
     <main>
-        <div class="editor">
+        <div class="editor" id="editor ">
             <div class="line-numbers" id="line-numbers"><div>1</div></div>
             <textarea id="code" oninput="updateLineNumbers()" onscroll="syncScroll()"></textarea>
         </div>
 
     </main>
-    <div class="terminal">
+    <div class="terminal" id="terminal">
         <div class="terminal-header">
             <span class="dot red"></span>
             <span class="dot yellow"></span>
@@ -70,7 +70,7 @@
         </div>
         <div class="terminal-input">
             <span>&gt;</span>
-            <input type="text" id="terminal-input" autofocus />
+            <textarea type="text" id="terminal-input" oninput="updateline()"></textarea>
         </div>
 
     </div>
