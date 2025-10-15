@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Python Reader</title>
     <link rel="stylesheet" href="index/style.css">
-    
+    <script src="https://kit.fontawesome.com/5794276339.js" crossorigin="anonymous"></script>
+
+
 </head>
 <body>
     <header>
 
         <div class="header-container">
             <div class="logo">
-                <div class="logo-icon"><img src="index/DAROARA_icon.png" alt=""></div>
+                <div class="logo-icon"><img src="index/DAROARA_icon.png" alt="" ></div>
             </div>
             <div class="header-menu">
                 <nav>
@@ -28,7 +30,7 @@
                 </nav>
             </div>
             <div class="header-search">
-                <input type="text" placeholder="Search..." />
+                <input type="text" placeholder=" Search..." class="icon-input"/>
             </div>
         </div>
     </header>
@@ -36,16 +38,16 @@
     <aside class="sidebar">
         <div class="sidebar-top-section">
             <ul>
-                <li><a href="#">Explorer</a></li>
-                <li><a href="#">Search</a></li>
-                <li><a href="#">Source Control</a></li>
-                <li><a href="#">Extensions</a></li>
+                <li><a href="#"><i class="fa-regular fa-file" style="font-size: 24px;"></i></a></li>
+                <li><a href="#"><i class="fa-regular fa-magnifying-glass" style="font-size: 24px;"></i></a></li>
+                <li><a href="#"><i class="fa-regular fa-timeline" style="font-size: 24px;"></i></a></li>
+                <li><a href="#"><i class="fa-regular fa-toolbox" style="font-size: 24px;"></i></a></li>
             </ul>
         </div>
         <div class="sidebar-bottom-section">
             <ul>
-                <li><a href="#">Accounts</a></li>
-                <li><a href="#">Settings</a></li>
+                <li><a href="#"><i class="fa-light fa-circle-user"></i> Acc</a></li>
+                <li><a href="#"><i class="fa-light fa-gear"></i> Set</a></li>
             </ul>
         </div>
 
@@ -70,7 +72,7 @@
         </div>
         <div class="terminal-input">
             <span>&gt;</span>
-            <textarea type="text" id="terminal-input" oninput="updateline()"></textarea>
+            <textarea type="text" id="terminal-input"></textarea>
         </div>
 
     </div>
