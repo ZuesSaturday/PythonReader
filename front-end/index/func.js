@@ -5,7 +5,11 @@ const input = document.getElementById("terminal-input")
 const inputLine = document.getElementById("input-line");
 const terminalBody = document.getElementById("terminal-body");
 const terminalCaller = document.getElementById("terminal-caller");
+const terminal = document.getElementById("terminal");
+const handle = document.querySelector('.resize-handle');
 
+let isResizing = false;
+let startY, startHeight;
 
 function updateLineNumbers() {
   const lines = textArea.value.split('\n').length;
@@ -27,3 +31,21 @@ function showPage() {
   const term = document.getElementById('terminal');
   term.style.display = term.style.display === 'none' ? 'flex' : 'none';
 }
+
+// handle.addEventListener('mousedown', (e) =>{
+//   isResizing = true;
+//   startY = e.cliemtY;
+//   startHeight = parseInt(document.defaultView.getComputedStyle(terminal).height, 10);
+//   document.body.style.userSelect = 'none';
+// });
+
+// document.addEventListener('mousemove', (e) =>{
+//   if (!isResizing) return;
+//   const newHeight = startHeight +(startY - e.clientY);
+//   terminal.style.height = newHeight + 'px';
+// });
+
+// document.addEventListener('mouseup', () =>{
+//   isResizing = false;
+//   document.body.style.userSelect = 'auto';
+// });
