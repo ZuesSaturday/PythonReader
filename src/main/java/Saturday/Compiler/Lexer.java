@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lexer {
-    private String input;
+    private final String input;
     private int currentPosition;
 
     public Lexer(String input) {
@@ -40,15 +40,17 @@ public class Lexer {
         }
 
         String[] tokenPatterns = {
-                "if|else|while|for",          // Keywords
+                "if|else|while|for|print",          // Keywords
                 "[a-zA-Z_][a-zA-Z0-9_]*",     // Identifiers
                 "\"[^\"\\n]*\"",              // Literals
-                "[+-/*=<>!]",                 // Operators
+                "[+-/*<>!]",                  // Operators
                 "[.,;(){}]",                  // Punctuation
                 "\\b\\d+\\b",                 // Number
                 "#.*",                        // Comment
                 "[ \\t\\r\\n]+",              // Whitespace
+                "=",                          // Assign
                 "."                           // Unknown
+
         };
 
         TokenType[] tokenTypes = {
@@ -60,7 +62,9 @@ public class Lexer {
                 TokenType.NUMBER,
                 TokenType.COMMENT,
                 TokenType.WHITESPACE,
+                TokenType.ASSIGN,
                 TokenType.UNKNOWN
+
         };
 
         for (int i = 0; i < tokenPatterns.length; i++) {
@@ -76,16 +80,16 @@ public class Lexer {
         return null;
     }
 
-    public static void main(String[] args) {
-        String code = "if (x > 10) { y = x + 5; }";
-        Lexer lexer = new Lexer(code);
-        List<Token> tokens = lexer.tokenize();
-
-        for (Token token : tokens) {
-            System.out.println(token);
-        }
-    }
-
+//    public static void main(String[] args) {
+//        String code = "print(5) =";
+//        Lexer lexer = new Lexer(code);
+//        List<Token> tokens = lexer.tokenize();
+//
+//        for (Token token : tokens) {
+//            System.out.println(token);
+//        }
+//    }
+}
 //    public List<Token> tokenize(Expression expression) {
 //        State state = State.INITIAL;
 //        StringBuilder currentToken = new StringBuilder();
@@ -142,4 +146,4 @@ public class Lexer {
 //            throw new InvalidExpressionExcaption(String.format(MESSAGE_ERROR, currentToken));
 //        }
 //    }
-}
+//}

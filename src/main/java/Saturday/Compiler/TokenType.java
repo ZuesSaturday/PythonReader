@@ -9,5 +9,5 @@ public enum TokenType {
     PUNCTUATION,
     WHITESPACE,
     COMMENT,
-    UNKNOWN
+    ASSIGN, UNKNOWN
 }
