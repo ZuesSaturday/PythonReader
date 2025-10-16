@@ -49,3 +49,11 @@ function showPage() {
 //   isResizing = false;
 //   document.body.style.userSelect = 'auto';
 // });
+
+const Runbutton = document.getElementById("Runbutton");
+function runCode() {
+    const code = textArea.value;
+    input.value = code;
+    showPage()
+    console.log(code);
+}
