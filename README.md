@@ -40,3 +40,13 @@ user = {"name":"Livy","age":22}
 ✅ Phase 5 — Loops (for, while)
 ✅ Phase 6 — Errors & Semantic checks
 ✅ Phase 7 — Optional functions
+
+| Component                | Purpose                         |
+| ------------------------ | ------------------------------- |
+| **Lexer**                | Turns code text → tokens        |
+| **Parser**               | Tokens → AST (syntax tree)      |
+| **AST**                  | Represents code structure       |
+| **Executor/Interpreter** | Runs the AST                    |
+| **Symbol Table**         | Stores variables                |
+| **Runtime**              | Built-in functions like `print` |
+
