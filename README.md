@@ -13,3 +13,30 @@ A simple web IDE that reads and runs Python code.
 | **Runtime**                             | Handle print, loops, functions later                |
 
 
+Phase 1 — Minimal Interpreter
+
+Goal: Support numbers + print
+
+Interpret:
+
+a = 5
+print(a)
+
+✅ Phase 2 — Strings
+
+Add:
+
+name = "Livy"
+print("Hello " + name)
+
+✅ Phase 3 — Lists & Dictionary
+
+Support indexing and storage
+
+nums = [1,2,3]
+user = {"name":"Livy","age":22}
+
+✅ Phase 4 — If Statements
+✅ Phase 5 — Loops (for, while)
+✅ Phase 6 — Errors & Semantic checks
+✅ Phase 7 — Optional functions
