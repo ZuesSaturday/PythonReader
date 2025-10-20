@@ -1,3 +1,0 @@
-package Saturday;
-
-class Floats{}

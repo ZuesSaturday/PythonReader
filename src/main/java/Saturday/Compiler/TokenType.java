@@ -10,7 +10,9 @@ public enum TokenType {
     LITERAL("\"[^\"\\n]*\"|'[^'\\n]*'"),
     OPERATOR("==|!=|<=|>=|=|\\+|-|\\*|/"),
     PUNCTUATION("[.,;(){}']"),
-    UNKNOWN(".");
+    UNKNOWN("."), 
+    LPAREN("("), 
+    RPAREN(")"), EOF("");
 
     private final String pattern;
     TokenType(String pattern){

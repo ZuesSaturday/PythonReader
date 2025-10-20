@@ -326,7 +326,7 @@ footer {
     outline:none;
     outline: none;
     color:rgb(235, 235, 235);
-    overflow:visible;
+    overflow:hidden;
 }
 .terminal-input span {
     color: #ffffff;

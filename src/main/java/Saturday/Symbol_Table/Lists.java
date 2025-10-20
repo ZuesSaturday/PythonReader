@@ -1,5 +1,0 @@
-package Saturday;
-
-class Lists{
-
-}

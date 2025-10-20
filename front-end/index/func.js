@@ -7,6 +7,7 @@ const terminalBody = document.getElementById("terminal-body");
 const terminalCaller = document.getElementById("terminal-caller");
 const terminal = document.getElementById("terminal");
 const handle = document.querySelector('.resize-handle');
+const terminalInputLine = document.getElementById("terminal-input-line");
 
 let isResizing = false;
 let startY, startHeight;
@@ -32,6 +33,40 @@ function showPage() {
   term.style.display = term.style.display === 'none' ? 'flex' : 'none';
 }
 
+const Runbutton = document.getElementById("Runbutton");
+function runCode() {
+    const code = textArea.value;
+    input.value = code;
+    showPage()
+    console.log(code);
+}
+const handler = document.querySelector('handle');
+handler.addEventListener("keydown", (e) => {
+  if (e.target.classList.contains('line') && e.key === 'Enter') {
+        e.preventDefault();
+
+        const currentInput = e.target;
+        const value = currentInput.value;
+
+        // Make current textarea read-only
+        currentInput.setAttribute('readonly', 'true');
+
+        // Optionally, append the value as text above the new input
+        // const output = document.createElement('div');
+        // output.textContent = "> " + value;
+        // terminal.insertBefore(output, currentInput.parentElement);
+
+        // Create new input line
+        const newInputDiv = document.createElement('div');
+        newInputDiv.classList.add('terminal-input');
+        newInputDiv.innerHTML = `<span>&gt;</span><textarea type="text" id="input-line"></textarea>`;
+        handler.appendChild(newInputDiv);
+
+        // Focus on new textarea
+        newInputDiv.querySelector('textarea').focus();
+  }
+})
+
 // handle.addEventListener('mousedown', (e) =>{
 //   isResizing = true;
 //   startY = e.cliemtY;
@@ -49,11 +84,3 @@ function showPage() {
 //   isResizing = false;
 //   document.body.style.userSelect = 'auto';
 // });
-
-const Runbutton = document.getElementById("Runbutton");
-function runCode() {
-    const code = textArea.value;
-    input.value = code;
-    showPage()
-    console.log(code);
-}
