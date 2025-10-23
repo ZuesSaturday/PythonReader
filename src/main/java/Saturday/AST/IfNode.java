@@ -1,4 +1,4 @@
 package Saturday.AST;
 
-public class IfNode {
+public class IfNode extends Node{
 }

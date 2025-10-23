@@ -1,6 +1,7 @@
 package Saturday.AST;
 
-public class ProgramNode {
+public class ProgramNode extends Node{
+
     public void addStatement(Object o) {
 
     }

@@ -1,4 +1,4 @@
 package Saturday.AST;
 
-public class BlockNode {
+public class BlockNode extends Node{
 }

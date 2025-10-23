@@ -1,4 +1,4 @@
 package Saturday.AST;
 
-public class WhileNode {
+public class WhileNode extends Node{
 }

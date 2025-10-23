@@ -2,10 +2,15 @@ package Saturday.AST;
 
 import Saturday.Compiler.Token;
 
-public class AssignmentNode {
-    public AssignmentNode(Token token) {
-    }
+import java.beans.Expression;
 
-    public AssignmentNode(Token identifier, Token value) {
-    }
+public class AssignmentNode extends Node{
+    private IdentifierNode identifierNode;
+    private Token value;
+    private Expression expression;
+//
+//    public AssignmentNode(Token identifier, Token value) {
+//        super(new IdentifierNode(identifier), new LiteralNode(value));
+//    }
+
 }

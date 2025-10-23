@@ -1,4 +1,8 @@
 package Saturday.AST;
 
-public class Node {
+import Saturday.Compiler.Token;
+import Saturday.Compiler.TokenType;
+
+public abstract class Node {
+
 }

@@ -31,6 +31,7 @@ updateLineNumbers();
 function showPage() {
   const term = document.getElementById('terminal');
   term.style.display = term.style.display === 'none' ? 'flex' : 'none';
+
 }
 
 const Runbutton = document.getElementById("Runbutton");
@@ -40,47 +41,21 @@ function runCode() {
     showPage()
     console.log(code);
 }
-const handler = document.querySelector('handle');
-handler.addEventListener("keydown", (e) => {
-  if (e.target.classList.contains('line') && e.key === 'Enter') {
-        e.preventDefault();
 
-        const currentInput = e.target;
-        const value = currentInput.value;
+const handler = document.querySelector(".terminal-input");
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
 
-        // Make current textarea read-only
-        currentInput.setAttribute('readonly', 'true');
+    e.target.disabled = true;
 
-        // Optionally, append the value as text above the new input
-        // const output = document.createElement('div');
-        // output.textContent = "> " + value;
-        // terminal.insertBefore(output, currentInput.parentElement);
+    const newInput = handler.cloneNode(true);
 
-        // Create new input line
-        const newInputDiv = document.createElement('div');
-        newInputDiv.classList.add('terminal-input');
-        newInputDiv.innerHTML = `<span>&gt;</span><textarea type="text" id="input-line"></textarea>`;
-        handler.appendChild(newInputDiv);
+    const newTextarea = newInput.querySelector("textarea");
+    newTextarea.value = "";
+    newTextarea.disabled = false;
 
-        // Focus on new textarea
-        newInputDiv.querySelector('textarea').focus();
+    terminal.appendChild(newInput);
+    newInput.focus();
   }
-})
-
-// handle.addEventListener('mousedown', (e) =>{
-//   isResizing = true;
-//   startY = e.cliemtY;
-//   startHeight = parseInt(document.defaultView.getComputedStyle(terminal).height, 10);
-//   document.body.style.userSelect = 'none';
-// });
-
-// document.addEventListener('mousemove', (e) =>{
-//   if (!isResizing) return;
-//   const newHeight = startHeight +(startY - e.clientY);
-//   terminal.style.height = newHeight + 'px';
-// });
-
-// document.addEventListener('mouseup', () =>{
-//   isResizing = false;
-//   document.body.style.userSelect = 'auto';
-// });
+});

@@ -19,7 +19,6 @@ public class Parser {
         this.tokens = lexer.tokenize();
     }
 
-    // ---- Entry Point ----
     public ProgramNode parseProgram() {
         ProgramNode program = new ProgramNode();
 
@@ -29,7 +28,6 @@ public class Parser {
         return program;
     }
 
-    // ---- Statement Parser ----
     private Object parseStatement() {
         Token token = currentToken();
 
@@ -42,16 +40,13 @@ public class Parser {
         }
     }
 
-    // ---- Handle a = 5 ----
     private AssignmentNode parseAssignment() {
         Token identifier = expect(TokenType.IDENTIFIER);
-        expect(TokenType.OPERATOR);  // Should be '='
+        expect(TokenType.ASSIGN);
         Token value = expect(TokenType.NUMBER);
-
         return new AssignmentNode(identifier, value);
     }
 
-    // ---- Handle print(x) ----
     private PrintNode parsePrint() {
         Token printToken = expect(TokenType.KEYWORD); // print
         expect(TokenType.LPAREN);                      // (
@@ -61,7 +56,6 @@ public class Parser {
         return new PrintNode(printToken, inside);
     }
 
-    // ---- Helpers ----
     private Token currentToken() {
         return tokens.get(currentIndex);
     }

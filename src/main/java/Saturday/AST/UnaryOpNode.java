@@ -1,4 +1,4 @@
 package Saturday.AST;
 
-public class UnaryOpNode {
+public class UnaryOpNode extends Node{
 }
