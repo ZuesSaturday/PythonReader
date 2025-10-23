@@ -1,4 +1,4 @@
 package Saturday.AST;
 
-public class ExpressionNode extends Node{
+public abstract class ExpressionNode extends Node{
 }
