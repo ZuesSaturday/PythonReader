@@ -2,6 +2,7 @@ package Saturday.AST;
 
 import Saturday.Compiler.Token;
 import Saturday.Compiler.TokenType;
+import Saturday.Interpreter.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +37,5 @@ public abstract class Node {
         }
     }
 
-    public abstract <Environment> Object evaluate(Environment env);
+    public abstract Object evaluate(Environment env);
 }
