@@ -39,7 +39,7 @@ public class Environment {
     public void debug() {
         System.out.println("Environment:");
         for (Map.Entry<String, Object> entry : variables.entrySet()) {
-            System.out.println(" " + entry.getKey() + "=" + entry.getValue());
+            System.out.println(" " + entry.getKey() + " = " + entry.getValue());
         }
     }
 }

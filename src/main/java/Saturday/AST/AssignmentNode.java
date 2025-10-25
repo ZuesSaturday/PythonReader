@@ -7,7 +7,6 @@ public class AssignmentNode extends Node{
     private Node identifier;
     private Node expression;
 
-//
     public AssignmentNode(Token token,Node identifier, Node expression) {
         super(token);
         this.identifier = identifier;

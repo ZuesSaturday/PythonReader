@@ -1,9 +1,6 @@
 package Saturday.Parser;
 
-import Saturday.AST.AssignmentNode;
-import Saturday.AST.Node;
-import Saturday.AST.PrintNode;
-import Saturday.AST.ProgramNode;
+import Saturday.AST.*;
 import Saturday.Compiler.Lexer;
 import Saturday.Compiler.Token;
 import Saturday.Compiler.TokenType;
@@ -12,7 +9,7 @@ import java.util.List;
 
 public class Parser {
 
-    private List<Token> tokens;
+    private final List<Token> tokens;
     private int currentIndex = 0;
 
     public Parser(String code) {
@@ -24,12 +21,13 @@ public class Parser {
         ProgramNode program = new ProgramNode();
 
         while (currentIndex < tokens.size() && currentToken().getType() != TokenType.EOF) {
-            program.addStatement((Node) parseStatement());
+            Node stmt = parseAssignment();
+            program.addStatement(stmt);
         }
         return program;
     }
 
-    private Object parseStatement() {
+    private Node parseStatement() {
         Token token = currentToken();
 
         if (token.getType() == TokenType.IDENTIFIER) {
@@ -42,10 +40,19 @@ public class Parser {
     }
 
     private AssignmentNode parseAssignment() {
-        Token identifier = expect(TokenType.IDENTIFIER);
-        expect(TokenType.ASSIGN);
-        Token value = expect(TokenType.NUMBER);
-        return new AssignmentNode(identifier, value);
+
+        Token identifierToken = expect(TokenType.IDENTIFIER);//a
+        Token asstoken = currentToken();
+        if (asstoken.getType() == TokenType.ASSIGN && asstoken.getValue().equals("=")) {
+            nextToken();
+        }else {
+            throw new ParseException("Expected '=' after identifier");
+        }
+
+        Token valueToken = expect(TokenType.NUMBER);
+        IdentifierNode varNode = new IdentifierNode(identifierToken);
+        LiteralNode valueNode = new LiteralNode(valueToken);
+        return new AssignmentNode(asstoken,varNode,valueNode);
     }
 
     private PrintNode parsePrint() {
@@ -54,7 +61,8 @@ public class Parser {
         Token inside = expect(TokenType.IDENTIFIER);  // a
         expect(TokenType.RPAREN);                     // )
 
-        return new PrintNode(printToken, inside);
+        IdentifierNode expNode = new IdentifierNode(inside);
+        return new PrintNode(printToken, expNode);
     }
 
     private Token currentToken() {
@@ -79,5 +87,17 @@ public class Parser {
             return nextToken();
         }
         throw new ParseException("Expected " + type + " but got " + currentToken().getType());
+    }
+
+    public static void main(String[] args) {
+        String code = """
+                    a = 5
+                    print(a)
+                    """;
+
+        Parser parser = new Parser(code);
+        ProgramNode program = parser.parseProgram();
+        program.printTree("");
+
     }
 }

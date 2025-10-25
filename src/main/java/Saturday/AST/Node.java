@@ -1,7 +1,6 @@
 package Saturday.AST;
 
 import Saturday.Compiler.Token;
-import Saturday.Compiler.TokenType;
 import Saturday.Interpreter.Environment;
 
 import java.util.ArrayList;

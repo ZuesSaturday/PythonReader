@@ -4,10 +4,16 @@ import Saturday.Compiler.Token;
 import Saturday.Interpreter.Environment;
 
 public class PrintNode extends Node{
+    private final Node expression;
 
-
-    public PrintNode(Token token) {
+    public PrintNode(Token token, Node expression ) {
         super(token);
+        this.expression = expression;
+        addChild(expression);
+    }
+
+    public Node getExpression() {
+        return expression;
     }
 
     /**
@@ -16,6 +22,14 @@ public class PrintNode extends Node{
      */
     @Override
     public Object evaluate(Environment env) {
-        return null;
+        Object value = expression.evaluate(env);
+        System.out.println(value);
+        return value;
+    }
+
+    @Override
+    public void printTree(String indent) {
+        System.out.println(indent +" printNode ("  + token.getValue()+")");
+        expression.printTree(indent + " ");
     }
 }
