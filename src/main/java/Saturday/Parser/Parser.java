@@ -1,6 +1,7 @@
 package Saturday.Parser;
 
 import Saturday.AST.AssignmentNode;
+import Saturday.AST.Node;
 import Saturday.AST.PrintNode;
 import Saturday.AST.ProgramNode;
 import Saturday.Compiler.Lexer;
@@ -23,7 +24,7 @@ public class Parser {
         ProgramNode program = new ProgramNode();
 
         while (currentIndex < tokens.size() && currentToken().getType() != TokenType.EOF) {
-            program.addStatement(parseStatement());
+            program.addStatement((Node) parseStatement());
         }
         return program;
     }

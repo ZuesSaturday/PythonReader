@@ -1,12 +1,21 @@
 package Saturday.AST;
 
+import Saturday.Compiler.Token;
 import Saturday.Compiler.TokenType;
+import Saturday.Interpreter.Environment;
 
-public class BinaryOpNode extends ExpressionNode{
-    private int leftOP;
-    private TokenType type;
-    private int rightOP;
-    public BinaryOpNode(LiteralNode leftOP , TokenType type,LiteralNode rightOP){
-        super(leftOP,type,rightOP);
+public class BinaryOpNode extends Node{
+
+    public BinaryOpNode(Token token) {
+        super(token);
+    }
+
+    /**
+     * @param env
+     * @return
+     */
+    @Override
+    public Object evaluate(Environment env) {
+        return null;
     }
 }
