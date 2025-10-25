@@ -26,6 +26,7 @@ public class Lexer {
                 tokens.add(token);
             }
         }
+        tokens.add(new Token(TokenType.EOF,""));
         return tokens;
     }
 
@@ -33,7 +34,6 @@ public class Lexer {
         if (currentPosition >= input.length()) {
             return null;
         }
-
         String reamining = input.substring(currentPosition);
 
         for (TokenType type:TokenType.values()) {
@@ -45,6 +45,7 @@ public class Lexer {
                 return new Token(type,value);
             }
         }
+
 
         return null;
     }

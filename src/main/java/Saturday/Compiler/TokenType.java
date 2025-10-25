@@ -8,13 +8,13 @@ public enum TokenType {
     IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),
     NUMBER("\\b\\d+\\b"),
     LITERAL("\"[^\"\\n]*\"|'[^'\\n]*'"),
+    ASSIGN("="),
     OPERATOR("==|!=|<=|>=|\\+|-|\\*|/"),
     PUNCTUATION("[.,;{}']"),
-    UNKNOWN("."), 
-    LPAREN("("), 
-    RPAREN(")"), 
+    LPAREN("\\("),
+    RPAREN("\\)"),
     EOF(""),
-    ASSIGN("=");
+    UNKNOWN(".");
 
     private final String pattern;
     TokenType(String pattern){
