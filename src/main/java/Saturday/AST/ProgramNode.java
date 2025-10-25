@@ -30,11 +30,11 @@ public class ProgramNode extends Node{
      */
     @Override
     public Object evaluate(Environment env) {
-        Object lastValue = null;
+        Object result = null;
         for (Node statement : statements) {
-            lastValue = statement.evaluate(env);
+            result = statement.evaluate(env);
         }
-        return lastValue;
+        return result;
     }
 
     @Override

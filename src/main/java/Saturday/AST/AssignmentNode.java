@@ -35,7 +35,7 @@ public class AssignmentNode extends Node{
 
     @Override
     public void printTree(String indent) {
-        System.out.println(indent +"AsssignmentNode (" +token.getValue() +")");
+        System.out.println(indent +"AssignmentNode (" +token.getValue() +")");
         identifier.printTree(indent+" ");
         expression.printTree(indent+" ");
     }

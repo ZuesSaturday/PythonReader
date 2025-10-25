@@ -29,7 +29,7 @@ public class PrintNode extends Node{
 
     @Override
     public void printTree(String indent) {
-        System.out.println(indent +" printNode ("  + token.getValue()+")");
+        System.out.println(indent +"PrintNode ("  +token.getValue()+")");
         expression.printTree(indent + " ");
     }
 }

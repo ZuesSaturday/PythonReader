@@ -4,6 +4,7 @@ import Saturday.AST.*;
 import Saturday.Compiler.Lexer;
 import Saturday.Compiler.Token;
 import Saturday.Compiler.TokenType;
+import Saturday.Interpreter.Environment;
 
 import java.util.List;
 
@@ -16,14 +17,14 @@ public class Parser {
     public Parser(String code) {
         Lexer lexer = new Lexer(code);
         this.tokens = lexer.tokenize();
-        System.out.println(tokens);
+//        System.out.println(tokens);
     }
 
     public ProgramNode parseProgram() {
         ProgramNode program = new ProgramNode();
 
         while (currentToken().getType() != TokenType.EOF) {
-            System.out.println(tokens.size());
+//            System.out.println(tokens.size());
             Node stmt = parseStatement();
             program.addStatement(stmt);
         }
@@ -32,7 +33,7 @@ public class Parser {
 
     private Node parseStatement() {
         Token token = currentToken();
-        System.out.println(token);
+//        System.out.println(token);
 
         if (token.getType() == TokenType.IDENTIFIER) {
             return parseAssignment();
@@ -93,13 +94,15 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    print(a)
+                    a = 5
                     """;
 
         Parser parser = new Parser(code);
 
         ProgramNode program = parser.parseProgram();
+        Environment env = new Environment();
         program.printTree("");
+        program.evaluate(env);
 
     }
 }
