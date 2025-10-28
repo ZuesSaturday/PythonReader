@@ -11,7 +11,7 @@
 	<groupId>DAROARA</groupId>
 	<artifactId>Saturday</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Saturday</name>
+	<name>PythonReader</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
