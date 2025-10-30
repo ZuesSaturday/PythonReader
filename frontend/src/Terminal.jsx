@@ -1,50 +1,45 @@
-import React, { useEffect, useRef } from "react";
-import { Terminal } from "xterm";
-import { io } from "socket.io-client";
-import "xterm/css/xterm.css";
+import React, { useState, useRef, useEffect } from "react";
 
-export default function TerminalComponent() {
-  const terminalRef = useRef(null);
-  const socketRef = useRef(null);
+export default function TerminalTextarea() {
+  const [lines, setLines] = useState(["&gt>"]);
+  const textareaRef = useRef(null);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const input = e.target.value.split("\n").pop(); // get last line
+      const newLine = `&gt> ${input}`;
+
+      // Example output: echo typed command
+      setLines((prev) => [...prev, newLine, `You typed: ${input}`]);
+
+      e.target.value = ""; // clear input
+    }
+  };
 
   useEffect(() => {
-    // Create terminal instance
-    const term = new Terminal({
-      rows: 25,
-      cols: 80,
-      cursorBlink: true,
-      theme: { background: "#000000" },
-    });
-    term.open(terminalRef.current);
-
-    // Connect to backend socket
-    socketRef.current = io("http://localhost:3001"); 
-    // backend URL
-
-    // When backend sends data, write to terminal
-    socketRef.current.on("output", (data) => {
-      term.write(data);
-    });
-
-    // When user types, send data to backend
-    term.onData((data) => {
-      socketRef.current.emit("input", data);
-    });
-
-    return () => {
-      term.dispose();
-      socketRef.current.disconnect();
-    };
-  }, []);
+    const container = textareaRef.current.parentElement;
+    if (container) container.scrollTop = container.scrollHeight; // auto scroll
+  }, [lines]);
 
   return (
     <div
-      ref={terminalRef}
-        style={{
+      style={{
         width: "100%",
-        height: "400px",
-        backgroundColor: "black",
+        height: "250px",
+        background: "#000",
+        color: "#0f0",
+        padding: "8px",
+        fontFamily: "monospace",
+        overflowY: "auto",
       }}
-    />
+    >
+      <div style={{ whiteSpace: "pre-wrap" }}>{lines.join("\n")}</div>
+      <textarea
+        ref={textareaRef}
+        onKeyDown={handleKeyDown}
+        rows={2}
+      />
+    </div>
   );
 }

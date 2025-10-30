@@ -15,19 +15,15 @@ function App() {
       <>
         <Header onToggleTerminal={ToggleTerminal} />
         <Sidebar/>
-        <Main/>
-        {showTerminal && (
-          <div 
-            id="terminal"
-            style={{
-            display: "flex",
-            height: "300px",
-            borderTop: "1px solid #444",
-          }}
-          >
-            <TerminalComponent/>
+          <div className='main-editor-terminal'>
+            <Main/>
+            {showTerminal && (
+              <div id="terminal" className='terminal-container'>
+                <TerminalComponent/>
+              </div>
+            )}
           </div>
-        )}
+
         <Footer/>
       </>
 
