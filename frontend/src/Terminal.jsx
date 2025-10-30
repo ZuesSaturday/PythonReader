@@ -11,7 +11,7 @@ export default function TerminalTextarea() {
       const newLine = `&gt> ${input}`;
 
       // Example output: echo typed command
-      setLines((prev) => [...prev, newLine, `You typed: ${input}`]);
+      setLines((prev) => [...prev, newLine, "&gt> "]);
 
       e.target.value = ""; // clear input
     }
