@@ -1,6 +1,8 @@
 import logo from './assets/DAROARA_icon.svg'
 
-function Header() {
+
+function Header({onToggleTerminal}) {
+
     return(
         <header>
             <div className="header-container">
@@ -10,18 +12,28 @@ function Header() {
                 <div className="header-menu">
                     <nav>
                         <ul>
-                            <li><a href="#">File</a></li>
-                            <li><a href="#">Edit</a></li>
-                            <li><a href="#">Selection</a></li>
-                            <li><a href="#">View</a></li>
-                            <li><a href="#" id="Runbutton">Run</a></li>
-                            <li><a href="#" id="terminal-caller">Terminal</a></li>
-                            <li><a href="#">Help</a></li>
+                            <li><button href="#">File</button></li>
+                            <li><button href="#">Edit</button></li>
+                            <li><button href="#">Selection</button></li>
+                            <li><button href="#">View</button></li>
+                            <li><button href="#" id="Runbutton">Run</button></li>
+                            <li>
+                                <button 
+                                    onClick={onToggleTerminal}
+                                    >
+                                    Terminal
+                                </button>
+                            </li>
+                            <li><button href="#">Help</button></li>
                         </ul>
                     </nav>
                 </div>
                 <div className="header-search">
-                    <input type="text" placeholder=" Search..." className="icon-input"/>
+                    <input 
+                    type="text" 
+                    placeholder=" Search..." 
+                    className="icon-input"
+                    />
                 </div>
             </div>
         </header>

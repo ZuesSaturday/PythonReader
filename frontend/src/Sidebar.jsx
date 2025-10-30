@@ -3,10 +3,10 @@ function Sidebar() {
         <aside className="sidebar">
             <div className="sidebar-top-section">
                 <ul>
-                    <li><a href="#">Explorer</a></li>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">SoCo</a></li>
-                    <li><a href="#">Extension</a></li>
+                    <li><a href="#">Ex</a></li>
+                    <li><a href="#">Se</a></li>
+                    <li><a href="#">So</a></li>
+                    <li><a href="#">Ex</a></li>
                 </ul>
             </div>
             <div className="sidebar-bottom-section">
