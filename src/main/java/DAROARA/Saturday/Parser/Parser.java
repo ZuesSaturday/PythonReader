@@ -93,9 +93,8 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    b = 7
                     a = 5
-                    print(b)
+                    print(a)
                     """;
 
         Parser parser = new Parser(code);
