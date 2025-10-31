@@ -58,79 +58,78 @@ public class Parser {
     private PrintNode parsePrint() {
         Token printToken = expect(TokenType.KEYWORD); // print
         expect(TokenType.LPAREN);                      // (
-        Token inside = null;
-        if (match(TokenType.IDENTIFIER)) {
-            inside = expect(TokenType.IDENTIFIER);  // a
-        } else if (match(TokenType.EXPRESSION)) {
-            inside = expect(TokenType.EXPRESSION);
-        } else if (match(TokenType.STRING)) {
-            inside = expect(TokenType.STRING);
-        }else if (match(TokenType.NUMBER)){
-            inside = expect(TokenType.NUMBER);
-        } else {
-            throw new RuntimeException("Unexpected token inside print: "+ inside);
-        }
+        Token inside = parseInsideToken();
+        System.out.println(inside);
         expect(TokenType.RPAREN);                     // )
+        Node expNode = createExpressionNode(inside);
+        System.out.println(expNode);
+        return new PrintNode(printToken, expNode);
+    }
 
-        Node expNode;
+    private Token parseInsideToken() {
+        if (check(TokenType.IDENTIFIER)) {
+            return expect(TokenType.IDENTIFIER);  // a
+        } else if (check(TokenType.EXPRESSION)) {
+            return expect(TokenType.EXPRESSION); // 1+2
+        } else if (check(TokenType.STRING)) {
+            return expect(TokenType.STRING);  // "str"
+        } else if (check(TokenType.NUMBER)) {
+            return expect(TokenType.NUMBER);  // 5
+        } else {
+            throw new RuntimeException("Unexpected token inside print");
+        }
+    }
+
+    private Node createExpressionNode(Token inside) {
         switch (inside.getType()) {
             case IDENTIFIER -> {
-                expNode = new IdentifierNode(inside);
-                break;
+                return new IdentifierNode(inside);
             }
             case EXPRESSION -> {
-                String exprValue = inside.getValue(); // e.g. "1+2" or "x+5"
-
-                // Match operator in the expression
-                String operator = "";
-                if (exprValue.contains("+")) operator = "+";
-                else if (exprValue.contains("-")) operator = "-";
-                else if (exprValue.contains("*")) operator = "*";
-                else if (exprValue.contains("/")) operator = "/";
-
-                if (!operator.isEmpty()) {
-                    String[] parts = exprValue.split("" + operator); // split by operator symbol
-                    if (parts.length == 2) {
-                        String left = parts[0].trim();
-                        String right = parts[1].trim();
-
-                        Node leftNode;
-                        Node rightNode;
-
-                        // Determine if operand is number or identifier
-                        if (left.matches("\\d+")) {
-                            leftNode = new LiteralNode(new Token(TokenType.NUMBER, left));
-                        } else {
-                            leftNode = new IdentifierNode(new Token(TokenType.IDENTIFIER, left));
-                        }
-
-                        if (right.matches("\\d+")) {
-                            rightNode = new LiteralNode(new Token(TokenType.NUMBER, right));
-                        } else {
-                            rightNode = new IdentifierNode(new Token(TokenType.IDENTIFIER, right));
-                        }
-
-                        expNode = new ExpressionNode(new Token(TokenType.OPERATOR, operator), leftNode, rightNode);
-                    } else {
-                        throw new RuntimeException("Invalid expression format: " + exprValue);
-                    }
-                } else {
-                    throw new RuntimeException("Unsupported expression: " + exprValue);
-                }
-                break;
+                return parseExpressionNode(inside);
             }
-
             case STRING -> {
-                expNode = new StringNode(inside);
-                break;
+                return new StringNode(inside);
             }
             case NUMBER -> {
-                expNode = new LiteralNode(inside);
-                break;
+                return new LiteralNode(inside);
             }
             default -> throw new RuntimeException("Invalid token type");
         }
-        return new PrintNode(printToken, expNode);
+    }
+
+    private Node parseExpressionNode(Token inside) {
+        String exprValue = inside.getValue(); // "1+2" or "x+5"
+        String operator = findOperator(exprValue);
+
+        if (!operator.isEmpty()) {
+            String[] parts = exprValue.split("" + operator); // split by operator symbol
+            if (parts.length == 2) {
+                Node leftNode = createOperandNode(parts[0].trim());
+                Node rightNode = createOperandNode(parts[1].trim());
+                return new ExpressionNode(new Token(TokenType.OPERATOR, operator), leftNode, rightNode);
+            } else {
+                throw new RuntimeException("Invalid expression format: " + exprValue);
+            }
+        } else {
+            throw new RuntimeException("Unsupported expression: " + exprValue);
+        }
+    }
+
+    private String findOperator(String exprValue) {
+        if (exprValue.contains("+")) return "+";
+        else if (exprValue.contains("-")) return "-";
+        else if (exprValue.contains("*")) return "*";
+        else if (exprValue.contains("/")) return "/";
+        return "";
+    }
+
+    private Node createOperandNode(String operand) {
+        if (operand.matches("\\d+")) {
+            return new LiteralNode(new Token(TokenType.NUMBER, operand));
+        } else {
+            return new IdentifierNode(new Token(TokenType.IDENTIFIER, operand));
+        }
     }
 
     private Token currentToken() {
@@ -161,24 +160,33 @@ public class Parser {
 
     private Token expectAny(TokenType... types) {
         for (TokenType t : types) {
-            if (match(t)) return expect(t);
+            if (check(t)) return expect(t);
         }
         throw new RuntimeException("Expected one of " + types );
     }
 
+    private Token peek() {
+        return tokens.get(currentIndex); // `tokens` is your list of tokens, `current` is the index
+    }
 
-//    public static void main(String[] args) {
-//        String code = """
-//                    a = 5
-//                    print(a)
-//                    """;
-//
-//        Parser parser = new Parser(code);
-//
-//        ProgramNode program = parser.parseProgram();
-//        Environment env = new Environment();
-//        program.printTree("");
-//        program.evaluate(env);
-//
-//    }
+    private boolean check(TokenType type) {
+        return peek().getType() == type;
+    }
+
+    public static void main(String[] args) {
+        String code = """
+                    a = 5
+                    b = 5
+                    print(a+b)
+                    """;
+        Lexer lexer = new Lexer(code);
+        System.out.println(lexer.tokenize());
+
+        Parser parser = new Parser(code);
+        ProgramNode program = parser.parseProgram();
+        Environment env = new Environment();
+        program.printTree("");
+        program.evaluate(env);
+
+    }
 }

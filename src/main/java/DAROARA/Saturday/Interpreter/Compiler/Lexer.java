@@ -22,9 +22,7 @@ public class Lexer {
             if (token == null) {
                 throw new RuntimeException("Unknown character: " + input.charAt(currentPosition));
             }
-            if (token.getType() != TokenType.WHITESPACE ){
-                tokens.add(token);
-            }
+            tokens.add(token);
         }
         tokens.add(new Token(TokenType.EOF,""));
         return tokens;
@@ -39,8 +37,16 @@ public class Lexer {
         for (TokenType type:TokenType.values()) {
             Pattern pattern = Pattern.compile("^" +type.getPattern());
             Matcher matcher = pattern.matcher(reamining);
-            if (matcher.find()) {
+            if (matcher.lookingAt()) {
                 String value = matcher.group();
+                if (type == TokenType.EXPRESSION) {
+                    currentPosition += value.length();
+                    return new Token(type,value);
+                }
+                if (type == TokenType.NUMBER || type == TokenType.IDENTIFIER) {
+                    currentPosition += value.length();
+                    return new Token(type,value);
+                }
                 currentPosition += value.length();
                 return new Token(type,value);
             }

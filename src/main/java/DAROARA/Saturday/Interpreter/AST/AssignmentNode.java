@@ -4,16 +4,16 @@ import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
 public class AssignmentNode extends Node{
-    private Node identifier;
-    private Node expression;
+    private final Node identifier;
+    private final Node value;
 
-    public AssignmentNode(Token token,Node identifier, Node expression) {
+    public AssignmentNode(Token token,Node identifier, Node value) {
         super(token);
         this.identifier = identifier;
-        this.expression = expression;
+        this.value = value;
 
         addChild(identifier);
-        addChild(expression);
+        addChild(value);
     }
     public Node getIdentifier() {
         return identifier;
@@ -24,19 +24,19 @@ public class AssignmentNode extends Node{
      * @return
      */
     public Object evaluate(Environment env) {
-        Object value = expression.evaluate(env);
+        Object val = value.evaluate(env);
 
         String varName = identifier.getToken().getValue();
 
-        env.set(varName, value);
+        env.set(varName, val);
 
-        return value;
+        return val;
     }
 
     @Override
     public void printTree(String indent) {
         System.out.println(indent +"AssignmentNode (" +token.getValue() +")");
         identifier.printTree(indent+" ");
-        expression.printTree(indent+" ");
+        value.printTree(indent+" ");
     }
 }

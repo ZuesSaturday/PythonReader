@@ -4,9 +4,9 @@ import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
 public class ExpressionNode extends Node{
-    private Node left;
-    private Node right;
-    private String operator;
+    private final Node left;
+    private final Node right;
+    private final String operator;
 
     public ExpressionNode(Token opertotoken, Node left,Node right){
         super(opertotoken);
@@ -40,6 +40,8 @@ public class ExpressionNode extends Node{
             return switch (operator) {
                 case "+"  -> a + b;
                 case "-" -> a-b;
+                case "/" -> a/b;
+                case "*" -> a*b;
                 default -> throw new RuntimeException("Unsupported operator");
             };
         }
