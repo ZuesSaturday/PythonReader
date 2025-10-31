@@ -195,9 +195,7 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    a = 1
-                    b = 2
-                    print(a+b)
+                    print("Hello World!")
                     """;
         Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());
