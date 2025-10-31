@@ -48,23 +48,49 @@ public class Parser {
 
         Token identifierToken = expect(TokenType.IDENTIFIER);//a
         Token asstoken = expect(TokenType.ASSIGN);
-        Token valueToken = expect(TokenType.NUMBER);
+        Token valueToken = parseInsideToken();
 
         IdentifierNode varNode = new IdentifierNode(identifierToken);
-        LiteralNode valueNode = new LiteralNode(valueToken);
+        Node valueNode = createExpressionNode(valueToken);
         return new AssignmentNode(asstoken,varNode,valueNode);
     }
 
     private PrintNode parsePrint() {
         Token printToken = expect(TokenType.KEYWORD); // print
         expect(TokenType.LPAREN);                      // (
-        Token inside = parseInsideToken();
-        System.out.println(inside);
+        Node expression = parseExpression();
         expect(TokenType.RPAREN);                     // )
-        Node expNode = createExpressionNode(inside);
-        System.out.println(expNode);
-        return new PrintNode(printToken, expNode);
+
+        System.out.println(expression);
+        return new PrintNode(printToken, expression);
     }
+
+    private Node parseExpression() {
+        Node left = parsePrimary();
+
+        while (check(TokenType.OPERATOR)) {
+            Token operator = expect(TokenType.OPERATOR);
+            Node right = parsePrimary();
+            left = new ExpressionNode(operator, left, right);
+        }
+
+        return left;
+    }
+
+    private Node parsePrimary() {
+        Token token = currentToken();
+
+        if (check(TokenType.NUMBER)) {
+            return new LiteralNode(expect(TokenType.NUMBER));
+        } else if (check(TokenType.IDENTIFIER)) {
+            return new IdentifierNode(expect(TokenType.IDENTIFIER));
+        } else if (check(TokenType.STRING)) {
+            return new StringNode(expect(TokenType.STRING));
+        } else {
+            throw new ParseException("Unexpected token in expression: " + token);
+        }
+    }
+
 
     private Token parseInsideToken() {
         if (check(TokenType.IDENTIFIER)) {
