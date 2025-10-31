@@ -6,7 +6,9 @@ import DAROARA.Saturday.Interpreter.Compiler.TokenType;
 import DAROARA.Saturday.Interpreter.AST.*;
 import DAROARA.Saturday.Interpreter.Environment;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class Parser {
@@ -24,9 +26,13 @@ public class Parser {
         ProgramNode program = new ProgramNode();
 
         while (currentToken().getType() != TokenType.EOF) {
-//            System.out.println(tokens.size());
-            Node stmt = parseStatement();
-            program.addStatement(stmt);
+            System.out.println(tokens.get(currentIndex));
+            if (!(currentToken().getType() == TokenType.WHITESPACE)){
+                Node stmt = parseStatement();
+                program.addStatement(stmt);
+                nextToken();
+            }
+
         }
         return program;
     }
@@ -34,11 +40,15 @@ public class Parser {
     private Node parseStatement() {
         Token token = currentToken();
 
+        System.out.println(token.getType());
+
         if (token.getType() == TokenType.IDENTIFIER) {
             return parseAssignment();
         }
         else if (token.getType() == TokenType.KEYWORD && token.getValue().equals("print")) {
             return parsePrint();
+        } else if (token.getType() == TokenType.EXPRESSION) {
+            return parsePrimary();
         } else {
             throw new ParseException("Unexpected token: " + token);
         }
@@ -58,37 +68,19 @@ public class Parser {
     private PrintNode parsePrint() {
         Token printToken = expect(TokenType.KEYWORD); // print
         expect(TokenType.LPAREN);                      // (
-        Node expression = parseExpression();
+        Token inside = parseInsideToken();
+        Node expression = createExpressionNode(inside);
         expect(TokenType.RPAREN);                     // )
 
-        System.out.println(expression);
+//        System.out.println(expression);
         return new PrintNode(printToken, expression);
-    }
-
-    private Node parseExpression() {
-        Node left = parsePrimary();
-
-        while (check(TokenType.OPERATOR)) {
-            Token operator = expect(TokenType.OPERATOR);
-            Node right = parsePrimary();
-            left = new ExpressionNode(operator, left, right);
-        }
-
-        return left;
     }
 
     private Node parsePrimary() {
         Token token = currentToken();
-
-        if (check(TokenType.NUMBER)) {
-            return new LiteralNode(expect(TokenType.NUMBER));
-        } else if (check(TokenType.IDENTIFIER)) {
-            return new IdentifierNode(expect(TokenType.IDENTIFIER));
-        } else if (check(TokenType.STRING)) {
-            return new StringNode(expect(TokenType.STRING));
-        } else {
-            throw new ParseException("Unexpected token in expression: " + token);
-        }
+        Node ex = createExpressionNode(token);
+        nextToken();
+        return ex;
     }
 
 
@@ -126,10 +118,12 @@ public class Parser {
 
     private Node parseExpressionNode(Token inside) {
         String exprValue = inside.getValue(); // "1+2" or "x+5"
+//        System.out.println(exprValue);
         String operator = findOperator(exprValue);
 
         if (!operator.isEmpty()) {
-            String[] parts = exprValue.split("" + operator); // split by operator symbol
+            String[] parts = exprValue.split(Pattern.quote(operator)); // split by operator symbol
+//            System.out.println(parts[1]);
             if (parts.length == 2) {
                 Node leftNode = createOperandNode(parts[0].trim());
                 Node rightNode = createOperandNode(parts[1].trim());
@@ -188,7 +182,7 @@ public class Parser {
         for (TokenType t : types) {
             if (check(t)) return expect(t);
         }
-        throw new RuntimeException("Expected one of " + types );
+        throw new RuntimeException("Expected one of " + Arrays.toString(types));
     }
 
     private Token peek() {
@@ -201,9 +195,7 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    a = 5
-                    b = 5
-                    print(a+b)
+                    1 + 2
                     """;
         Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());

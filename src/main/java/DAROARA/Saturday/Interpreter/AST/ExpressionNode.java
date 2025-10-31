@@ -13,6 +13,8 @@ public class ExpressionNode extends Node{
         this.left = left;
         this.right = right;
         this.operator = opertotoken.getValue();
+        addChild(left);
+        addChild(right);
     }
 
     public Node getLeft() {
@@ -32,20 +34,29 @@ public class ExpressionNode extends Node{
 
         Object leftValue = left.evaluate(env);
         Object rightValue = right.evaluate(env);
-
+        int v = 0;
         if (leftValue instanceof Number && rightValue instanceof Number) {
-            double a = ((Number) leftValue).doubleValue();
-            double b = ((Number) rightValue).doubleValue();
+            float a = ((Number) leftValue).floatValue();
+            float b = ((Number) rightValue).floatValue();
 
-            return switch (operator) {
-                case "+"  -> a + b;
-                case "-" -> a-b;
-                case "/" -> a/b;
-                case "*" -> a*b;
+            switch (operator) {
+                case "+" -> {
+                    v = (int) (a + b);
+                    System.out.println(v);
+                    return v;
+                }
+                case "-" -> {
+                    v = (int) (a - b);
+                    return v;
+                }
+//                case "/" -> a/b;
+//                case "*" -> a*b;
+
                 default -> throw new RuntimeException("Unsupported operator");
-            };
+            }
         }
         if (operator.equals("+")) {
+            System.out.println(leftValue.toString() + rightValue.toString());
             return leftValue.toString() + rightValue.toString();
         }
         throw new RuntimeException("Invalid expression operands");
@@ -53,6 +64,8 @@ public class ExpressionNode extends Node{
 
     @Override
     public void printTree(String indent) {
-        super.printTree(indent);
+        System.out.println(indent +"ExpressionNode (" +token.getValue() +")");
+        left.printTree(indent+" ");
+        right.printTree(indent+" ");
     }
 }

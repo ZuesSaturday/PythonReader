@@ -1,5 +1,7 @@
 package DAROARA.Saturday.Interpreter.Parser;
 
 public class ParseException extends RuntimeException {
-    ParseException(String message){}
+    ParseException(String message){
+        System.out.println(message);
+    }
 }
