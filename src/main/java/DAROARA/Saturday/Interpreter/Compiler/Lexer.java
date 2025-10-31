@@ -22,7 +22,10 @@ public class Lexer {
             if (token == null) {
                 throw new RuntimeException("Unknown character: " + input.charAt(currentPosition));
             }
-            tokens.add(token);
+            if (!(token.getType() == TokenType.WHITESPACE)){
+                tokens.add(token);
+            }
+
         }
         tokens.add(new Token(TokenType.EOF,""));
         return tokens;

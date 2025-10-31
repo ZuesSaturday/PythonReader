@@ -27,11 +27,11 @@ public class Parser {
 
         while (currentToken().getType() != TokenType.EOF) {
             System.out.println(tokens.get(currentIndex));
-            if (!(currentToken().getType() == TokenType.WHITESPACE)){
-                Node stmt = parseStatement();
-                program.addStatement(stmt);
-                nextToken();
-            }
+
+            Node stmt = parseStatement();
+            program.addStatement(stmt);
+//            nextToken();
+
 
         }
         return program;
@@ -195,7 +195,9 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    1 + 2
+                    a = 1
+                    b = 2
+                    print(a+b)
                     """;
         Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());
