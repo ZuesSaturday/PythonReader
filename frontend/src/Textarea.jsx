@@ -1,16 +1,14 @@
 import React, { useRef, useEffect } from "react";
 
-function Main() {
-  const textAreaRef = useRef(null);
+function Main({textAreaRef}) {
   const lineNumbersRef = useRef(null);
 
   const updateLineNumbers = () => {
     const textArea = textAreaRef.current;
     const lineNumbers = lineNumbersRef.current;
-
     const lines = textArea.value.split("\n").length;
-    lineNumbers.innerHTML = "";
 
+    lineNumbers.innerHTML = "";
     for (let i = 1; i <= lines; i++) {
       const lineNumber = document.createElement("div");
       lineNumber.textContent = i;

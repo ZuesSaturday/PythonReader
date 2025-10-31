@@ -1,10 +1,10 @@
 package DAROARA.Saturday.Application.Service;
 
-import DAROARA.Saturday.AST.ProgramNode;
+import DAROARA.Saturday.Interpreter.AST.ProgramNode;
 import DAROARA.Saturday.Application.Model.RunResult;
-import DAROARA.Saturday.Compiler.Lexer;
+import DAROARA.Saturday.Interpreter.Compiler.Lexer;
 import DAROARA.Saturday.Interpreter.Environment;
-import DAROARA.Saturday.Parser.Parser;
+import DAROARA.Saturday.Interpreter.Parser.Parser;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;

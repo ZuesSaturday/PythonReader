@@ -1,3 +1,4 @@
+import React from 'react';
 function Footer() {
     return(
         <footer>
@@ -5,7 +6,7 @@ function Footer() {
                 <div className="footer-section"></div>
                 <div className="footer-section"></div>
                 <div className="footer-section"></div>
-                <p>&copy; {new Date().getFullYear()} DAROARA. All rights reserved.</p>
+                <p>Web&copy; {new Date().getFullYear()} DAROARA. All rights reserved.</p>
             </div>
             {/* <div className="footer-bottom"></div> */}
         </footer>

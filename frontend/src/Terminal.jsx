@@ -7,39 +7,22 @@ export default function TerminalTextarea() {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      const input = e.target.value.split("\n").pop(); // get last line
-      const newLine = `&gt> ${input}`;
-
-      // Example output: echo typed command
-      setLines((prev) => [...prev, newLine, "&gt> "]);
-
-      e.target.value = ""; // clear input
+      const input = e.target.value.split("\n").pop();
+      setLines((prev) => [...prev, "&gt> ~${input}","&gt>"]);
+      e.target.value = ""; 
     }
   };
 
   useEffect(() => {
     const container = textareaRef.current.parentElement;
-    if (container) container.scrollTop = container.scrollHeight; // auto scroll
+    if (container) container.scrollTop = container.scrollHeight;
   }, [lines]);
 
   return (
     <div
-      style={{
-        width: "100%",
-        height: "250px",
-        background: "#000",
-        color: "#0f0",
-        padding: "8px",
-        fontFamily: "monospace",
-        overflowY: "auto",
-      }}
-    >
+      style={{ background: "#000", color: "#0f0", fontFamily: "monospace", padding: "8px", height: "200px", overflowY: "auto" }}>
       <div style={{ whiteSpace: "pre-wrap" }}>{lines.join("\n")}</div>
-      <textarea
-        ref={textareaRef}
-        onKeyDown={handleKeyDown}
-        rows={2}
-      />
+      <textarea ref={textareaRef} onKeyDown={handleKeyDown} rows={2}/>
     </div>
   );
 }

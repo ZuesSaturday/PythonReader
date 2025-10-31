@@ -1,7 +1,8 @@
+import React from 'react';
 import logo from './assets/DAROARA_icon.svg'
 
 
-function Header({onToggleTerminal}) {
+function Header({ onRun , toggleTerminal}) {
 
     return(
         <header>
@@ -12,28 +13,19 @@ function Header({onToggleTerminal}) {
                 <div className="header-menu">
                     <nav>
                         <ul>
-                            <li><button href="#">File</button></li>
-                            <li><button href="#">Edit</button></li>
-                            <li><button href="#">Selection</button></li>
-                            <li><button href="#">View</button></li>
-                            <li><button href="#" id="Runbutton">Run</button></li>
-                            <li>
-                                <button 
-                                    onClick={onToggleTerminal}
-                                    >
-                                    Terminal
-                                </button>
+                            <li><button >File</button></li>
+                            <li><button >Edit</button></li>
+                            <li><button >Selection</button></li>
+                            <li><button >View</button></li>
+                            <li><button onClick={onRun}>Run</button></li>
+                            <li><button onClick={toggleTerminal}>Terminal</button>
                             </li>
-                            <li><button href="#">Help</button></li>
+                            <li><button >Help</button></li>
                         </ul>
                     </nav>
                 </div>
                 <div className="header-search">
-                    <input 
-                    type="text" 
-                    placeholder=" Search..." 
-                    className="icon-input"
-                    />
+                    <input type="text" placeholder=" Search..." className="icon-input"/>
                 </div>
             </div>
         </header>
