@@ -58,10 +58,78 @@ public class Parser {
     private PrintNode parsePrint() {
         Token printToken = expect(TokenType.KEYWORD); // print
         expect(TokenType.LPAREN);                      // (
-        Token inside = expect(TokenType.IDENTIFIER);  // a
+        Token inside = null;
+        if (match(TokenType.IDENTIFIER)) {
+            inside = expect(TokenType.IDENTIFIER);  // a
+        } else if (match(TokenType.EXPRESSION)) {
+            inside = expect(TokenType.EXPRESSION);
+        } else if (match(TokenType.STRING)) {
+            inside = expect(TokenType.STRING);
+        }else if (match(TokenType.NUMBER)){
+            inside = expect(TokenType.NUMBER);
+        } else {
+            throw new RuntimeException("Unexpected token inside print: "+ inside);
+        }
         expect(TokenType.RPAREN);                     // )
 
-        IdentifierNode expNode = new IdentifierNode(inside);
+        Node expNode;
+        switch (inside.getType()) {
+            case IDENTIFIER -> {
+                expNode = new IdentifierNode(inside);
+                break;
+            }
+            case EXPRESSION -> {
+                String exprValue = inside.getValue(); // e.g. "1+2" or "x+5"
+
+                // Match operator in the expression
+                String operator = "";
+                if (exprValue.contains("+")) operator = "+";
+                else if (exprValue.contains("-")) operator = "-";
+                else if (exprValue.contains("*")) operator = "*";
+                else if (exprValue.contains("/")) operator = "/";
+
+                if (!operator.isEmpty()) {
+                    String[] parts = exprValue.split("" + operator); // split by operator symbol
+                    if (parts.length == 2) {
+                        String left = parts[0].trim();
+                        String right = parts[1].trim();
+
+                        Node leftNode;
+                        Node rightNode;
+
+                        // Determine if operand is number or identifier
+                        if (left.matches("\\d+")) {
+                            leftNode = new LiteralNode(new Token(TokenType.NUMBER, left));
+                        } else {
+                            leftNode = new IdentifierNode(new Token(TokenType.IDENTIFIER, left));
+                        }
+
+                        if (right.matches("\\d+")) {
+                            rightNode = new LiteralNode(new Token(TokenType.NUMBER, right));
+                        } else {
+                            rightNode = new IdentifierNode(new Token(TokenType.IDENTIFIER, right));
+                        }
+
+                        expNode = new ExpressionNode(new Token(TokenType.OPERATOR, operator), leftNode, rightNode);
+                    } else {
+                        throw new RuntimeException("Invalid expression format: " + exprValue);
+                    }
+                } else {
+                    throw new RuntimeException("Unsupported expression: " + exprValue);
+                }
+                break;
+            }
+
+            case STRING -> {
+                expNode = new StringNode(inside);
+                break;
+            }
+            case NUMBER -> {
+                expNode = new LiteralNode(inside);
+                break;
+            }
+            default -> throw new RuntimeException("Invalid token type");
+        }
         return new PrintNode(printToken, expNode);
     }
 
@@ -91,18 +159,26 @@ public class Parser {
         throw new ParseException("Expected " + type + " but got " + currentToken().getType());
     }
 
-    public static void main(String[] args) {
-        String code = """
-                    a = 5
-                    print(a)
-                    """;
-
-        Parser parser = new Parser(code);
-
-        ProgramNode program = parser.parseProgram();
-        Environment env = new Environment();
-        program.printTree("");
-        program.evaluate(env);
-
+    private Token expectAny(TokenType... types) {
+        for (TokenType t : types) {
+            if (match(t)) return expect(t);
+        }
+        throw new RuntimeException("Expected one of " + types );
     }
+
+
+//    public static void main(String[] args) {
+//        String code = """
+//                    a = 5
+//                    print(a)
+//                    """;
+//
+//        Parser parser = new Parser(code);
+//
+//        ProgramNode program = parser.parseProgram();
+//        Environment env = new Environment();
+//        program.printTree("");
+//        program.evaluate(env);
+//
+//    }
 }
