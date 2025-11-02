@@ -3,16 +3,17 @@ package DAROARA.Saturday.Interpreter.AST;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class StringNode extends Node{
-    private final String str;
-
-    public StringNode(Token token) {
+public class FunctionNode extends Node{
+    public FunctionNode(Token token) {
         super(token);
-        this.str = token.getValue().replaceAll("^\"|\"$", "");
     }
 
+    /**
+     * @param env
+     * @return
+     */
     @Override
     public Object evaluate(Environment env) {
-        return str;
+        return null;
     }
 }

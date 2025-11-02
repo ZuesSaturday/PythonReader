@@ -15,6 +15,9 @@ public abstract class Node {
         this.children = new ArrayList<>();
     }
 
+    protected Node() {
+    }
+
     public  Token getToken() {
         return token;
     }

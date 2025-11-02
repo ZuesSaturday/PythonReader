@@ -19,7 +19,6 @@ public class Parser {
     public Parser(String code) {
         Lexer lexer = new Lexer(code);
         this.tokens = lexer.tokenize();
-//        System.out.println(tokens);
     }
 
     public ProgramNode parseProgram() {
@@ -30,8 +29,6 @@ public class Parser {
 
             Node stmt = parseStatement();
             program.addStatement(stmt);
-//            nextToken();
-
 
         }
         return program;
@@ -84,7 +81,7 @@ public class Parser {
     }
 
 
-    private Token parseInsideToken() {
+    public Token parseInsideToken() {
         if (check(TokenType.IDENTIFIER)) {
             return expect(TokenType.IDENTIFIER);  // a
         } else if (check(TokenType.EXPRESSION)) {
@@ -93,12 +90,14 @@ public class Parser {
             return expect(TokenType.STRING);  // "str"
         } else if (check(TokenType.NUMBER)) {
             return expect(TokenType.NUMBER);  // 5
+        } else if(check(TokenType.LIST)){
+            return expect(TokenType.LIST);
         } else {
             throw new RuntimeException("Unexpected token inside print");
         }
     }
 
-    private Node createExpressionNode(Token inside) {
+    public Node createExpressionNode(Token inside) {
         switch (inside.getType()) {
             case IDENTIFIER -> {
                 return new IdentifierNode(inside);
@@ -112,18 +111,19 @@ public class Parser {
             case NUMBER -> {
                 return new LiteralNode(inside);
             }
+            case LIST -> {
+                return new ListNode(inside);
+            }
             default -> throw new RuntimeException("Invalid token type");
         }
     }
 
     private Node parseExpressionNode(Token inside) {
         String exprValue = inside.getValue(); // "1+2" or "x+5"
-//        System.out.println(exprValue);
         String operator = findOperator(exprValue);
 
         if (!operator.isEmpty()) {
             String[] parts = exprValue.split(Pattern.quote(operator)); // split by operator symbol
-//            System.out.println(parts[1]);
             if (parts.length == 2) {
                 Node leftNode = createOperandNode(parts[0].trim());
                 Node rightNode = createOperandNode(parts[1].trim());
@@ -161,15 +161,7 @@ public class Parser {
         return currentToken();
     }
 
-    private boolean match(TokenType type) {
-        if (currentToken().getType() == type) {
-            nextToken();
-            return true;
-        }
-        return false;
-    }
-
-    private Token expect(TokenType type) {
+    public Token expect(TokenType type) {
         if (currentToken().getType() == type) {
             Token n = currentToken();
             nextToken();
@@ -195,16 +187,16 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    print("Hello World!")
+                    li = [1,2,3]
                     """;
         Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());
 
-        Parser parser = new Parser(code);
-        ProgramNode program = parser.parseProgram();
-        Environment env = new Environment();
-        program.printTree("");
-        program.evaluate(env);
+//        Parser parser = new Parser(code);
+//        ProgramNode program = parser.parseProgram();
+//        Environment env = new Environment();
+//        program.printTree("");
+//        program.evaluate(env);
 
     }
 }

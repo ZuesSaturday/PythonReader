@@ -1,12 +1,10 @@
 package DAROARA.Saturday.Interpreter.AST;
 
 import DAROARA.Saturday.Interpreter.Compiler.Token;
-
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class BinaryOpNode extends Node{
-
-    public BinaryOpNode(Token token) {
+public class ForNode extends Node{
+    public ForNode(Token token) {
         super(token);
     }
 

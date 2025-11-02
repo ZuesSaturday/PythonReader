@@ -3,8 +3,9 @@ package DAROARA.Saturday.Interpreter.AST;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class UnaryOpNode extends Node{
-    public UnaryOpNode(Token token) {
+public class ConditionalNode extends Node{
+
+    public ConditionalNode(Token token){
         super(token);
     }
 
