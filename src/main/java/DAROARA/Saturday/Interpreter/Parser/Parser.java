@@ -42,13 +42,29 @@ public class Parser {
         if (token.getType() == TokenType.IDENTIFIER) {
             return parseAssignment();
         }
-        else if (token.getType() == TokenType.KEYWORD && token.getValue().equals("print")) {
-            return parsePrint();
+        else if (token.getType() == TokenType.KEYWORD) {
+            if (token.getType().equals("print")) {
+                return parsePrint();
+            } else if (token.getType().equals("if")) {
+                return parseIf();
+            }
+
         } else if (token.getType() == TokenType.EXPRESSION) {
             return parsePrimary();
         } else {
             throw new ParseException("Unexpected token: " + token);
         }
+        return null;
+    }
+
+    private Node parseIf() {
+        Token ifKey = expect(TokenType.KEYWORD);
+
+        Token conKey = parseInsideToken();
+
+        Node convar = createExpressionNode(conKey);
+
+        return new IfNode(ifKey,convar);
     }
 
     private AssignmentNode parseAssignment() {
@@ -187,7 +203,9 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    li = [1,2,3]
+                    a = 1
+                    b = 0
+                    if a > b:
                     """;
         Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());

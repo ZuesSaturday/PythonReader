@@ -4,8 +4,11 @@ import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
 public class IfNode extends Node{
-    public IfNode(Token token) {
+    private final Node con;
+
+    public IfNode(Token token, Node conditional) {
         super(token);
+        this.con = conditional;
     }
 
     /**

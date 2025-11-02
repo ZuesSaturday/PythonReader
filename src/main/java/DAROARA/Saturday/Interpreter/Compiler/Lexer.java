@@ -25,6 +25,9 @@ public class Lexer {
             if (!(token.getType() == TokenType.WHITESPACE)){
                 tokens.add(token);
             }
+            if (token.getType() == TokenType.CONDITION) {
+                tokens.add(new Token(TokenType.EXPRESSION,token.getValue()));
+            }
 
         }
         tokens.add(new Token(TokenType.EOF,""));
@@ -55,7 +58,7 @@ public class Lexer {
             }
         }
 
-
+        currentPosition++;
         return null;
     }
 

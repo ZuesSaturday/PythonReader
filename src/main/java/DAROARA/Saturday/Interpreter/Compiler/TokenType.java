@@ -2,21 +2,22 @@ package DAROARA.Saturday.Interpreter.Compiler;
 
 public enum TokenType {
 
-    COMMENT("#.*"),                        // comments first
-    WHITESPACE("[ \\t\\r\\n]+"),           // whitespace
-    KEYWORD("\\b(if|else|while|for|print|range)\\b"), // keywords
-    EXPRESSION("\\d+\\s*[+\\-*/]\\s*\\d+|[a-zA-Z_][a-zA-Z0-9_]*\\s*[+\\-*/]\\s*\\d+|\\d+\\s*[+\\-*/]\\s*[a-zA-Z_][a-zA-Z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*\\s*[+\\-*/]\\s*[a-zA-Z_][a-zA-Z0-9_]*"), // simple arithmetic expressions
-    IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),      // identifiers
-    NUMBER("\\b\\d+\\b"),                  // numbers
+    COMMENT("#.*"),
+    WHITESPACE("[ \\t\\r\\n]+"),
+    KEYWORD("\\b(if|else|while|for|print|range)\\b"),
+    EXPRESSION("(?:(?:\\d+|[a-zA-Z_][a-zA-Z0-9_]*)\\s*[+\\-*/]\\s*(?:\\d+|[a-zA-Z_][a-zA-Z0-9_]*))"),
+    CONDITION("[^\\:]+"),
+    IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),
+    NUMBER("\\b\\d+\\b"),
     LIST("\\[.*?\\]"),
-    STRING("\"[^\"]*\"|'[^'\\n]*'"),       // string literals
-    ASSIGN("="),                           // assignment
-    OPERATOR("==|!=|<=|>=|\\+|-|\\*|/"),   // operators
-    PUNCTUATION(".,;{}'"),               // punctuation
-    LPAREN("\\("),                          // left parenthesis
-    RPAREN("\\)"),                          // right parenthesis
-    EOF(""),                                // end of file
-    UNKNOWN(".");                           // any single unknown character
+    STRING("\"[^\"]*\"|'[^'\\n]*'"),
+    ASSIGN("="),
+    OPERATOR("==|!=|<=|>=|\\+|-|\\*|/"),
+    PUNCTUATION("[:.,;{}']"),
+    LPAREN("\\("),
+    RPAREN("\\)"),
+    EOF(""),
+    UNKNOWN(".");                             // any single unknown character
 
 
     private final String pattern;
