@@ -6,16 +6,15 @@ import DAROARA.Saturday.Interpreter.Environment;
 import java.util.List;
 
 public class IfNode extends Node{
-    private final String condition;
+    private final Node condition;
     private final List<Node> body;
-    private final List<Node> elseBody;
 
-    public IfNode(String condition,List<Node> body,List<Node> elseBody) {
+    public IfNode(Node condition,List<Node> body) {
         this.condition = condition;
         this.body = body;
-        this.elseBody = elseBody;
+
     }
-    private String getCondition(){
+    private Node getCondition(){
         return condition;
     }
 
@@ -23,13 +22,13 @@ public class IfNode extends Node{
         return body;
     }
 
-    public List<Node> getElseBody() {
-        return elseBody;
-    }
+//    public List<Node> getElseBody() {
+//        return elseBody;
+//    }
 
     @Override
     public String toString() {
-        return "IfNode(condition=" + condition + ", body=" + body + ", elseBody=" + elseBody + ")";
+        return "IfNode(condition=" + condition + ", body=" + body + ")";
     }
     /**
      * @param env

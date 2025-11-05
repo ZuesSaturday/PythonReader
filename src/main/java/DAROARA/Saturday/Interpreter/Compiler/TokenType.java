@@ -2,40 +2,26 @@ package DAROARA.Saturday.Interpreter.Compiler;
 
 public enum TokenType {
 
-    // 🔹 Comments & whitespace
     COMMENT("#.*"),
+    INDENT("    "),
     WHITESPACE("[ \\t\\r\\n]+"),
-
-    // 🔹 Keywords
     KEYWORD("\\b(if|else|while|for|print|range)\\b"),
-
-    // 🔹 Literals
-    NUMBER("\\b\\d+\\b"),
-    STRING("\"[^\"]*\"|'[^'\\n]*'"),
-    LIST("\\[.*?\\]"),
-
-    // 🔹 Identifiers & expressions
-    IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),
     EXPRESSION("(?:(?:\\d+|[a-zA-Z_][a-zA-Z0-9_]*)\\s*[+\\-*/]\\s*(?:\\d+|[a-zA-Z_][a-zA-Z0-9_]*))"),
-
-    // 🔹 Operators & assignment
-    OPERATOR("==|!=|<=|>=|\\+|-|\\*|/"),
+    IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),
+    NUMBER("\\b\\d+\\b"),
+    LIST("\\[.*?\\]"),
+    STRING("\"[^\"]*\"|'[^'\\n]*'"),
     ASSIGN("="),
-
-    // 🔹 Structural tokens
-    PUNCTUATION("[:.,;{}']"),
+    OPERATOR("[+\\-*/]"),               // arithmetic operators
+    COMOP("==|!=|<=|>=|<|>"),           // comparison operators
+    COLON("^:$"),
+    PUNCTUATION("[.,;{}']"),
     LPAREN("\\("),
     RPAREN("\\)"),
-    COLON(":"),
-
-    // 🔹 Indentation & line control (for Python-like syntax)
     NEWLINE("\\n+"),
-    INDENT(""),
-    DEDENT(""),
-
-    // 🔹 End of file & unknowns
+    UNKNOWN("."),
     EOF(""),
-    UNKNOWN(".");  // any unrecognized single character                        // any single unknown character
+    DEDENT(""); // any unrecognized single character                        // any single unknown character
 
 
     private final String pattern;

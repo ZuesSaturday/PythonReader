@@ -6,8 +6,10 @@ import DAROARA.Saturday.Interpreter.Compiler.TokenType;
 import DAROARA.Saturday.Interpreter.AST.*;
 import DAROARA.Saturday.Interpreter.Environment;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -46,27 +48,50 @@ public class Parser {
             if (token.getType().equals("print")) {
                 return parsePrint();
             }
-//            else if (token.getType().equals("if")) {
-//                return parseIf();
-//            }
-
+            else if (token.getType().equals("if")) {
+                return parseIf();
+            }
         } else if (token.getType() == TokenType.EXPRESSION) {
             return parsePrimary();
-        } else {
+        }
+        else {
             throw new ParseException("Unexpected token: " + token);
         }
         return null;
     }
 
-//    private Node parseIf() {
-//
-//        Token ifKey = expect(TokenType.KEYWORD);
-//
-//        Token conkey = expect(TokenType.CONDITION);
-//
-//        String conVar = conkey.getValue();
-//
-//    }
+    private Node parseIf() {
+        expect(TokenType.KEYWORD);
+
+        String val = currentToken().getValue();
+        Token con = Condition(val);
+        assert con != null;
+        Node condition = parseExpressionNode(con);
+        expect(TokenType.COLON);
+        expect(TokenType.INDENT);
+        List<Node> body = parseBody();
+
+
+        return new IfNode(condition,body);
+    }
+
+    private List<Node> parseBody() {
+
+        return
+    }
+
+    private Token Condition(String value){
+        for (TokenType type:TokenType.values()) {
+            Pattern pattern = Pattern.compile("^" +type.getPattern());
+            Matcher matcher = pattern.matcher(value);
+            if (matcher.lookingAt()) {
+                String val = matcher.group();
+
+                return new Token(type,val);
+            }
+        }
+        return null;
+    }
 
     private AssignmentNode parseAssignment() {
 
@@ -158,6 +183,10 @@ public class Parser {
         else if (exprValue.contains("-")) return "-";
         else if (exprValue.contains("*")) return "*";
         else if (exprValue.contains("/")) return "/";
+        else if (exprValue.contains("==")) return "==";
+        else if (exprValue.contains("!=")) return "!=";
+        else if (exprValue.contains(">")) return ">";
+        else if (exprValue.contains("<")) return "<";
         return "";
     }
 
@@ -204,20 +233,17 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                if x > 0:
-                    print("Positive")
-                    y = 1
-                print("Done")
-
+                    if x>v:
+                        print(1)
                     """;
         Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());
 
-//        Parser parser = new Parser(code);
-//        ProgramNode program = parser.parseProgram();
-//        Environment env = new Environment();
-//        program.printTree("");
-//        program.evaluate(env);
+        Parser parser = new Parser(code);
+        ProgramNode program = parser.parseProgram();
+        Environment env = new Environment();
+        program.printTree("");
+        program.evaluate(env);
 
     }
 }

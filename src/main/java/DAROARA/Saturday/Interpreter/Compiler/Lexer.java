@@ -7,88 +7,80 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lexer {
-    private final String input;
+    private final String[] lines;
+    private int currentLine;
     private int currentPosition;
     private final Stack<Integer> indentStack = new Stack<>();
 
     public Lexer(String input) {
-        this.input = input.replaceAll("\r\n","\n");
+        this.lines = input.split("\\r?\\n");
+        this.currentLine = 0;
         this.currentPosition = 0;
         indentStack.push(0);
     }
 
     public List<Token> tokenize() {
         List<Token> tokens = new ArrayList<>();
-        while (currentPosition < input.length()) {
-
-            if (isAtLineStart()) {
-                handleIndentation(tokens);
+        while (currentLine < lines.length) {
+            String line = lines[currentLine];
+            System.out.println(line);
+            currentPosition = 0;
+            if (line.trim().isEmpty()){
+                currentLine++;
+                continue;
             }
-            Token token = nextToken();
-
-            if (token == null) {
-                throw new RuntimeException("Unknown character: " + input.charAt(currentPosition));
+            int currentIndent = countLeadingSpaces(line);
+            int prevIndent = indentStack.peek();
+            if (currentIndent > prevIndent) {
+                indentStack.push(currentIndent);
+                tokens.add(new Token(TokenType.INDENT,line.substring(0,currentIndent)));
+            } else if (currentIndent<prevIndent) {
+                while (!indentStack.isEmpty() && indentStack.peek()> currentIndent) {
+                    tokens.add(new Token(TokenType.DEDENT,""));
+                }
             }
-            if (!(token.getType() == TokenType.WHITESPACE)){
-                tokens.add(token);
+            while (currentPosition<line.length()){
+                Token token = nextToken(line);
+                if (token == null) {
+                    throw new RuntimeException("Unknown character: " + line.charAt(currentPosition));
+                }
+                if (!(token.getType() == TokenType.WHITESPACE)){
+                    tokens.add(token);
+                }
             }
-
+            currentLine++;
         }
-
-        while (indentStack.size() > 1) {
+        while (indentStack.size() >1){
             indentStack.pop();
             tokens.add(new Token(TokenType.DEDENT,""));
         }
         tokens.add(new Token(TokenType.EOF,""));
         return tokens;
-
     }
 
-    private boolean isAtLineStart() {
-        return currentPosition == 0||
-                (currentPosition>0 && input.charAt(currentPosition-1) =='\n');
-    }
-
-    private void handleIndentation(List<Token> tokens){
-        int space = 0;
-        int pos = currentPosition;
-
-        while (pos<indentStack.peek() && input.charAt(pos) ==' ') {
-            space++;
-            pos++;
+    private int countLeadingSpaces(String line) {
+        int count = 0;
+        for (char c:line.toCharArray()) {
+            if (c==' ') count++;
+            else if (c=='\t') count +=4;
+            else break;
         }
-        if (space > indentStack.peek()) {
-            indentStack.push(space);
-            tokens.add(new Token(TokenType.INDENT,""));
-        }else {
-            while (space < indentStack.peek()) {
-                indentStack.pop();
-                tokens.add(new Token(TokenType.DEDENT,""));
-            }
-        }
-        currentPosition = pos;
+        return count;
     }
 
-    private Token nextToken() {
-        if (currentPosition >= input.length()) {
+    private Token nextToken(String line) {
+        if (currentPosition >= line.length()) {
             return null;
         }
-        String remaining = input.substring(currentPosition);
+        String remaining = line.substring(currentPosition);
 
         for (TokenType type:TokenType.values()) {
-            if (type == TokenType.INDENT || type == TokenType.DEDENT) continue;
+            if (type == TokenType.INDENT|| type == TokenType.DEDENT || type == TokenType.EOF)
+                continue;
             Pattern pattern = Pattern.compile("^" +type.getPattern());
             Matcher matcher = pattern.matcher(remaining);
             if (matcher.lookingAt()) {
                 String value = matcher.group();
-                if (type == TokenType.EXPRESSION) {
-                    currentPosition += value.length();
-                    return new Token(type,value);
-                }
-                if (type == TokenType.NUMBER || type == TokenType.IDENTIFIER) {
-                    currentPosition += value.length();
-                    return new Token(type,value);
-                }
                 currentPosition += value.length();
                 return new Token(type,value);
             }
@@ -97,5 +89,15 @@ public class Lexer {
         currentPosition++;
         return null;
     }
+
+//    public static void main(String[] args) {
+//        String code = """
+//                    if x > v:
+//                        print(4)
+//                    """;
+//        Lexer lexer = new Lexer(code);
+//        System.out.println(lexer.tokenize());
+//
+//    }
 
 }
