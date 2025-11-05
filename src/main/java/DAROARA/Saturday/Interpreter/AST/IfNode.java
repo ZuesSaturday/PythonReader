@@ -1,6 +1,5 @@
 package DAROARA.Saturday.Interpreter.AST;
 
-import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public class IfNode extends Node{
     public IfNode(Node condition,List<Node> body) {
         this.condition = condition;
         this.body = body;
-
+        addChild(condition);
     }
     private Node getCondition(){
         return condition;
@@ -21,10 +20,6 @@ public class IfNode extends Node{
     public List<Node> getBody() {
         return body;
     }
-
-//    public List<Node> getElseBody() {
-//        return elseBody;
-//    }
 
     @Override
     public String toString() {
@@ -37,5 +32,11 @@ public class IfNode extends Node{
     @Override
     public Object evaluate(Environment env) {
         return null;
+    }
+
+    @Override
+    public void printTree(String indent) {
+        System.out.println(indent +"IfNode ("+token.getValue()+")");
+        condition.printTree(indent+" ");
     }
 }

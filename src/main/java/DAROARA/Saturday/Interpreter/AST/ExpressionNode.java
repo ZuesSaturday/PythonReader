@@ -49,8 +49,15 @@ public class ExpressionNode extends Node{
                     v = (int) (a - b);
                     return v;
                 }
-//                case "/" -> a/b;
-//                case "*" -> a*b;
+                case "/" -> {
+                    v = (int) (a/b);
+                    return v;
+                }
+
+                case "*" -> {
+                    v = (int) (a*b);
+                    return v;
+                }
 
                 default -> throw new RuntimeException("Unsupported operator");
             }

@@ -27,7 +27,7 @@ public class Parser {
         ProgramNode program = new ProgramNode();
 
         while (currentToken().getType() != TokenType.EOF) {
-            System.out.println(tokens.get(currentIndex));
+//            System.out.println(tokens.get(currentIndex));
 
             Node stmt = parseStatement();
             program.addStatement(stmt);
@@ -39,16 +39,16 @@ public class Parser {
     private Node parseStatement() {
         Token token = currentToken();
 
-        System.out.println(token.getType());
+//        System.out.println(token.getType());
 
         if (token.getType() == TokenType.IDENTIFIER) {
             return parseAssignment();
         }
         else if (token.getType() == TokenType.KEYWORD) {
-            if (token.getType().equals("print")) {
+            if (token.getValue().equals("print")) {
                 return parsePrint();
             }
-            else if (token.getType().equals("if")) {
+            else if (token.getValue().equals("if")) {
                 return parseIf();
             }
         } else if (token.getType() == TokenType.EXPRESSION) {
@@ -61,23 +61,28 @@ public class Parser {
     }
 
     private Node parseIf() {
-        expect(TokenType.KEYWORD);
+        expect(TokenType.KEYWORD); // if
 
-        String val = currentToken().getValue();
-        Token con = Condition(val);
-        assert con != null;
-        Node condition = parseExpressionNode(con);
+        // The next token should be an expression token (like "a==b")
+        Token conditionToken = parseInsideToken();
+        Node condition = createExpressionNode(conditionToken);
+
         expect(TokenType.COLON);
         expect(TokenType.INDENT);
+
         List<Node> body = parseBody();
+        expect(TokenType.DEDENT);
 
-
-        return new IfNode(condition,body);
+        return new IfNode(condition, body);
     }
 
     private List<Node> parseBody() {
-
-        return
+        List<Node> body = new ArrayList<>();
+        while (currentToken().getType() != TokenType.DEDENT) {
+            body.add(parseStatement());
+        }
+        nextToken(); // consume DEDENT
+        return body;
     }
 
     private Token Condition(String value){
@@ -179,14 +184,16 @@ public class Parser {
     }
 
     private String findOperator(String exprValue) {
+        if (exprValue.contains("==")) return "==";
+        if (exprValue.contains("!=")) return "!=";
+        if (exprValue.contains(">=")) return ">=";
+        if (exprValue.contains("<=")) return "<=";
+        if (exprValue.contains(">")) return ">";
+        if (exprValue.contains("<")) return "<";
         if (exprValue.contains("+")) return "+";
-        else if (exprValue.contains("-")) return "-";
-        else if (exprValue.contains("*")) return "*";
-        else if (exprValue.contains("/")) return "/";
-        else if (exprValue.contains("==")) return "==";
-        else if (exprValue.contains("!=")) return "!=";
-        else if (exprValue.contains(">")) return ">";
-        else if (exprValue.contains("<")) return "<";
+        if (exprValue.contains("-")) return "-";
+        if (exprValue.contains("*")) return "*";
+        if (exprValue.contains("/")) return "/";
         return "";
     }
 
@@ -233,11 +240,9 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
-                    if x>v:
-                        print(1)
+                    if a == b:
+                        print(a)
                     """;
-        Lexer lexer = new Lexer(code);
-        System.out.println(lexer.tokenize());
 
         Parser parser = new Parser(code);
         ProgramNode program = parser.parseProgram();

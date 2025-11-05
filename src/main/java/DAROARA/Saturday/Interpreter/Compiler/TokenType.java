@@ -11,9 +11,9 @@ public enum TokenType {
     NUMBER("\\b\\d+\\b"),
     LIST("\\[.*?\\]"),
     STRING("\"[^\"]*\"|'[^'\\n]*'"),
+    COMOP("==|!=|<=|>=|<|>"),           // comparison operators
     ASSIGN("="),
     OPERATOR("[+\\-*/]"),               // arithmetic operators
-    COMOP("==|!=|<=|>=|<|>"),           // comparison operators
     COLON("^:$"),
     PUNCTUATION("[.,;{}']"),
     LPAREN("\\("),

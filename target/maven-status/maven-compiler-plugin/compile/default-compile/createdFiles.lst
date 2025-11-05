@@ -13,12 +13,10 @@ DAROARA/Saturday/Interpreter/AST/AssignmentNode.class
 DAROARA/Saturday/Interpreter/AST/LiteralNode.class
 DAROARA/Saturday/Interpreter/Environment.class
 DAROARA/Saturday/Interpreter/AST/WhileNode.class
-DAROARA/Saturday/Interpreter/AST/UnaryOpNode.class
 DAROARA/Saturday/Interpreter/Compiler/Token.class
 DAROARA/Saturday/Interpreter/Compiler/LexerExcaption.class
 DAROARA/Saturday/Interpreter/AST/ProgramNode.class
 DAROARA/Saturday/Interpreter/Compiler/Lexer.class
-DAROARA/Saturday/Interpreter/AST/BinaryOpNode.class
 DAROARA/Saturday/Interpreter/AST/ExpressionNode.class
 DAROARA/Saturday/Application/Controller/SaturdayController.class
 DAROARA/Saturday/Application/Service/SaturdayService.class

@@ -23,7 +23,7 @@ public class Lexer {
         List<Token> tokens = new ArrayList<>();
         while (currentLine < lines.length) {
             String line = lines[currentLine];
-            System.out.println(line);
+//            System.out.println(line);
             currentPosition = 0;
             if (line.trim().isEmpty()){
                 currentLine++;
@@ -90,14 +90,13 @@ public class Lexer {
         return null;
     }
 
-//    public static void main(String[] args) {
-//        String code = """
-//                    if x > v:
-//                        print(4)
-//                    """;
-//        Lexer lexer = new Lexer(code);
-//        System.out.println(lexer.tokenize());
-//
-//    }
+    public static void main(String[] args) {
+        String code = """
+                    a==b
+                    """;
+        Lexer lexer = new Lexer(code);
+        System.out.println(lexer.tokenize());
+
+    }
 
 }
