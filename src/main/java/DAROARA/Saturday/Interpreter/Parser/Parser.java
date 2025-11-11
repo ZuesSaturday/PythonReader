@@ -61,27 +61,36 @@ public class Parser {
     }
 
     private Node parseIf() {
-        expect(TokenType.KEYWORD); // if
+        Token iftoken = expect(TokenType.KEYWORD); // 'if'
 
-        // The next token should be an expression token (like "a==b")
-        Token conditionToken = parseInsideToken();
-        Node condition = createExpressionNode(conditionToken);
+        // Parse the condition as an expression (multiple tokens)
+        Node condition = parseExpression();
 
-        expect(TokenType.COLON);
+        expect(TokenType.COLON);    // now the next token should be ':'
         expect(TokenType.INDENT);
 
         List<Node> body = parseBody();
         expect(TokenType.DEDENT);
 
-        return new IfNode(condition, body);
+        return new IfNode(iftoken,condition, body);
     }
+
+    private Node parseExpression() {
+        Node left = parsePrimary(); // parse IDENTIFIER or NUMBER
+
+        // Check for a comparison operator
+        Token op = expect(TokenType.COMOP); // COMOP token
+        Node right = parsePrimary(); // right-hand side of comparison
+        return new ExpressionNode( op,left, right);// just a single value
+    }
+
 
     private List<Node> parseBody() {
         List<Node> body = new ArrayList<>();
         while (currentToken().getType() != TokenType.DEDENT) {
             body.add(parseStatement());
         }
-        nextToken(); // consume DEDENT
+         // consume DEDENT
         return body;
     }
 
@@ -240,11 +249,14 @@ public class Parser {
 
     public static void main(String[] args) {
         String code = """
+                    a = 5
+                    b = 5
                     if a == b:
                         print(a)
                     """;
 
         Parser parser = new Parser(code);
+        System.out.println(parser.tokens);
         ProgramNode program = parser.parseProgram();
         Environment env = new Environment();
         program.printTree("");

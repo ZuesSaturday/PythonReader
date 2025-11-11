@@ -39,34 +39,29 @@ public class ExpressionNode extends Node{
             float a = ((Number) leftValue).floatValue();
             float b = ((Number) rightValue).floatValue();
 
-            switch (operator) {
-                case "+" -> {
-                    v = (int) (a + b);
-                    System.out.println(v);
-                    return v;
-                }
-                case "-" -> {
-                    v = (int) (a - b);
-                    return v;
-                }
-                case "/" -> {
-                    v = (int) (a/b);
-                    return v;
-                }
-
-                case "*" -> {
-                    v = (int) (a*b);
-                    return v;
-                }
-
-                default -> throw new RuntimeException("Unsupported operator");
-            }
+            return switch (operator) {
+                case "+" -> a + b;
+                case "-" -> a - b;
+                case "*" -> a * b;
+                case "/" -> a / b;
+                case "==" -> a == b;
+                case "!=" -> a != b;
+                case ">" -> a > b;
+                case "<" -> a < b;
+                case ">=" -> a >= b;
+                case "<=" -> a <= b;
+                default -> throw new RuntimeException("Unsupported operator: " + operator);
+            };
         }
         if (operator.equals("+")) {
-            System.out.println(leftValue.toString() + rightValue.toString());
-            return leftValue.toString() + rightValue.toString();
+//            System.out.println(leftValue.toString() + rightValue.toString());
+            return leftValue + rightValue.toString();
         }
-        throw new RuntimeException("Invalid expression operands");
+        return switch (operator) {
+            case "==" -> leftValue.equals(rightValue);
+            case "!=" -> !leftValue.equals(rightValue);
+            default -> throw new RuntimeException("Unsupported operator for non-numbers: " + operator);
+        };
     }
 
     @Override
