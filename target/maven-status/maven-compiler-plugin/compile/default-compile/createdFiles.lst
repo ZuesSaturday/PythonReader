@@ -8,7 +8,6 @@ DAROARA/Saturday/Application/CorsConfig.class
 MavenWrapperDownloader$1.class
 MavenWrapperDownloader.class
 DAROARA/Saturday/Interpreter/Parser/ParseException.class
-DAROARA/Saturday/Interpreter/Parser/Parser.class
 DAROARA/Saturday/Interpreter/AST/AssignmentNode.class
 DAROARA/Saturday/Interpreter/AST/LiteralNode.class
 DAROARA/Saturday/Interpreter/Environment.class

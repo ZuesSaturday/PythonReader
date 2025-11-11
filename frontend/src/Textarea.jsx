@@ -1,39 +1,34 @@
 import React, { useRef, useEffect } from "react";
+import { EditorView, basicSetup } from "codemirror";
+import { python } from "@codemirror/lang-python";
+import { oneDark } from "@codemirror/theme-one-dark";
 
-function Main({textAreaRef}) {
-  const lineNumbersRef = useRef(null);
-
-  const updateLineNumbers = () => {
-    const textArea = textAreaRef.current;
-    const lineNumbers = lineNumbersRef.current;
-    const lines = textArea.value.split("\n").length;
-
-    lineNumbers.innerHTML = "";
-    for (let i = 1; i <= lines; i++) {
-      const lineNumber = document.createElement("div");
-      lineNumber.textContent = i;
-      lineNumbers.appendChild(lineNumber);
-    }
-  };
-
-  const syncScroll = () => {
-    lineNumbersRef.current.scrollTop = textAreaRef.current.scrollTop;
-  };
+function Main({ textAreaRef }) {
+  const editorContainer = useRef(null);
 
   useEffect(() => {
-    updateLineNumbers();
+    if (!editorContainer.current) return;
+
+    const view = new EditorView({
+      doc: "",
+      extensions: [
+        basicSetup,
+        python(),
+        oneDark
+      ],
+      parent: editorContainer.current
+    });
+
+    // Store CodeMirror instance externally if needed
+    textAreaRef.current = view;
+
+    return () => view.destroy();
   }, []);
 
   return (
     <main>
       <div className="editor" id="editor">
-        <div className="line-numbers" ref={lineNumbersRef}></div>
-        <textarea
-          ref={textAreaRef}
-          id="code"
-          onInput={updateLineNumbers}
-          onScroll={syncScroll}
-        ></textarea>
+        <div ref={editorContainer} className="cm-code-area"></div>
       </div>
     </main>
   );

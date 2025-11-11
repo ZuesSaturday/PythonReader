@@ -23,8 +23,11 @@
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Compiler/Token.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Compiler/TokenType.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Environment.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/ExpressionParser.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/ParseException.java
-/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/Parser.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/ProgramParser.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/StatementParser.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/TokenStream.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Runtime/Interpreter.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Runtime/RuntimeException.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/MavenWrapperDownloader.java

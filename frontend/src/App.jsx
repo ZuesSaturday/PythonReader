@@ -38,14 +38,14 @@ function App() {
       <>
         <Header onRun={sendCode} toggleTerminal={toggleTerminal} />
         <Sidebar/>
-          <div className='main-editor-terminal'>
-            <Main textAreaRef={textAreaRef} />
-            {showTerminal && (
-              <div id="terminal" className='terminal-container'>
-                <TerminalComponent/>
-              </div>
-            )}
+
+        <Main textAreaRef={textAreaRef} />
+        {showTerminal && (
+          <div id="terminal" className='terminal-container'>
+            <TerminalComponent/>
           </div>
+        )}
+
 
         <Footer/>
       </>
