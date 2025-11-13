@@ -3,24 +3,39 @@ package DAROARA.Saturday.Interpreter.AST;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListNode extends Node{
     private final String list;
     public ListNode(Token token) {
         super(token);
         this.list = token.getValue().replaceAll("[\\[\\]]", "");
-//        for (String values:list.split("\\s*,\\s*")) {
-//            if (values.)
-//        }
 
     }
     public String getIndex(int index) {
-        String[] listValues = list.split("\\s*,\\s*");
+        List<Object> listValues = getListValues();
 
-        if (index < 0 || index >= listValues.length) {
-            throw new IndexOutOfBoundsException();
+        if (index < 0 || index >= listValues.size()) {
+            throw new IndexOutOfBoundsException("Index " + index +" out of bounds" );
         }
 
-        return listValues[index].trim();
+        return String.valueOf(listValues.get(index));
+    }
+
+    private List<Object> getListValues() {
+        String[] parts = list.split("\\s*,\\s*");
+        List<Object> values = new ArrayList<>();
+        for (String part : parts) {
+            if (part.matches("\\d+")) {
+                values.add(Integer.parseInt(part));
+            } else if (part.matches("\"[^\"]*\"|'[^']*'")) {
+                values.add(part.substring(1, part.length() -1));
+            }else {
+                values.add(part);
+            }
+        }
+        return values;
     }
 
     /**
@@ -29,6 +44,8 @@ public class ListNode extends Node{
      */
     @Override
     public Object evaluate(Environment env) {
-        return list;
+
+        return getListValues();
     }
+
 }

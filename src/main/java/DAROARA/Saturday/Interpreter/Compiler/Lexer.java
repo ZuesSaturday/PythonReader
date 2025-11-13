@@ -1,5 +1,9 @@
 package DAROARA.Saturday.Interpreter.Compiler;
 
+import DAROARA.Saturday.Interpreter.AST.ProgramNode;
+import DAROARA.Saturday.Interpreter.Environment;
+import DAROARA.Saturday.Interpreter.Parser.ProgramParser;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -92,10 +96,17 @@ public class Lexer {
 
     public static void main(String[] args) {
         String code = """
-                    a==b
+                    my_list = [1,2,3]
+                    print(my_list[1])
                     """;
         Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());
+
+        ProgramParser parser = new ProgramParser(code);
+        ProgramNode program = parser.parseProgram();
+
+        program.printTree("");
+        program.evaluate(new Environment());
 
     }
 

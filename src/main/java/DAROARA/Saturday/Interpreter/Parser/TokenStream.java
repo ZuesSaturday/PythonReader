@@ -35,4 +35,11 @@ public class TokenStream {
     public boolean isAtEnd() {
         return peek().getType() == TokenType.EOF;
     }
+
+    public boolean expect(TokenType tokenType) {
+        if (peek().getType() == tokenType) {
+            return true;
+        }
+        return false;
+    }
 }

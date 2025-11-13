@@ -16,9 +16,6 @@ public class IfNode extends Node{
         addChild(condition);
         for (Node stmt: body) addChild(stmt);
     }
-    private Node getCondition(){
-        return condition;
-    }
 
     public List<Node> getBody() {
         return body;
@@ -32,17 +29,26 @@ public class IfNode extends Node{
      * @param env
      * @return
      */
+
     @Override
     public Object evaluate(Environment env) {
         Object cond = condition.evaluate(env);
-        if (cond instanceof Boolean && (Boolean) cond){
+        if (isTruthy(cond)){
             Object result = null;
+            Environment localEnv = new Environment(env);
             for (Node st:body){
-                result = st.evaluate(env);
+                result = st.evaluate(localEnv);
             }
             return result;
         }
         return null;
+    }
+
+    private boolean isTruthy(Object value) {
+        if (value == null) return false;
+        if (value instanceof Boolean) return (Boolean) value;
+        if (value instanceof Number) return ((Number) value).doubleValue() != 0;
+        return true;
     }
 
     @Override

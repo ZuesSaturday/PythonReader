@@ -6,10 +6,10 @@ public enum TokenType {
     INDENT("    "),
     WHITESPACE("[ \\t\\r\\n]+"),
     KEYWORD("\\b(if|else|while|for|print|range)\\b"),
-    EXPRESSION("(?:(?:\\d+|[a-zA-Z_][a-zA-Z0-9_]*)\\s*[+\\-*/]\\s*(?:\\d+|[a-zA-Z_][a-zA-Z0-9_]*))"),
+    INDEXING("\\[(\\d+|[a-zA-Z_][a-zA-Z0-9_]*)(:(\\d+|[a-zA-Z_][a-zA-Z0-9_]*))?(:(\\d+|[a-zA-Z_][a-zA-Z0-9_]*))?\\]"),
     IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),
     NUMBER("\\b\\d+\\b"),
-    LIST("\\[.*?\\]"),
+    LIST("\\[[^,\\[\\]]+,[^,\\[\\]]+(?:,[^,\\[\\]]+)*\\]"),
     STRING("\"[^\"]*\"|'[^'\\n]*'"),
     COMOP("==|!=|<=|>=|<|>"),           // comparison operators
     ASSIGN("="),

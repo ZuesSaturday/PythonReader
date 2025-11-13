@@ -28,10 +28,8 @@ public class ProgramParser {
 
     public static void main(String[] args) {
         String code = """
-                a = 5
-                b = 5
-                if a == b:
-                    print(a)
+                my_list = [1,2,3]
+                my_list[1]
                 """;
 
         ProgramParser parser = new ProgramParser(code);

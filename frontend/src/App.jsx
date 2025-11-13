@@ -1,56 +1,53 @@
-import { useRef, useState } from 'react';
-import Header from './header.jsx'
-import Sidebar from './Sidebar.jsx'
-import Footer from './footer.jsx'
-import Main from './Textarea.jsx'
+import { useCallback, useRef, useState } from 'react';
+import Header from './header.jsx';
+import Sidebar from './Sidebar.jsx';
+import Footer from './footer.jsx';
+import CodeEditor from './CodeEditor.jsx';
 import TerminalComponent from './Terminal.jsx';
 
-
 function App() {
-    const [showTerminal, setTerminal] = useState(false);
-    const textAreaRef = useRef(null);
+  const [showTerminal, setTerminal] = useState(false);
+  const [code, setCode] = useState("");
 
-    const toggleTerminal = () => {
-      setTerminal((prev) => !prev);
-    };
+  const toggleTerminal = () => {
+    setTerminal(prev => !prev);
+  };
 
-    ;
-    const sendCode = async () => {
-      const code = document.getElementById("code").value || "";
+  const handleCodeChange = useCallback((newCode)=>{
+    setCode(newCode);
+  },[]);
 
-      try {
-        const response = await fetch("http://localhost:8080/api/run", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ code }),
-        });
+  const sendCode = async () => {
 
-        const result = await response.json();
-        alert(result.output || result.error);
-      }catch (error) {
-        console.error("Error sending code to backend:", error);
-      }
-    };
+    try {
+      const response = await fetch("http://localhost:8080/api/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
 
-    return(
-      <>
-        <Header onRun={sendCode} toggleTerminal={toggleTerminal} />
-        <Sidebar/>
+      const result = await response.json();
+      alert(result.output || result.error);
+    } catch (error) {
+      console.error("Error sending code to backend:", error);
+    }
+  };
 
-        <Main textAreaRef={textAreaRef} />
+  return (
+    <>
+      <Header onRun={sendCode} toggleTerminal={toggleTerminal} />
+      <Sidebar />
+      <div className='main-editor-terminal'>
+        <CodeEditor initialCode ="" onChange={handleCodeChange} />
         {showTerminal && (
           <div id="terminal" className='terminal-container'>
-            <TerminalComponent/>
+            <TerminalComponent />
           </div>
         )}
-
-
-        <Footer/>
-      </>
-
-    );
+      </div>
+      <Footer />
+    </>
+  );
 }
 
-export default App
+export default App;

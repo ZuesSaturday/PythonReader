@@ -16,10 +16,14 @@ public class ExpressionParser {
     public Node parseExpression() {
         Node left = parsePrimary();
 
-        if (tokens.peek().getType() == TokenType.COMOP || tokens.peek().getType() == TokenType.OPERATOR) {
+        while (tokens.peek().getType() == TokenType.COMOP || tokens.peek().getType() == TokenType.OPERATOR) {
             Token op = tokens.consume();
             Node right = parsePrimary();
-            return new ExpressionNode(op, left, right);
+            left = new ExpressionNode(op, left, right);
+        }
+        while (tokens.peek().getType() == TokenType.INDEXING) {
+            Token code = tokens.consume();
+            left = new IndexNode(code,left);
         }
         return left;
     }
@@ -30,6 +34,7 @@ public class ExpressionParser {
             case NUMBER -> new LiteralNode(token);
             case IDENTIFIER -> new IdentifierNode(token);
             case STRING -> new StringNode(token);
+            case LIST -> new ListNode(token);
             default -> throw new RuntimeException("Unexpected token: " + token);
         };
     }
