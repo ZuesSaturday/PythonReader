@@ -30,21 +30,38 @@ public class IndexNode extends Node{
     @Override
     public Object evaluate(Environment env) {
         Object value = container.evaluate(env);
-        for (String idxStr : indices){
-            if (!(value instanceof List<?>list)) {
-                throw new RuntimeException("Cannot index non-list-type " + value);
-            }
+
+        for (String idxStr : indices) {
             int idx;
+
             if (idxStr.matches("\\d+")) {
                 idx = Integer.parseInt(idxStr);
             } else if (env.exists(idxStr)) {
-                idx = (int) env.get(idxStr);
-            }else {
-                throw new RuntimeException("Invalid index: " + idxStr + " (not a number or variable)");        }
-            value = list.get(idx);
+                Object v = env.get(idxStr);
+                if (v instanceof Integer i) {
+                    idx = i;
+                } else {
+                    throw new RuntimeException("Index variable is not an integer: " + idxStr);
+                }
+            } else {
+                throw new RuntimeException("Invalid index: " + idxStr + " (not a number or variable)");
+            }
+
+            if (value instanceof List<?> list) {
+                value = list.get(idx);
+            } else if (value instanceof String str) {
+                if (idx < 0 || idx >= str.length()) {
+                    throw new IndexOutOfBoundsException("String index out of range: " + idx);
+                }
+                value = String.valueOf(str.charAt(idx));
+            } else {
+                throw new RuntimeException("Cannot index non-list/non-string type: " + value);
+            }
         }
+
         return value;
     }
+
 
     public String toString() {
         return "ListNode: " + indices +"\n " +container;

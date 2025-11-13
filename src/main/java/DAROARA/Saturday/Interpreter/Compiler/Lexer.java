@@ -96,7 +96,7 @@ public class Lexer {
 
     public static void main(String[] args) {
         String code = """
-                    my_list = [1,2,3]
+                    my_list = 123
                     print(my_list[1])
                     """;
         Lexer lexer = new Lexer(code);
