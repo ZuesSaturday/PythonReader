@@ -23,6 +23,10 @@ public class ListNode extends Node{
         return String.valueOf(listValues.get(index));
     }
 
+//    public String append(String value) {
+//
+//    }
+
     private List<Object> getListValues() {
         String[] parts = list.split("\\s*,\\s*");
         List<Object> values = new ArrayList<>();

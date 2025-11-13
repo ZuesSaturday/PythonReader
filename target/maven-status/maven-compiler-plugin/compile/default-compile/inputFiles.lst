@@ -11,11 +11,13 @@
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/FunctionNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/IdentifierNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/IfNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/IndexNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ListNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/LiteralNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/Node.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/PrintNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ProgramNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/RangeNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/StringNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/WhileNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Compiler/Lexer.java

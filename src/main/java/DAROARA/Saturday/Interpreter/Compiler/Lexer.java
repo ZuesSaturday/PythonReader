@@ -94,20 +94,4 @@ public class Lexer {
         return null;
     }
 
-    public static void main(String[] args) {
-        String code = """
-                    my_list = 123
-                    print(my_list[1])
-                    """;
-        Lexer lexer = new Lexer(code);
-        System.out.println(lexer.tokenize());
-
-        ProgramParser parser = new ProgramParser(code);
-        ProgramNode program = parser.parseProgram();
-
-        program.printTree("");
-        program.evaluate(new Environment());
-
-    }
-
 }
