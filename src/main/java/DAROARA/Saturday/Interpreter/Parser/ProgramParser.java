@@ -28,13 +28,12 @@ public class ProgramParser {
 
     public static void main(String[] args) {
         String code = """
-                my_list = [1,2,3,4]
-                my_list[2]
+                if a > b:
                 """;
             Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());
-//        ProgramParser parser = new ProgramParser(code);
-//        ProgramNode program = parser.parseProgram();
+        ProgramParser parser = new ProgramParser(code);
+        ProgramNode program = parser.parseProgram();
 //
 //        program.printTree("");
 //        program.evaluate(new Environment());

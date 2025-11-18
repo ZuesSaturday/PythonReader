@@ -8,9 +8,9 @@ import java.util.List;
 
 public class ListNode extends Node{
     private final String list;
-    public ListNode(Token token) {
-        super(token);
-        this.list = token.getValue().replaceAll("[\\[\\]]", "");
+    public ListNode(String value) {
+
+        this.list = value.replaceAll("[\\[\\]]", "");
 
     }
     public String getIndex(int index) {
@@ -27,7 +27,7 @@ public class ListNode extends Node{
 //
 //    }
 
-    private List<Object> getListValues() {
+    public List<Object> getListValues() {
         String[] parts = list.split("\\s*,\\s*");
         List<Object> values = new ArrayList<>();
         for (String part : parts) {

@@ -18,8 +18,7 @@ public class StringNode extends Node{
         String regex = java.util.regex.Pattern.quote(value);
         String[] parts = str.split(regex);
         String lisStr = "["+String.join(",",parts)+"]";
-        Token liToken = new Token(TokenType.LIST,lisStr);
-        return new ListNode(liToken);
+        return new ListNode(lisStr);
     }
 
     @Override
@@ -36,7 +35,7 @@ public class StringNode extends Node{
 
         return String.valueOf(listValues.get(index));
     }
-    private List<Object> getListValues() {
+    public List<Object> getListValues() {
         String[] parts = str.split("\\s*,\\s*");
         List<Object> values = new ArrayList<>();
         for (String part : parts) {

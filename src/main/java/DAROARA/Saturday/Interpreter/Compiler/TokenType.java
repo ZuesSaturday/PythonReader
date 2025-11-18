@@ -2,29 +2,27 @@ package DAROARA.Saturday.Interpreter.Compiler;
 
 public enum TokenType {
 
-    // Patterns (keep as is)
     COMMENT("#.*"),
     INDENT("    "),
     WHITESPACE("[ \\t\\r\\n]+"),
     KEYWORD("\\b(if|else|while|for|print|range)\\b"),
     IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),
     NUMBER("\\b\\d+\\b"),
-    INDEXING("\\[(\\d+|[a-zA-Z_][a-zA-Z0-9_]*)(:(\\d+|[a-zA-Z_][a-zA-Z0-9_]*))?(:(\\d+|[a-zA-Z_][a-zA-Z0-9_]*))?\\]"),
-    LIST("\\[(?:[^\\[\\],]+(?:,[^\\[\\],]+)*)?\\]"),
     STRING("\"[^\"]*\"|'[^'\\n]*'"),
     COMOP("==|!=|<=|>=|<|>"),
     ASSIGN("="),
     OPERATOR("[+\\-*/]"),
-    COLON("^:$"),
-    PUNCTUATION("[.,;{}']"),
+    COLON(":"),
+    COMMA(","),
+    DOT("\\."),
     LPAREN("\\("),
     RPAREN("\\)"),
+    LBRACKET("\\["),
+    RBRACKET("\\]"),
     NEWLINE("\\n+"),
-    UNKNOWN("."),
     EOF(""),
-    DEDENT("");
-
-
+    DEDENT(""),
+    UNKNOWN(".");
 
     private final String pattern;
     TokenType(String pattern){

@@ -11,10 +11,9 @@ public class IndexNode extends Node{
     private final Node container;
     private final List<String> indices;
 
-    public IndexNode(Token token, Node container) {
-        super(token);
+    public IndexNode(Node container,String index) {
         this.container = container;
-        this.indices = parseIndices(token.getValue());
+        this.indices = parseIndices(index);
         addChild(container);
     }
 

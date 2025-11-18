@@ -3,71 +3,74 @@ package DAROARA.Saturday.Interpreter.AST;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class ExpressionNode extends Node{
-    private final Node left;
-    private final Node right;
-    private final String operator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-    public ExpressionNode(Token opertotoken, Node left,Node right){
-        super(opertotoken);
-        this.left = left;
-        this.right = right;
-        this.operator = opertotoken.getValue();
-        addChild(left);
-        addChild(right);
+public class ExpressionNode extends Node {
+    private final List<String> numbers;
+    private final List<String> operators;
+
+    public ExpressionNode(String expression) {
+        this.numbers = new ArrayList<>();
+        this.operators = new ArrayList<>();
+        parseExpression(expression);
+
     }
 
-    public Node getLeft() {
-        return left;
-    }
+    private void parseExpression(String expression){
+        expression = expression.replaceAll("\\s+","");
 
-    public Node getRight() {
-        return right;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    @Override
-    public Object evaluate(Environment env) {
-
-        Object leftValue = left.evaluate(env);
-        Object rightValue = right.evaluate(env);
-        int v = 0;
-        if (leftValue instanceof Number && rightValue instanceof Number) {
-            float a = ((Number) leftValue).floatValue();
-            float b = ((Number) rightValue).floatValue();
-
-            return switch (operator) {
-                case "+" -> a + b;
-                case "-" -> a - b;
-                case "*" -> a * b;
-                case "/" -> a / b;
-                case "==" -> a == b;
-                case "!=" -> a != b;
-                case ">" -> a > b;
-                case "<" -> a < b;
-                case ">=" -> a >= b;
-                case "<=" -> a <= b;
-                default -> throw new RuntimeException("Unsupported operator: " + operator);
-            };
+        StringBuilder current = new StringBuilder();
+        for (int i = 0; i < expression.length(); i++) {
+            if (i+1 < expression.length()) {
+                String twoChar = "" + expression.charAt(i) + expression.charAt(i+1);
+                if (isComp(twoChar)) {
+                    operators.add(twoChar);
+                    i++; // skip next char
+                    continue;
+                }
+            }
+            char c = expression.charAt(i);
+            if (isOperator(c)) {
+                if (current.length()>0) {
+                    numbers.add(current.toString());
+                    current.setLength(0);
+                }
+                operators.add(String.valueOf(c));
+            }else {
+                current.append(c);
+            }
         }
-        if (operator.equals("+")) {
-//            System.out.println(leftValue.toString() + rightValue.toString());
-            return leftValue + rightValue.toString();
+        if (current.length()>0){
+            numbers.add(current.toString());
         }
-        return switch (operator) {
-            case "==" -> leftValue.equals(rightValue);
-            case "!=" -> !leftValue.equals(rightValue);
-            default -> throw new RuntimeException("Unsupported operator for non-numbers: " + operator);
-        };
+    }
+
+    private boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/'; // extend for other operators
+    }
+    private boolean isComp(String c){
+        return Objects.equals(c, "<") || Objects.equals(c, ">") || Objects.equals(c, "==");
+    }
+    public List<String> getNumbers() {
+        return numbers;
+    }
+
+    public List<String> getOperators() {
+        return operators;
     }
 
     @Override
     public void printTree(String indent) {
-        System.out.println(indent +"ExpressionNode (" +token.getValue() +")");
-        left.printTree(indent+" ");
-        right.printTree(indent+" ");
+        System.out.println(indent + "Expression:");
+        System.out.println(indent + " numbers: " + numbers);
+        System.out.println(indent + " Operators: " + numbers);
     }
+
+    @Override
+    public Object evaluate(Environment env) {
+        return null;
+    }
+
 }

@@ -8,34 +8,47 @@ import java.util.regex.Pattern;
 
 public class ExpressionParser {
     private final TokenStream tokens;
+    private IndexParser indexParser;
 
     public ExpressionParser(TokenStream tokens) {
         this.tokens = tokens;
+        this.indexParser = new IndexParser(tokens);
     }
 
-    public Node parseExpression() {
-        Node left = parsePrimary();
+    public Node parseExpression(Token firstValue) {
 
-        while (tokens.peek().getType() == TokenType.COMOP || tokens.peek().getType() == TokenType.OPERATOR) {
-            Token op = tokens.consume();
-            Node right = parsePrimary();
-            left = new ExpressionNode(op, left, right);
+        StringBuilder expStr = new StringBuilder();
+        expStr.append(firstValue.getValue());
+        while (tokens.peek().getType() == TokenType.COMOP||tokens.peek().getType() == TokenType.OPERATOR) {
+
+
+            expStr.append(tokens.consume().getValue());  // consume operator
+            tokens.expect(TokenType.NUMBER);
+            expStr.append(tokens.consume().getValue());  // number
+
         }
-        while (tokens.peek().getType() == TokenType.INDEXING) {
-            Token code = tokens.consume();
-            left = new IndexNode(code,left);
-        }
-        return left;
+        return new ExpressionNode(expStr.toString());
     }
 
     public Node parsePrimary() {
-        Token token = tokens.consume();
-        return switch (token.getType()) {
-            case NUMBER -> new LiteralNode(token);
-            case IDENTIFIER -> new IdentifierNode(token);
-            case STRING -> new StringNode(token);
-            case LIST -> new ListNode(token);
+        Token token = tokens.peek();
+        switch (token.getType()) {
+            case NUMBER -> {
+                return new LiteralNode(tokens.consume());
+            }
+            case IDENTIFIER -> {
+
+                Node rhs = new IdentifierNode(tokens.consume());
+                System.out.println(tokens.peek().getType());
+                if (tokens.peek().getType()==TokenType.LBRACKET){
+                    rhs = indexParser.parseIndexing(rhs);
+                }
+                return rhs;
+            }
+            case STRING -> {
+                return new StringNode(tokens.consume());
+            }
             default -> throw new RuntimeException("Unexpected token: " + token);
-        };
+        }
     }
 }

@@ -28,6 +28,31 @@ public class LiteralNode extends Node{
         }
 
     }
+    public LiteralNode(String value) {
+
+        if (value.contains(".")){
+            try {
+                this.value = Float.parseFloat(value);
+            }catch (NumberFormatException e1) {
+                try {
+                    this.value = Double.parseDouble(value);
+                } catch (NumberFormatException e2) {
+                    throw new RuntimeException("Invalid numeric literal: "+ value);
+                }
+            }
+        }else {
+            try {
+                this.value =  Integer.parseInt(value);
+            }catch (NumberFormatException e){
+                throw new RuntimeException("Invalid integer literal: "+ value);
+            }
+        }
+
+    }
+
+    public Number getValue() {
+        return value;
+    }
 
     /**
      * @param env

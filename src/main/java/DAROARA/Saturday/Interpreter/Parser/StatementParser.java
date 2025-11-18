@@ -10,10 +10,14 @@ import java.util.List;
 public class StatementParser {
     private final TokenStream tokens;
     private final ExpressionParser exprParser;
+    private final ListParser listParser;
+    private final IndexParser indexParser;
 
     public StatementParser(TokenStream tokens) {
         this.tokens = tokens;
         this.exprParser = new ExpressionParser(tokens);
+        this.listParser = new ListParser(tokens) ;
+        this.indexParser = new IndexParser(tokens);
     }
 
     public Node parseStatement() {
@@ -21,59 +25,88 @@ public class StatementParser {
         return switch (token.getType()) {
             case IDENTIFIER -> {
                 Node primary = new IdentifierNode(tokens.consume());
-                // Parse indexing if it follows
-                if (tokens.peek().getType() == TokenType.INDEXING) {
-                    primary = parseIndexing(primary);
+
+                if (tokens.peek().getType() == TokenType.LBRACKET) {
+                    primary = indexParser.parseIndexing(primary);
                 }
-                // Check if this is an assignment
+
                 if (tokens.peek().getType() == TokenType.ASSIGN) {
                     Token assign = tokens.consume();
-                    Node value = exprParser.parseExpression();
+
+                    Node value;
+                    TokenType next = tokens.peek().getType();
+
+                    if (next == TokenType.IDENTIFIER){
+
+                        Node rhs = new IdentifierNode(tokens.consume());
+                        if (tokens.peek().getType()==TokenType.LBRACKET){
+                            rhs = indexParser.parseIndexing(rhs);
+                        }
+                        value = rhs;
+                    }else if(next == TokenType.LBRACKET){
+                        value = listParser.parseList();
+                    }else {
+                        throw new RuntimeException("Invalid assignment value at " +tokens.peek().getLine());
+                    }
                     yield new AssignmentNode(assign, primary, value);
                 }
                 yield primary;
             }
             case KEYWORD -> parseKeywordStatement();
+            case LBRACKET -> listParser.parseList();
+            case NUMBER -> {
+                Token num = tokens.consume();
+
+                if (tokens.expect(TokenType.OPERATOR)||tokens.expect(TokenType.COMOP))
+                    yield exprParser.parseExpression(num);
+                else {
+                    yield new LiteralNode(num);
+                }
+            }
             default -> throw new RuntimeException("Unexpected token: " + token);
         };
     }
 
-    private Node parseAssignment() {
-
-        Token id = tokens.consume();
-        Token assign = tokens.consume();
-        Node value = exprParser.parseExpression();
-        return new AssignmentNode(assign, new IdentifierNode(id), value);
-    }
-
     private Node parseKeywordStatement() {
         Token keyword = tokens.consume();
-        if (keyword.getValue().equals("print")) {
-            tokens.match(TokenType.LPAREN);
-            Node expr = exprParser.parseExpression();
-            tokens.match(TokenType.RPAREN);
-            return new PrintNode(keyword, expr);
-        } else if (keyword.getValue().equals("if")) {
-            Node condition = exprParser.parseExpression();
-            if (!tokens.match(TokenType.COLON))
-                throw new RuntimeException("Expected ':' after if condition");
-            if (!tokens.match(TokenType.INDENT))
-                throw new RuntimeException("Expected indentation after ':'");
 
-            List<Node> body = new ArrayList<>();
-            while (!tokens.match(TokenType.DEDENT)) {
-                body.add(parseStatement());
+        switch (keyword.getValue()) {
+
+            case "print" -> {
+                tokens.expect(TokenType.LPAREN);
+                tokens.consume();
+                Node expr = exprParser.parsePrimary();
+                tokens.expect(TokenType.RPAREN);
+                tokens.consume();
+                return new PrintNode(keyword, expr);
             }
-            return new IfNode(keyword, condition, body);
+
+            case "if" -> {
+                if (tokens.peek().getType() == TokenType.IDENTIFIER){
+                    Token f = tokens.consume();
+                    Node condition;
+                    if (tokens.expect(TokenType.COMOP)) {
+                        condition = exprParser.parseExpression(f);
+                    }else {
+                        throw new RuntimeException("Condition -after variable"+tokens.peek().getType());
+                    }
+                    tokens.expect(TokenType.COLON);
+                    tokens.expect(TokenType.INDENT);
+
+                    List<Node> body = new ArrayList<>();
+                    while (!tokens.match(TokenType.DEDENT)) {
+                        body.add(parseStatement());
+                    }
+
+                    return new IfNode(keyword, condition, body);
+                }
+            }
+
+            default -> throw new RuntimeException(
+                    "Unsupported keyword: " + keyword.getValue()
+            );
         }
-        throw new RuntimeException("Unsupported keyword: " + keyword.getValue());
+        return null;
     }
 
-    public Node parseIndexing(Node primary) {
-        if (tokens.peek().getType() == TokenType.INDEXING) {
-            Token indexToken = tokens.consume();
-            return new IndexNode(indexToken,primary);
-        }
-        return primary;
-    }
 }

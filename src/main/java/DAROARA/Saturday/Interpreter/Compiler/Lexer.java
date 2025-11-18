@@ -27,26 +27,27 @@ public class Lexer {
         List<Token> tokens = new ArrayList<>();
         while (currentLine < lines.length) {
             String line = lines[currentLine];
-//            System.out.println(line);
             currentPosition = 0;
+
             if (line.trim().isEmpty()){
                 currentLine++;
                 continue;
             }
+
             int currentIndent = countLeadingSpaces(line);
             int prevIndent = indentStack.peek();
             if (currentIndent > prevIndent) {
                 indentStack.push(currentIndent);
-                tokens.add(new Token(TokenType.INDENT,line.substring(0,currentIndent)));
+                tokens.add(new Token(TokenType.INDENT,line.substring(0,currentIndent),currentLine+1,currentPosition+1));
             } else if (currentIndent<prevIndent) {
                 while (!indentStack.isEmpty() && indentStack.peek()> currentIndent) {
-                    tokens.add(new Token(TokenType.DEDENT,""));
+                    tokens.add(new Token(TokenType.DEDENT,"",currentLine+1,currentPosition+1));
                 }
             }
             while (currentPosition<line.length()){
                 Token token = nextToken(line);
                 if (token == null) {
-                    throw new RuntimeException("Unknown character: " + line.charAt(currentPosition));
+                    throw new RuntimeException("Unknown character: " + line.charAt(currentPosition+1) +"Line: " +currentLine+1);
                 }
                 if (!(token.getType() == TokenType.WHITESPACE)){
                     tokens.add(token);
@@ -56,9 +57,9 @@ public class Lexer {
         }
         while (indentStack.size() >1){
             indentStack.pop();
-            tokens.add(new Token(TokenType.DEDENT,""));
+            tokens.add(new Token(TokenType.DEDENT,"",currentLine+1,currentPosition+1));
         }
-        tokens.add(new Token(TokenType.EOF,""));
+        tokens.add(new Token(TokenType.EOF,"",currentLine+1,currentPosition+1));
         return tokens;
     }
 
@@ -86,7 +87,7 @@ public class Lexer {
             if (matcher.lookingAt()) {
                 String value = matcher.group();
                 currentPosition += value.length();
-                return new Token(type,value);
+                return new Token(type,value,currentLine+1,currentPosition+1);
             }
         }
 
