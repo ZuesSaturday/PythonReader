@@ -41,6 +41,7 @@ public class Lexer {
                 tokens.add(new Token(TokenType.INDENT,line.substring(0,currentIndent),currentLine+1,currentPosition+1));
             } else if (currentIndent<prevIndent) {
                 while (!indentStack.isEmpty() && indentStack.peek()> currentIndent) {
+                    indentStack.pop();
                     tokens.add(new Token(TokenType.DEDENT,"",currentLine+1,currentPosition+1));
                 }
             }

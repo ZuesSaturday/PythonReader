@@ -29,7 +29,9 @@ public class ProgramParser {
     public static void main(String[] args) {
         String code = """
                 if 1<2:
-                  print(1)
+                    print(1)
+                else:
+                    print(2)
                 """;
             Lexer lexer = new Lexer(code);
         System.out.println(lexer.tokenize());
