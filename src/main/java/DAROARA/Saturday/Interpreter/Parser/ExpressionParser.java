@@ -26,19 +26,29 @@ public class ExpressionParser {
      * @return ExpressionNode representing the parsed expression
      */
     public Node parseExpression(Token firstValue) {
-        List<String> numbers = new ArrayList<>();
-        List<String> operators = new ArrayList<>();
+        // Start with the first token
+        StringBuilder expr = new StringBuilder(firstValue.getValue());
 
-        numbers.add(firstValue.getValue());
+        // Keep consuming operators and numbers/identifiers
+        while (tokens.peek().getType() == TokenType.OPERATOR ||
+                tokens.peek().getType() == TokenType.COMOP) {
 
-        while (tokens.peek().getType() == TokenType.OPERATOR || tokens.peek().getType() == TokenType.COMOP) {
+            // Consume operator
             Token op = tokens.consume();
-            operators.add(op.getValue());
+            expr.append(op.getValue());
 
-            Token next = tokens.consume(); // next number or identifier
-            numbers.add(next.getValue());
+            // Consume the next number or identifier
+            Token next = tokens.consume();
+            if (next.getType() != TokenType.NUMBER &&
+                    next.getType() != TokenType.IDENTIFIER) {
+                throw new RuntimeException("Expected number or identifier after operator, got " + next);
+            }
+
+            expr.append(next.getValue());
         }
 
-        return new ExpressionNode(numbers, operators);
+        // Pass the full expression string to your ExpressionNode
+        return new ExpressionNode(expr.toString());
     }
+
 }

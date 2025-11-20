@@ -23,7 +23,7 @@ public class PrintNode extends Node{
     @Override
     public Object evaluate(Environment env) {
         Object value = expression.evaluate(env);
-        System.out.println("printValue = "+value);
+        System.out.println(value);
         return value;
     }
 

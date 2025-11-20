@@ -17,7 +17,7 @@ public class SaturdayController {
 
     @PostMapping("/run")
     public RunResult runCode(@RequestBody Map<String, String> payload) {
-        String code = payload.get("code");
+        String code = payload.getOrDefault("code", "");
         return saturdayService.execute(code);
     }
 }

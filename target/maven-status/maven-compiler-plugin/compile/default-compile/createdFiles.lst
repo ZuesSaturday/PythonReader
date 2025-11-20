@@ -7,13 +7,11 @@ DAROARA/Saturday/Interpreter/AST/BlockNode.class
 DAROARA/Saturday/Application/CorsConfig.class
 MavenWrapperDownloader$1.class
 MavenWrapperDownloader.class
-DAROARA/Saturday/Interpreter/Parser/ParseException.class
 DAROARA/Saturday/Interpreter/AST/AssignmentNode.class
 DAROARA/Saturday/Interpreter/AST/LiteralNode.class
 DAROARA/Saturday/Interpreter/Environment.class
 DAROARA/Saturday/Interpreter/AST/WhileNode.class
 DAROARA/Saturday/Interpreter/Compiler/Token.class
-DAROARA/Saturday/Interpreter/Compiler/LexerExcaption.class
 DAROARA/Saturday/Interpreter/AST/ProgramNode.class
 DAROARA/Saturday/Interpreter/Compiler/Lexer.class
 DAROARA/Saturday/Interpreter/AST/ExpressionNode.class
@@ -21,6 +19,5 @@ DAROARA/Saturday/Application/Controller/SaturdayController.class
 DAROARA/Saturday/Application/Service/SaturdayService.class
 DAROARA/Saturday/Interpreter/Runtime/Interpreter.class
 DAROARA/Saturday/Interpreter/AST/PrintNode.class
-DAROARA/Saturday/Interpreter/Runtime/RuntimeException.class
 DAROARA/Saturday/Interpreter/AST/IfNode.class
 DAROARA/Saturday/Interpreter/Compiler/TokenType.class
