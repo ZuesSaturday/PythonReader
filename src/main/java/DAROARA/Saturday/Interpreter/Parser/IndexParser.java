@@ -13,14 +13,20 @@ public class IndexParser {
     }
     public Node parseIndexing(Node primary) {
         Node result = primary;
-
-        while (tokens.peek().getType() == TokenType.LBRACKET) {
-            tokens.consume();
-            String indexValue = tokens.consume().getValue();
-            tokens.expect(TokenType.RBRACKET);
-            tokens.consume();
-            result = new IndexNode(result,indexValue);
+        StringBuilder indexValue = new StringBuilder();
+        tokens.expect(TokenType.LBRACKET);
+        tokens.consume();
+        // Read digits or ':' for slicing
+        while (true) {
+            var type = tokens.peek().getType();
+            if (type == TokenType.NUMBER || type == TokenType.COLON) {
+                indexValue.append(tokens.consume().getValue());
+            } else {
+                break;
+            }
         }
+        tokens.expect(TokenType.RBRACKET);
+        tokens.consume();
         return result;
     }
 }

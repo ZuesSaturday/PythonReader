@@ -3,60 +3,56 @@ package DAROARA.Saturday.Interpreter.AST;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-import java.util.List;
+public class IfNode extends Node {
 
-public class IfNode extends Node{
     private final Node condition;
-    private final List<Node> body;
+    private final BlockNode thenBlock;
+    private BlockNode elseBlock;  // optional
 
-    public IfNode(Token ifToken, Node condition, List<Node> body) {
+    public IfNode(Token ifToken, Node condition, BlockNode thenBlock) {
         super(ifToken);
         this.condition = condition;
-        this.body = body;
+        this.thenBlock = thenBlock;
         addChild(condition);
-        for (Node stmt: body) addChild(stmt);
+        addChild(thenBlock);
     }
 
-    public List<Node> getBody() {
-        return body;
+    public void setElseBlock(BlockNode elseBlock) {
+        this.elseBlock = elseBlock;
+        addChild(elseBlock);
     }
-
-    @Override
-    public String toString() {
-        return "IfNode(condition=" + condition + ", body=" + body + ")";
-    }
-    /**
-     * @param env
-     * @return
-     */
 
     @Override
     public Object evaluate(Environment env) {
-        Object cond = condition.evaluate(env);
-        if (isTruthy(cond)){
-            Object result = null;
-            Environment localEnv = new Environment(env);
-            for (Node st:body){
-                result = st.evaluate(localEnv);
-            }
-            return result;
+        Object condValue = condition.evaluate(env);
+        boolean isTrue = isTruthy(condValue);
+
+        if (isTrue) {
+            return thenBlock.evaluate(env);
+        } else if (elseBlock != null) {
+            return elseBlock.evaluate(env);
         }
+
         return null;
     }
 
     private boolean isTruthy(Object value) {
         if (value == null) return false;
-        if (value instanceof Boolean) return (Boolean) value;
-        if (value instanceof Number) return ((Number) value).doubleValue() != 0;
+        if (value instanceof Boolean b) return b;
+        if (value instanceof Number n) return n.doubleValue() != 0;
         return true;
     }
 
     @Override
     public void printTree(String indent) {
-        System.out.println(indent +"IfNode");
-        condition.printTree(indent+" ");
-        for (Node stmt: body) {
-            stmt.printTree(indent+" ");
+        System.out.println(indent + "IfNode:");
+        System.out.println(indent + "  Condition:");
+        condition.printTree(indent + "    ");
+        System.out.println(indent + "  Then:");
+        thenBlock.printTree(indent + "    ");
+        if (elseBlock != null) {
+            System.out.println(indent + "  Else:");
+            elseBlock.printTree(indent + "    ");
         }
     }
 }

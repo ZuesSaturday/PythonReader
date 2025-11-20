@@ -3,30 +3,63 @@ package DAROARA.Saturday.Interpreter.AST;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class IdentifierNode extends Node{
+/**
+ * Represents an identifier (variable) in the AST.
+ * <p>
+ * Example:
+ * <pre>
+ *     x
+ *     my_var
+ * </pre>
+ * This node holds the name of the variable and retrieves its value from the environment during evaluation.
+ */
+public class IdentifierNode extends Node {
 
-    private  final String name;
+    /** The name of the variable represented by this node */
+    private final String name;
 
+    /**
+     * Creates a new IdentifierNode from a token.
+     *
+     * @param identifier The token representing the variable name
+     */
     public IdentifierNode(Token identifier) {
         super(identifier);
         this.name = token.getValue();
     }
 
+    /**
+     * Returns the name of the identifier.
+     *
+     * @return The variable name as a string
+     */
     public String getName() {
         return name;
     }
 
     /**
-     * @param env
-     * @return
+     * Evaluates the identifier by retrieving its value from the given environment.
+     *
+     * @param env The execution environment storing variable values
+     * @return The value associated with this variable in the environment
+     * @throws RuntimeException if the variable is undefined
      */
     @Override
     public Object evaluate(Environment env) {
-        return env.get(name);
+        Object value = env.get(name);
+        if (value == null) {
+            throw new RuntimeException("Undefined variable: " + name);
+        }
+        return value;
     }
 
+    /**
+     * Prints this node for debugging or AST visualization.
+     *
+     * @param indent Indentation string for tree formatting
+     */
     @Override
     public void printTree(String indent) {
-        System.out.println(indent + "IdentifierNode ("+name+")");
+        System.out.println(indent + "IdentifierNode (" + name + ")");
     }
 }

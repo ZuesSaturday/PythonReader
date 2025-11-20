@@ -1,58 +1,29 @@
 package DAROARA.Saturday.Interpreter.AST;
 
-import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Represents an expression in the AST.
+ * Supports arithmetic (+, -, *, /) and simple comparison (<, >, ==) operations.
+ */
 public class ExpressionNode extends Node {
     private final List<String> numbers;
     private final List<String> operators;
 
-    public ExpressionNode(String expression) {
-        this.numbers = new ArrayList<>();
-        this.operators = new ArrayList<>();
-        parseExpression(expression);
-
+    /**
+     * Constructs an ExpressionNode from parsed numbers and operators.
+     *
+     * @param numbers   List of numbers or variable names as strings
+     * @param operators List of operators as strings (arithmetic or comparison)
+     */
+    public ExpressionNode(List<String> numbers, List<String> operators) {
+        super(null);
+        this.numbers = numbers;
+        this.operators = operators;
     }
 
-    private void parseExpression(String expression){
-        expression = expression.replaceAll("\\s+","");
-
-        StringBuilder current = new StringBuilder();
-        for (int i = 0; i < expression.length(); i++) {
-            if (i+1 < expression.length()) {
-                String twoChar = "" + expression.charAt(i) + expression.charAt(i+1);
-                if (isComp(twoChar)) {
-                    operators.add(twoChar);
-                    i++; // skip next char
-                    continue;
-                }
-            }
-            char c = expression.charAt(i);
-            if (isOperator(c)) {
-                if (current.length()>0) {
-                    numbers.add(current.toString());
-                    current.setLength(0);
-                }
-                operators.add(String.valueOf(c));
-            }else {
-                current.append(c);
-            }
-        }
-        if (current.length()>0){
-            numbers.add(current.toString());
-        }
-    }
-
-    private boolean isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/'; // extend for other operators
-    }
-    private boolean isComp(String c){
-        return Objects.equals(c, "<") || Objects.equals(c, ">") || Objects.equals(c, "==");
-    }
     public List<String> getNumbers() {
         return numbers;
     }
@@ -61,16 +32,65 @@ public class ExpressionNode extends Node {
         return operators;
     }
 
+    /**
+     * Evaluates the expression using the provided environment.
+     * Currently supports:
+     * - Single arithmetic operations between two numbers
+     * - Single comparison operations between two numbers
+     *
+     * @param env The environment for variable lookup
+     * @return The computed value (Number or Boolean)
+     */
+    @Override
+    public Object evaluate(Environment env) {
+        if (numbers.size() == 1 && operators.isEmpty()) {
+            String token = numbers.get(0);
+            try {
+                return Double.parseDouble(token);
+            } catch (NumberFormatException e) {
+                Object val = env.get(token);
+                if (val == null) throw new RuntimeException("Undefined variable: " + token);
+                return val;
+            }
+        }
+
+        if (numbers.size() == 2 && operators.size() == 1) {
+            double left = parseValue(numbers.get(0), env);
+            double right = parseValue(numbers.get(1), env);
+            String op = operators.get(0);
+
+            return switch (op) {
+                case "+" -> left + right;
+                case "-" -> left - right;
+                case "*" -> left * right;
+                case "/" -> left / right;
+                case ">" -> left > right;
+                case "<" -> left < right;
+                case "==" -> left == right;
+                default -> throw new RuntimeException("Unsupported operator: " + op);
+            };
+        }
+
+        throw new RuntimeException("Complex expressions not implemented: " + numbers + " " + operators);
+    }
+
+    private double parseValue(String token, Environment env) {
+        try {
+            return Double.parseDouble(token);
+        } catch (NumberFormatException e) {
+            Object val = env.get(token);
+            if (val instanceof Number num) {
+                return num.doubleValue();
+            } else {
+                throw new RuntimeException("Cannot use non-numeric variable in expression: " + token);
+            }
+        }
+    }
+
     @Override
     public void printTree(String indent) {
         System.out.println(indent + "Expression:");
-        System.out.println(indent + " numbers: " + numbers);
-        System.out.println(indent + " Operators: " + numbers);
+        System.out.println(indent + "  Numbers: " + numbers);
+        System.out.println(indent + "  Operators: " + operators);
     }
-
-    @Override
-    public Object evaluate(Environment env) {
-        return null;
-    }
-
 }
