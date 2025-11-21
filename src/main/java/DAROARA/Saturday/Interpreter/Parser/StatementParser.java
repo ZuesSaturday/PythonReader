@@ -206,8 +206,11 @@ public class StatementParser {
                 }
                 yield new LiteralNode(first);
             }
+            case STRING -> {
+                yield new StringNode(tokens.consume());
+            }
 
-            default -> throw new RuntimeException("Invalid assignment value at line " + tokens.peek().getLine());
+            default -> throw new RuntimeException("Invalid assignment value at " + tokens.peek().getLine());
         };
     }
 
@@ -353,6 +356,17 @@ public class StatementParser {
                 return parseMembership(first);
             }
         }
+        if (first.getType()==TokenType.STRING){
+            if (tokens.peek().getType() == TokenType.COMOP) {
+                if (tokens.peek().getValue().equals("==")||tokens.peek().getValue().equals("!="))
+                    return exprParser.parseStringExpression(first);
+                else {
+                    throw new RuntimeException(tokens.peek().getValue()+" cannot apply to string");
+                }
+            } else if (tokens.peek().getType() == TokenType.IN) {
+                return parseMembership(first);
+            }
+        }
 
         throw new RuntimeException("Invalid if-condition start at line " + first.getLine());
     }
@@ -361,6 +375,8 @@ public class StatementParser {
         Node left;
         if (first.getType() == TokenType.IDENTIFIER){
             left = new VarAccessNode(tokens.consume());
+        }else if (first.getType() == TokenType.STRING){
+            left = new StringNode(first);
         }else {
             left = new LiteralNode(first);
         }

@@ -3,6 +3,7 @@ package DAROARA.Saturday.Interpreter.Parser;
 import DAROARA.Saturday.Interpreter.AST.ExpressionNode;
 import DAROARA.Saturday.Interpreter.AST.IdentifierNode;
 import DAROARA.Saturday.Interpreter.AST.Node;
+import DAROARA.Saturday.Interpreter.AST.StringExpressionNode;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Compiler.TokenType;
 
@@ -51,4 +52,10 @@ public class ExpressionParser {
         return new ExpressionNode(expr.toString());
     }
 
+    public Node parseStringExpression(Token first) {
+        String left =  first.getValue();
+        String comp = tokens.consume().getValue();
+        String right = tokens.consume().getValue();
+        return new StringExpressionNode(left,comp,right);
+    }
 }

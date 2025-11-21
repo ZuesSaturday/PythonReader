@@ -47,6 +47,11 @@ public class ExpressionNode extends Node {
                     operators.add(two);
                     i++;
                     continue;
+                } else if (two.equals("!=")) {
+                    addToken(current);
+                    operators.add(two);
+                    i++;
+                    continue;
                 }
             }
 
@@ -144,6 +149,7 @@ public class ExpressionNode extends Node {
                 case "<" -> left < right;
                 case ">" -> left > right;
                 case "==" -> left == right;
+                case "!=" -> left != right;
                 default -> throw new RuntimeException("Unsupported operator: " + op);
             };
         }
