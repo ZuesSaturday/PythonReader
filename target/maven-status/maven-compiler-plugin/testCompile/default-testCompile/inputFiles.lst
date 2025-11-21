@@ -1,1 +1,9 @@
 /home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Appllication/SaturdayApplicationTests.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Compiler/LexerAssignmentTests.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Compiler/LexerListsTests.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Compiler/LexerPrintTest.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Compiler/LexerStringTests.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Parser/ProgramAssignmentTests.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Parser/ProgramListsTests.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Parser/ProgramPrintTest.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/test/java/DAROARA/Saturday/Interpreter/Parser/ProgramStringTests.java

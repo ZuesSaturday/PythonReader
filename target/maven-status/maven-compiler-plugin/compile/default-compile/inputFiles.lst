@@ -5,6 +5,8 @@
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Application/Service/SaturdayService.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/AssignmentNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/BlockNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ConditionalNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ExpressionFactory.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ExpressionNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ForNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/FunctionNode.java
@@ -13,11 +15,14 @@
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/IndexNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ListNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/LiteralNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/MembershipNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/Node.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/PrintNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/ProgramNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/RangeNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/StringExpressionNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/StringNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/VarAccessNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/AST/WhileNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Compiler/Lexer.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Compiler/Token.java
@@ -27,6 +32,7 @@
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/IndexParser.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/ListParser.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/ProgramParser.java
+/home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/RangeParser.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/StatementParser.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Parser/TokenStream.java
 /home/wtc/Documents/WEB_Home/PythonReader/src/main/java/DAROARA/Saturday/Interpreter/Runtime/Interpreter.java
