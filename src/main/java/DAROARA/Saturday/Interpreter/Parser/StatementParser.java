@@ -115,21 +115,21 @@ package DAROARA.Saturday.Interpreter.Parser;
 import DAROARA.Saturday.Interpreter.AST.*;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Compiler.TokenType;
-
-import java.util.ArrayList;
-import java.util.List;
+import DAROARA.Saturday.Interpreter.AST.VarAccessNode;
 
 public class StatementParser {
     private final TokenStream tokens;
     private final ExpressionParser exprParser;
     private final ListParser listParser;
     private final IndexParser indexParser;
+    private final RangeParser rangeParser;
 
     public StatementParser(TokenStream tokens) {
         this.tokens = tokens;
         this.exprParser = new ExpressionParser(tokens);
         this.listParser = new ListParser(tokens);
         this.indexParser = new IndexParser(tokens);
+        this.rangeParser = new RangeParser(tokens);
     }
 
     public Node parseStatement() {
@@ -303,7 +303,7 @@ public class StatementParser {
 
     private Node parseIf(Token keyword) {
         // Parse condition
-        Node condition = parseIfCondition();
+        Node condition =parseIfCondition();
 
         // Expect colon
         tokens.expect(TokenType.COLON);
@@ -343,15 +343,41 @@ public class StatementParser {
 
 
     private Node parseIfCondition() {
-        // First part must be NUMBER or IDENTIFIER
         Token first = tokens.consume();
 
-        // Allow identifiers AND numbers
-        if (first.getType() != TokenType.IDENTIFIER && first.getType() != TokenType.NUMBER) {
-            throw new RuntimeException("Invalid if-condition start at line " + first.getLine());
+        // identifier or number
+        if (first.getType() == TokenType.IDENTIFIER || first.getType() == TokenType.NUMBER) {
+            if (tokens.peek().getType() == TokenType.COMOP) {
+                return exprParser.parseExpression(first);
+            } else if (tokens.peek().getType() == TokenType.IN) {
+                return parseMembership(first);
+            }
         }
 
-        // Fully delegate to ExpressionParser
-        return exprParser.parseExpression(first);
+        throw new RuntimeException("Invalid if-condition start at line " + first.getLine());
+    }
+
+    private Node parseMembership(Token first) {
+        Node left;
+        if (first.getType() == TokenType.IDENTIFIER){
+            left = new VarAccessNode(tokens.consume());
+        }else {
+            left = new LiteralNode(first);
+        }
+        Token inToken = tokens.consume();
+        Token next = tokens.peek();
+
+        Node iterable;
+        if (next.getType() == TokenType.IDENTIFIER) {
+            iterable = new VarAccessNode(tokens.consume());
+        } else if (next.getType() == TokenType.LBRACKET) {
+
+            iterable = listParser.parseList();
+        } else if (next.getType()==TokenType.RANGE) {
+            iterable = rangeParser.parseRange();
+        }else {
+            throw  new RuntimeException(tokens.peek().getValue()+"is not iterable");
+        }
+        return new MembershipNode(left,iterable,inToken);
     }
 }

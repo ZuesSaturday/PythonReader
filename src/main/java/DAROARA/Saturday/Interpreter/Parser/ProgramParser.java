@@ -26,20 +26,20 @@ public class ProgramParser {
         return program;
     }
 
-//    public static void main(String[] args) {
-//        String code = """
-//
-//                if 1<2:
-//                    print(1)
-//                else:
-//                    print(2)
-//                """;
-//            Lexer lexer = new Lexer(code);
-//        System.out.println(lexer.tokenize());
-//        ProgramParser parser = new ProgramParser(code);
-//        ProgramNode program = parser.parseProgram();
-//
-//        program.printTree("");
-//        program.evaluate(new Environment());
-//    }
+    public static void main(String[] args) {
+        String code = """
+
+                if 1<2:
+                    print(1)
+                else:
+                    print(2)
+                """;
+            Lexer lexer = new Lexer(code);
+        System.out.println(lexer.tokenize());
+        ProgramParser parser = new ProgramParser(code);
+        ProgramNode program = parser.parseProgram();
+
+        program.printTree("");
+        program.evaluate(new Environment());
+    }
 }
