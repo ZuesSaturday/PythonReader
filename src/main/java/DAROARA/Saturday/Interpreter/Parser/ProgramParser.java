@@ -26,20 +26,4 @@ public class ProgramParser {
         return program;
     }
 
-    public static void main(String[] args) {
-        String code = """
-                z = "Dave"
-                if "D" in z:
-                    print(1)
-                else:
-                    print(2)
-                """;
-        Lexer lexer = new Lexer(code);
-        System.out.println(lexer.tokenize());
-        ProgramParser parser = new ProgramParser(code);
-        ProgramNode program = parser.parseProgram();
-
-        program.printTree("");
-        program.evaluate(new Environment());
-    }
 }

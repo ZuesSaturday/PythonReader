@@ -30,6 +30,11 @@ public class StringExpressionNode extends Node {
         this.comparer = comparer;
     }
 
+    @Override
+    public void printTree(String indent) {
+        System.out.println(indent + "StringExpression:");
+        System.out.println(indent +" "+ leftValue+" "+comparer+" "+rightValue);
+    }
     /**
      * Evaluate expression with proper arithmetic precedence and comparisons.
      */

@@ -116,6 +116,7 @@ import DAROARA.Saturday.Interpreter.AST.*;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Compiler.TokenType;
 import DAROARA.Saturday.Interpreter.AST.VarAccessNode;
+import DAROARA.Saturday.Interpreter.Environment;
 
 public class StatementParser {
     private final TokenStream tokens;

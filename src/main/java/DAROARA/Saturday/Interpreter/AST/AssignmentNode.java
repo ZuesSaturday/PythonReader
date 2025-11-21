@@ -47,6 +47,10 @@ public class AssignmentNode extends Node {
         return identifier;
     }
 
+    public Node getValue() {
+        return value;
+    }
+
     /**
      * Evaluates the assignment node.
      * <p>
