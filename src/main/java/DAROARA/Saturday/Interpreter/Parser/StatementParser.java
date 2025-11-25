@@ -292,6 +292,16 @@ public class StatementParser {
         // STRING: literal only
         else if (first.getType() == TokenType.STRING) {
             expr = new StringNode(first);
+            if (tokens.peek().getType() == TokenType.COMOP) {
+                if (tokens.peek().getValue().equals("==")||tokens.peek().getValue().equals("!="))
+                    expr = exprParser.parseStringExpression(first);
+                else {
+                    throw new RuntimeException(tokens.peek().getValue()+" cannot apply to string");
+                }
+            } else if (tokens.peek().getType() == TokenType.IN) {
+                expr = parseMembership(first);
+            }
+
         }
 
         else {
@@ -392,6 +402,8 @@ public class StatementParser {
             iterable = listParser.parseList();
         } else if (next.getType()==TokenType.RANGE) {
             iterable = rangeParser.parseRange();
+        }else if (next.getType()==TokenType.STRING) {
+            iterable = new StringNode(tokens.consume());
         }else {
             throw  new RuntimeException(tokens.peek().getValue()+"is not iterable");
         }

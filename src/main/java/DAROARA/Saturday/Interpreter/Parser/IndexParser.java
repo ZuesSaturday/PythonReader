@@ -27,6 +27,6 @@ public class IndexParser {
         }
         tokens.expect(TokenType.RBRACKET);
         tokens.consume();
-        return result;
+        return new IndexNode(result,indexValue.toString());
     }
 }
