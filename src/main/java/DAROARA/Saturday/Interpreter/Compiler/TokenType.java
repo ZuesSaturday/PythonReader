@@ -10,6 +10,7 @@ public enum TokenType {
     AND("\\band\\b"),
     OR("\\bor\\b"),
     RANGE("\\brange\\b"),
+    LEN("\\blen\\b"),
     IDENTIFIER("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"),
     NUMBER("\\b\\d+\\b"),
     STRING("\"[^\"]*\"|'[^'\\n]*'"),

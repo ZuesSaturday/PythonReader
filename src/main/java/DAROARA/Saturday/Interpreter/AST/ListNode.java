@@ -69,9 +69,6 @@ public class ListNode extends Node {
         // Update internal list representation
         return sb.toString();
     }
-    public int length() {
-        return this.list.length();
-    }
 
     /**
      * Parses the raw list string into individual values.

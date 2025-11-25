@@ -19,7 +19,7 @@ public class RangeNode extends Node implements Iterable<Integer> {
         this.step = step;
 
         if (step == 0) {
-            throw new RuntimeException("range() step cannot be zero");
+            throw new ValueError("range() arg 3 must not be zero");
         }
     }
 

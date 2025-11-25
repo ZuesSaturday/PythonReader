@@ -246,8 +246,62 @@ public class StatementParser {
 
             case "if" -> parseIf(keyword);
 
+            case "for" -> parseFor(keyword);
+
             default -> throw new RuntimeException("Unsupported keyword: " + keyword.getValue());
         };
+    }
+
+    private Node parseFor(Token keyword) {
+        tokens.expect(TokenType.IDENTIFIER);
+        Node id = new IdentifierNode(tokens.consume());
+        tokens.expect(TokenType.IN);
+        Token in = tokens.consume();
+        Token iter = tokens.peek();
+        Node sequence = null;
+        if (iter.getType() == TokenType.STRING){
+            sequence = new StringNode(iter);
+            tokens.consume();
+        }
+        if (iter.getType() == TokenType.LBRACKET) {
+            sequence = listParser.parseList();
+        }
+        int start = 0;
+        int stop;
+        int step = 1;
+
+        if (iter.getType() == TokenType.RANGE) {
+            tokens.consume();
+            tokens.expect(TokenType.RPAREN);
+            tokens.consume();
+            stop = Integer.parseInt(tokens.consume().getValue());
+            if (tokens.peek().getType() == TokenType.COMMA) {
+                tokens.consume();
+                start = stop;
+                stop = Integer.parseInt(tokens.consume().getValue());
+                if (tokens.peek().getType() == TokenType.COMMA) {
+                    tokens.consume();
+                    step = Integer.parseInt(tokens.consume().getValue());
+                }
+            }
+            tokens.expect(TokenType.RPAREN);
+            tokens.consume();
+
+            sequence = new RangeNode(iter,start,stop,step);
+        }
+
+        tokens.expect(TokenType.COLON);
+        tokens.consume();
+
+        tokens.expect(TokenType.INDENT);
+        tokens.consume();
+
+        BlockNode insideblock = new BlockNode();
+        while (!tokens.match(TokenType.DEDENT)) {
+            insideblock.addStatement(parseStatement());
+        }
+        return new ForNode(keyword,id,sequence,insideblock);
+
     }
 
 

@@ -26,4 +26,16 @@ public class ProgramParser {
         return program;
     }
 
+    public static void main(String[] args) {
+        String code = """
+                
+                for i in range(9):
+                    print(i)
+                """;
+        ProgramParser parser = new ProgramParser(code);
+        ProgramNode progNode = parser.parseProgram();
+        Environment env = new Environment();
+        progNode.evaluate(env);
+    }
+
 }
