@@ -274,7 +274,13 @@ public class StatementParser {
             tokens.consume();
             tokens.expect(TokenType.RPAREN);
             tokens.consume();
-            stop = Integer.parseInt(tokens.consume().getValue());
+            if (tokens.peek().getType() == TokenType.IDENTIFIER) {
+                Node b = new VarAccessNode(tokens.consume());
+                stop = Integer.parseInt(b.getToken().getValue());
+            }else {
+                stop = Integer.parseInt(tokens.consume().getValue());
+            }
+
             if (tokens.peek().getType() == TokenType.COMMA) {
                 tokens.consume();
                 start = stop;
@@ -346,10 +352,12 @@ public class StatementParser {
         // STRING: literal only
         else if (first.getType() == TokenType.STRING) {
             expr = new StringNode(first);
-            if (tokens.peek().getType() == TokenType.COMOP) {
-                if (tokens.peek().getValue().equals("==")||tokens.peek().getValue().equals("!="))
-                    expr = exprParser.parseStringExpression(first);
-                else {
+            TokenType type = tokens.peek().getType();
+            if (type == TokenType.COMOP||type== TokenType) {
+                String value = tokens.peek().getValue();
+                if (value.equals("==")||value.equals("!=")||value.equals("+")||value.equals("*")) {
+                    expr = exprParser.parseExpression(first);
+                } else {
                     throw new RuntimeException(tokens.peek().getValue()+" cannot apply to string");
                 }
             } else if (tokens.peek().getType() == TokenType.IN) {
@@ -423,8 +431,9 @@ public class StatementParser {
         }
         if (first.getType()==TokenType.STRING){
             if (tokens.peek().getType() == TokenType.COMOP) {
-                if (tokens.peek().getValue().equals("==")||tokens.peek().getValue().equals("!="))
-                    return exprParser.parseStringExpression(first);
+                String value = tokens.peek().getValue();
+                if (value.equals("==")||value.equals("!=")||value.equals("+")||value.equals("*"))
+                    return exprParser.parseExpression(first);
                 else {
                     throw new RuntimeException(tokens.peek().getValue()+" cannot apply to string");
                 }

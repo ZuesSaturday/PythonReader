@@ -1,64 +1,158 @@
 package DAROARA.Saturday.Interpreter.AST;
 
-import DAROARA.Saturday.Interpreter.Compiler.Token;
-import DAROARA.Saturday.Interpreter.Compiler.TokenType;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * ExpressionFactory creates the appropriate expression node based on the input.
+ * Automatically detects whether it's a numeric expression or string expression.
+ */
 public class ExpressionFactory {
 
     /**
      * Creates the correct ExpressionNode depending on data type.
      * Supports:
-     *   numeric comparison
-     *   numeric arithmetic
-     *   string comparison
+     *   - Numeric expressions: arithmetic and comparison
+     *   - String expressions: concatenation and repetition
      *
-     * @param left  the first value token
-     * @param op    the operator token
-     * @param right the second value token
+     * @param expression the expression string to parse
+     * @return either ExpressionNode or StringExpressionNode
      */
-    public static Node create(Token left, Token op, Token right) {
+    public static Node create(String expression) {
+        List<String> tokens = new ArrayList<>();
+        List<String> operators = new ArrayList<>();
 
-        boolean leftIsString  = left.getType() == TokenType.STRING;
-        boolean rightIsString = right.getType() == TokenType.STRING;
+        // First, detect if this is likely a string expression
+        if (isStringExpression(expression)) {
+            parseStringExpression(expression, tokens, operators);
+            return new StringExpressionNode(tokens, operators);
+        } else {
+            parseNumericExpression(expression, tokens, operators);
+            return new ExpressionNode(tokens, operators);
+        }
+    }
 
-        boolean leftIsNumber  = left.getType() == TokenType.NUMBER;
-        boolean rightIsNumber = right.getType() == TokenType.NUMBER;
+    /**
+     * Detects if the expression contains string operations or string literals
+     */
+    private static boolean isStringExpression(String expr) {
+        return expr.contains("\"") || expr.contains("'") ||
+                (expr.contains("+") && hasAdjacentStrings(expr)) ||
+                (expr.contains("*") && hasStringMultiplication(expr));
+    }
 
-        String operator = op.getValue();
+    private static boolean hasAdjacentStrings(String expr) {
+        // Simple heuristic: if we have quoted strings with + between them
+        return expr.matches(".*[\"'][ \\t]*\\+[ \\t]*[\"'].*");
+    }
 
-        // --- STRING EXPRESSIONS ---
-        if (leftIsString || rightIsString) {
+    private static boolean hasStringMultiplication(String expr) {
+        // Heuristic: if we have quoted string with * and number, or vice versa
+        return expr.matches(".*[\"'][ \\t]*\\*[ \\t]*\\d+.*") ||
+                expr.matches(".*\\d+[ \\t]*\\*[ \\t]*[\"'].*");
+    }
 
-            // Only strings allowed on both sides
-            if (!(leftIsString && rightIsString)) {
-                throw new RuntimeException("Cannot compare string with non-string");
+    /**
+     * Parse numeric expressions with arithmetic and comparison operators
+     */
+    private static void parseNumericExpression(String expr, List<String> tokens, List<String> operators) {
+        expr = expr.replaceAll("\\s+", "");
+        StringBuilder current = new StringBuilder();
+
+        for (int i = 0; i < expr.length(); i++) {
+            // Check 2-character operator
+            if (i + 1 < expr.length()) {
+                String twoChar = "" + expr.charAt(i) + expr.charAt(i + 1);
+                if (twoChar.equals("==") || twoChar.equals("!=")) {
+                    addToken(current, tokens);
+                    operators.add(twoChar);
+                    i++;
+                    continue;
+                }
             }
 
-            if (!operator.equals("==") && !operator.equals("!=")) {
-                throw new RuntimeException(operator + " not allowed for strings");
+            char c = expr.charAt(i);
+
+            // Check 1-character operators
+            if ("+-*/<>".indexOf(c) >= 0) {
+                addToken(current, tokens);
+                operators.add(String.valueOf(c));
+            } else {
+                current.append(c);
+            }
+        }
+
+        addToken(current, tokens);
+    }
+
+    /**
+     * Parse string expressions with concatenation and repetition operators
+     */
+    private static void parseStringExpression(String expr, List<String> tokens, List<String> operators) {
+        expr = expr.replaceAll("\\s+", "");
+        StringBuilder current = new StringBuilder();
+        boolean inQuotes = false;
+        char quoteChar = '"';
+
+        for (int i = 0; i < expr.length(); i++) {
+            char c = expr.charAt(i);
+
+            // Handle quotes for string literals
+            if (c == '"' || c == '\'') {
+                if (!inQuotes) {
+                    inQuotes = true;
+                    quoteChar = c;
+                    current.append(c);
+                } else if (c == quoteChar) {
+                    inQuotes = false;
+                    current.append(c);
+                    addToken(current, tokens);
+                } else {
+                    current.append(c);
+                }
+                continue;
             }
 
-            // Remove quotes for evaluation
-            String l = left.getValue().replace("\"", "");
-            String r = right.getValue().replace("\"", "");
+            // If we're inside quotes, just add the character
+            if (inQuotes) {
+                current.append(c);
+                continue;
+            }
 
-            return new StringExpressionNode(l, operator, r);
+            // Check for operators outside quotes
+            if (c == '+' || c == '*') {
+                addToken(current, tokens);
+                operators.add(String.valueOf(c));
+            } else {
+                current.append(c);
+            }
         }
 
-        // --- NUMERIC EXPRESSIONS ---
-        if (leftIsNumber && rightIsNumber) {
-            // Build a simple string expression "5 > 3"
-            String expr = left.getValue() + operator + right.getValue();
-            return new ExpressionNode(expr);
-        }
+        // Add any remaining token
+        addToken(current, tokens);
+    }
 
-        // --- IDENTIFIERS ---
-        if (left.getType() == TokenType.IDENTIFIER || right.getType() == TokenType.IDENTIFIER) {
-            // ExpressionNode can resolve identifiers
-            String expr = left.getValue() + operator + right.getValue();
-            return new ExpressionNode(expr);
+    private static void addToken(StringBuilder current, List<String> tokens) {
+        if (current.length() > 0) {
+            tokens.add(current.toString());
+            current.setLength(0);
         }
+    }
 
-        throw new RuntimeException("Invalid expression");
+    /**
+     * Test method to demonstrate the factory
+     */
+    public static void main(String[] args) {
+        // Test numeric expressions
+        Node numExpr = ExpressionFactory.create("1 + 2 * 3");
+        numExpr.printTree("");
+
+        // Test string expressions
+        Node strExpr = ExpressionFactory.create("\"hello\" + \"world\" * 3");
+        strExpr.printTree("");
+
+        // Test comparison expressions
+        Node compExpr = ExpressionFactory.create("x > 5 + 2");
+        compExpr.printTree("");
     }
 }

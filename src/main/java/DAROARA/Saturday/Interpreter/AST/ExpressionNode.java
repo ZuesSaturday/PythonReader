@@ -1,6 +1,5 @@
 package DAROARA.Saturday.Interpreter.AST;
 
-import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
 import java.util.ArrayList;
@@ -22,58 +21,10 @@ public class ExpressionNode extends Node {
     private final List<String> numbers;      // numbers or identifiers
     private final List<String> operators;    // arithmetic or comparison operators
 
-    public ExpressionNode(String expression) {
+    public ExpressionNode(List<String> numbers, List<String> operators) {
         super(null);
-        this.numbers = new ArrayList<>();
-        this.operators = new ArrayList<>();
-        parseExpression(expression);
-    }
-
-    /**
-     * Parse the expression into tokens: numbers/identifiers + operators.
-     * Handles 2-char comparison operators (==).
-     */
-    private void parseExpression(String expr) {
-        expr = expr.replaceAll("\\s+", "");
-        StringBuilder current = new StringBuilder();
-
-        for (int i = 0; i < expr.length(); i++) {
-
-            // Check 2-character operator
-            if (i + 1 < expr.length()) {
-                String two = "" + expr.charAt(i) + expr.charAt(i + 1);
-                if (two.equals("==")) {
-                    addToken(current);
-                    operators.add(two);
-                    i++;
-                    continue;
-                } else if (two.equals("!=")) {
-                    addToken(current);
-                    operators.add(two);
-                    i++;
-                    continue;
-                }
-            }
-
-            char c = expr.charAt(i);
-
-            // Check 1-character operators
-            if ("+-*/<>".indexOf(c) >= 0) {
-                addToken(current);
-                operators.add(String.valueOf(c));
-            } else {
-                current.append(c);
-            }
-        }
-
-        addToken(current);
-    }
-
-    private void addToken(StringBuilder current) {
-        if (current.length() > 0) {
-            numbers.add(current.toString());
-            current.setLength(0);
-        }
+        this.numbers = numbers;
+        this.operators = operators;
     }
 
     public List<String> getNumbers() { return numbers; }

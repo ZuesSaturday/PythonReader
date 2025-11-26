@@ -28,9 +28,13 @@ public class ProgramParser {
 
     public static void main(String[] args) {
         String code = """
-                
-                for i in range(9):
-                    print(i)
+                for i in range(5):
+                    if i == 0:
+                        print("*" * 5)
+                    if i == 4:
+                        print("*" * 5)
+                    else:
+                        print("*   *")
                 """;
         ProgramParser parser = new ProgramParser(code);
         ProgramNode progNode = parser.parseProgram();
