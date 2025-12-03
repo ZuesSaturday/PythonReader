@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Application;
+package DAROARA.Application;
 
 
 import org.springframework.context.annotation.Bean;

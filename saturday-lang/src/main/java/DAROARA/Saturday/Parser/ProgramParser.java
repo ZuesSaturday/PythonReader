@@ -28,10 +28,10 @@ public class ProgramParser {
 
     public static void main(String[] args) {
         String code = """
-                for i in range(5):
+                for i in range(4):
                     if i == 0:
                         print("*" * 5)
-                    if i == 4:
+                    if i == 3:
                         print("*" * 5)
                     else:
                         print("*   *")

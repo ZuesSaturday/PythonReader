@@ -1,11 +1,9 @@
 package DAROARA.Saturday.Interpreter.Parser;
 
 import DAROARA.Saturday.Interpreter.AST.*;
+import DAROARA.Saturday.Interpreter.AST.Factory.ExpressionFactory;
 import DAROARA.Saturday.Interpreter.Compiler.Token;
 import DAROARA.Saturday.Interpreter.Compiler.TokenType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Parses expressions from tokens into ExpressionNodes.
@@ -38,11 +36,13 @@ public class ExpressionParser {
             // Consume the next number or identifier
             Token next = tokens.consume();
             if (next.getType() != TokenType.NUMBER &&
-                    next.getType() != TokenType.IDENTIFIER) {
-                throw new RuntimeException("Expected number or identifier after operator, got " + next);
-            }
+                    next.getType() != TokenType.IDENTIFIER&&
+                    next.getType() != TokenType.STRING) {
 
+                throw new RuntimeException("Expected number or identifier or String after operator, got " + next);
+            }
             expr.append(next.getValue());
+
         }
 
         // Pass the full expression string to your ExpressionNode

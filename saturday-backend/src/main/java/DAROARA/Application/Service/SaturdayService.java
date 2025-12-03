@@ -1,6 +1,6 @@
-package DAROARA.Saturday.Application.Service;
+package DAROARA.Application.Service;
 
-import DAROARA.Saturday.Application.Model.RunResult;
+import DAROARA.Application.Model.RunResult;
 import DAROARA.Saturday.Interpreter.AST.ProgramNode;
 import DAROARA.Saturday.Interpreter.Environment;
 import DAROARA.Saturday.Interpreter.Parser.ProgramParser;
