@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Interpreter.Compiler;
+package DAROARA.Saturday.Lexer;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ public class LexerStringTests {
         String code = """
             "String"
             """;
-        Lexer lexer = new Lexer(code);
+        SaturdayLexer lexer = new SaturdayLexer(code);
         List<Token> tokens = lexer.tokenize();
         assertEquals(2,tokens.size());
         assertEquals(TokenType.STRING,tokens.get(0).getType());

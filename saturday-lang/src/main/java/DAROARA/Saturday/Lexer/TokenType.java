@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Interpreter.Compiler;
+package DAROARA.Saturday.Lexer;
 
 public enum TokenType {
 

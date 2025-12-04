@@ -1,9 +1,9 @@
-package DAROARA.Saturday.Interpreter.AST;
+package DAROARA.Saturday.AST;
 
 //import Saturday.Compiler.Token;
 //import Saturday.Interpreter.Environment;
 
-import DAROARA.Saturday.Interpreter.Compiler.Token;
+import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
 public class WhileNode extends Node{

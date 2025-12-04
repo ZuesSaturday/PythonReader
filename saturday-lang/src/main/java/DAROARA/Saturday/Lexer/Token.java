@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Interpreter.Compiler;
+package DAROARA.Saturday.Lexer;
 
 public class Token {
     private final TokenType type;

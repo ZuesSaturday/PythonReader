@@ -6,15 +6,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="PythonReader" />
+        <module name="saturday-core" />
         <module name="Pyt" />
+        <module name="saturday-backend" />
+        <module name="saturday-lang" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="untitled" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Pyt" options="-parameters" />
-      <module name="PythonReader" options="-parameters" />
+      <module name="PythonReader" options="" />
+      <module name="saturday-backend" options="-parameters" />
+      <module name="saturday-core" options="-parameters" />
+      <module name="saturday-lang" options="-parameters" />
+      <module name="untitled" options="-parameters" />
     </option>
   </component>
 </project>

@@ -1,15 +1,11 @@
-package DAROARA.Saturday.Interpreter.Parser;
+package DAROARA.Saturday.Parser;
 
-import DAROARA.Saturday.Interpreter.AST.ProgramNode;
-import DAROARA.Saturday.Interpreter.Compiler.Lexer;
-import DAROARA.Saturday.Interpreter.Compiler.Token;
+import DAROARA.Saturday.AST.ProgramNode;
 import DAROARA.Saturday.Interpreter.Environment;
+import DAROARA.Saturday.Parser.ProgramParser;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProgramListsTests {

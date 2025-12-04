@@ -1,7 +1,7 @@
-package DAROARA.Saturday.Interpreter.Parser;
-import DAROARA.Saturday.Interpreter.AST.ListNode;
-import DAROARA.Saturday.Interpreter.AST.Node;
-import DAROARA.Saturday.Interpreter.Compiler.TokenType;
+package DAROARA.Saturday.Parser;
+import DAROARA.Saturday.AST.ListNode;
+import DAROARA.Saturday.AST.Node;
+import DAROARA.Saturday.Lexer.TokenType;
 
 public class ListParser {
     private final TokenStream tokens;

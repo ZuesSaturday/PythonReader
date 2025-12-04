@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Interpreter.AST;
+package DAROARA.Saturday.AST;
 
 import DAROARA.Saturday.Interpreter.Environment;
 

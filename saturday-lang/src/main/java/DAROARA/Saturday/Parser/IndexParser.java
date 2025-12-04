@@ -1,9 +1,9 @@
-package DAROARA.Saturday.Interpreter.Parser;
+package DAROARA.Saturday.Parser;
 
-import DAROARA.Saturday.Interpreter.AST.IndexNode;
+import DAROARA.Saturday.AST.IndexNode;
 
-import DAROARA.Saturday.Interpreter.AST.Node;
-import DAROARA.Saturday.Interpreter.Compiler.TokenType;
+import DAROARA.Saturday.AST.Node;
+import DAROARA.Saturday.Lexer.TokenType;
 
 public class IndexParser {
     private final TokenStream tokens;

@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Interpreter.Compiler;
+package DAROARA.Saturday.Lexer;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ public class LexerAssignmentTests {
         String code = """
             int = 2
             """;
-        Lexer lexer = new Lexer(code);
+        SaturdayLexer lexer = new SaturdayLexer(code);
         List<Token> tokens = lexer.tokenize();
 
         assertEquals(4,tokens.size());
@@ -27,7 +27,7 @@ public class LexerAssignmentTests {
         String code = """
             String = "PythonReader"
             """;
-        Lexer lexer = new Lexer(code);
+        SaturdayLexer lexer = new SaturdayLexer(code);
         List<Token> tokens = lexer.tokenize();
 
         assertEquals(4,tokens.size());
@@ -42,7 +42,7 @@ public class LexerAssignmentTests {
         String code = """
             String = [1,2,3,4]
             """;
-        Lexer lexer = new Lexer(code);
+        SaturdayLexer lexer = new SaturdayLexer(code);
         List<Token> tokens = lexer.tokenize();
 
         assertEquals(12,tokens.size());

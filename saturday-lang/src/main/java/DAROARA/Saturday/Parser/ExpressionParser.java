@@ -1,9 +1,9 @@
-package DAROARA.Saturday.Interpreter.Parser;
+package DAROARA.Saturday.Parser;
 
-import DAROARA.Saturday.Interpreter.AST.*;
-import DAROARA.Saturday.Interpreter.AST.Factory.ExpressionFactory;
-import DAROARA.Saturday.Interpreter.Compiler.Token;
-import DAROARA.Saturday.Interpreter.Compiler.TokenType;
+import DAROARA.Saturday.AST.*;
+import DAROARA.Saturday.AST.Factory.ExpressionFactory;
+import DAROARA.Saturday.Lexer.Token;
+import DAROARA.Saturday.Lexer.TokenType;
 
 /**
  * Parses expressions from tokens into ExpressionNodes.

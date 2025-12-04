@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Interpreter.AST;
+package DAROARA.Saturday.Error;
 
 public class ValueError extends RuntimeException {
     public ValueError(String massage) {

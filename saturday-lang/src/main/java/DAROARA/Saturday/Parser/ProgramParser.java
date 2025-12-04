@@ -1,9 +1,8 @@
-package DAROARA.Saturday.Interpreter.Parser;
+package DAROARA.Saturday.Parser;
 
-import DAROARA.Saturday.Interpreter.AST.*;
-import DAROARA.Saturday.Interpreter.Compiler.Lexer;
-import DAROARA.Saturday.Interpreter.Compiler.Token;
+import DAROARA.Saturday.AST.ProgramNode;
 import DAROARA.Saturday.Interpreter.Environment;
+import DAROARA.Saturday.Lexer.*;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class ProgramParser {
     private final StatementParser stmtParser;
 
     public ProgramParser(String code) {
-        Lexer lexer = new Lexer(code);
+        SaturdayLexer lexer = new SaturdayLexer(code);
         List<Token> tokenList = lexer.tokenize();
         this.tokens = new TokenStream(tokenList);
         this.stmtParser = new StatementParser(tokens);

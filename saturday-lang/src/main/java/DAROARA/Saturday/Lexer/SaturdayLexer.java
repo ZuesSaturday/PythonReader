@@ -1,8 +1,4 @@
-package DAROARA.Saturday.Interpreter.Compiler;
-
-import DAROARA.Saturday.Interpreter.AST.ProgramNode;
-import DAROARA.Saturday.Interpreter.Environment;
-import DAROARA.Saturday.Interpreter.Parser.ProgramParser;
+package DAROARA.Saturday.Lexer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +6,13 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Lexer {
+public class SaturdayLexer {
     private final String[] lines;
     private int currentLine;
     private int currentPosition;
     private final Stack<Integer> indentStack = new Stack<>();
 
-    public Lexer(String input) {
+    public SaturdayLexer(String input) {
         this.lines = input.split("\\r?\\n");
         this.currentLine = 0;
         this.currentPosition = 0;
