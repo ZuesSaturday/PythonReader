@@ -1,9 +1,12 @@
 package DAROARA.Saturday.Interpreter;
 
+import DAROARA.Saturday.Interpreter.Runtime.RuntimeValue;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Environment class stores variables and their values
@@ -15,6 +18,8 @@ public class Environment {
     private final Map<String, Object> variables;
     private final Set<String> constants;
     private final Environment parent;
+    private final Map<String, Function<RuntimeValue[], RuntimeValue>> functions = new HashMap<>();
+
 
     public Environment() {
         this(null);
@@ -84,4 +89,15 @@ public class Environment {
             System.out.println(" " + entry.getKey() + " = " + entry.getValue());
         }
     }
+
+    public void defineFunction(String name, Function<RuntimeValue[], RuntimeValue> fn) {
+        this.functions.put(name, fn);
+    }
+
+    public Object getFunction(String name) {
+        if (functions.containsKey(name)) return functions.get(name);
+        if (parent != null) return parent.getFunction(name);
+        throw new RuntimeException("Undefined function: " + name);
+    }
+
 }

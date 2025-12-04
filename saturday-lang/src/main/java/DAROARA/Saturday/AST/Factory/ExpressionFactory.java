@@ -64,7 +64,7 @@ public class ExpressionFactory {
         StringBuilder current = new StringBuilder();
 
         for (int i = 0; i < expr.length(); i++) {
-            // Check 2-character operator
+
             if (i + 1 < expr.length()) {
                 String twoChar = "" + expr.charAt(i) + expr.charAt(i + 1);
                 if (twoChar.equals("==") || twoChar.equals("!=")) {
@@ -77,7 +77,6 @@ public class ExpressionFactory {
 
             char c = expr.charAt(i);
 
-            // Check 1-character operators
             if ("+-*/<>".indexOf(c) >= 0) {
                 addToken(current, tokens);
                 operators.add(String.valueOf(c));
@@ -101,7 +100,6 @@ public class ExpressionFactory {
         for (int i = 0; i < expr.length(); i++) {
             char c = expr.charAt(i);
 
-            // Handle quotes for string literals
             if (c == '"' || c == '\'') {
                 if (!inQuotes) {
                     inQuotes = true;
@@ -117,13 +115,11 @@ public class ExpressionFactory {
                 continue;
             }
 
-            // If we're inside quotes, just add the character
             if (inQuotes) {
                 current.append(c);
                 continue;
             }
 
-            // Check for operators outside quotes
             if (c == '+' || c == '*') {
                 addToken(current, tokens);
                 operators.add(String.valueOf(c));
@@ -132,7 +128,6 @@ public class ExpressionFactory {
             }
         }
 
-        // Add any remaining token
         addToken(current, tokens);
     }
 
@@ -141,22 +136,5 @@ public class ExpressionFactory {
             tokens.add(current.toString());
             current.setLength(0);
         }
-    }
-
-    /**
-     * Test method to demonstrate the factory
-     */
-    public static void main(String[] args) {
-        // Test numeric expressions
-        Node numExpr = ExpressionFactory.create("1 + 2 * 3");
-        numExpr.printTree("");
-
-        // Test string expressions
-        Node strExpr = ExpressionFactory.create("\"hello\" + \"world\" * 3");
-        strExpr.printTree("");
-
-        // Test comparison expressions
-        Node compExpr = ExpressionFactory.create("x > 5 + 2");
-        compExpr.printTree("");
     }
 }
