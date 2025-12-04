@@ -1,6 +1,6 @@
 package DAROARA.Saturday.Parser;
 
-import DAROARA.Saturday.AST.IndexNode;
+import DAROARA.Saturday.AST.Expressions.IndexNode;
 
 import DAROARA.Saturday.AST.Node;
 import DAROARA.Saturday.Lexer.TokenType;

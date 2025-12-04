@@ -1,9 +1,10 @@
-package DAROARA.Saturday.AST;
+package DAROARA.Saturday.AST.Expressions;
 
+import DAROARA.Saturday.AST.Node;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class MembershipNode extends Node{
+public class MembershipNode extends Node {
     private final Node element;
     private final Node iterable;
 

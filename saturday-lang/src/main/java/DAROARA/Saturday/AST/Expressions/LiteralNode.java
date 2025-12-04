@@ -1,9 +1,10 @@
-package DAROARA.Saturday.AST;
+package DAROARA.Saturday.AST.Expressions;
 
+import DAROARA.Saturday.AST.Node;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class LiteralNode extends Node{
+public class LiteralNode extends Node {
 
     private Number value;
     public LiteralNode(Token value) {

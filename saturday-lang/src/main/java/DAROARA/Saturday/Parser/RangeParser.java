@@ -1,7 +1,7 @@
 package DAROARA.Saturday.Parser;
 
 import DAROARA.Saturday.AST.Node;
-import DAROARA.Saturday.AST.RangeNode;
+import DAROARA.Saturday.AST.Expressions.RangeNode;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Lexer.TokenType;
 

@@ -1,5 +1,6 @@
-package DAROARA.Saturday.AST;
+package DAROARA.Saturday.AST.Expressions;
 
+import DAROARA.Saturday.AST.Node;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 

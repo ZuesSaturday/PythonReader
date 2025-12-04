@@ -1,9 +1,10 @@
-package DAROARA.Saturday.AST;
+package DAROARA.Saturday.AST.Statements;
 
+import DAROARA.Saturday.AST.Node;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
-public class FunctionNode extends Node{
+public class FunctionNode extends Node {
     public FunctionNode(Token token) {
         super(token);
     }
