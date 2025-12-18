@@ -1,5 +1,6 @@
 package DAROARA.Saturday.Interpreter;
 
+import DAROARA.Saturday.Error.NameError;
 import DAROARA.Saturday.Interpreter.Runtime.RuntimeValue;
 
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class Environment {
         } else if (parent != null) {
             return parent.get(name);
         }
-        throw new RuntimeException("Undefined variable: "+name);
+        throw new NameError("Undefined variable: "+name);
     }
 
     public boolean exists(String name) {

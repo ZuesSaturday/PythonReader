@@ -1,4 +1,4 @@
-package DAROARA.Saturday.Application.Model;
+package DAROARA.Application.Model;
 
 public class RunResult {
 
@@ -22,11 +22,11 @@ public class RunResult {
         this.output = output;
     }
 
-    public String getError() {
-        return error;
-    }
+//    public String getError() {
+//        return error;
+//    }
 
-    public void setError(String error) {
-        this.error = error;
-    }
+//    public void setError(String error) {
+//        this.error = error;
+//    }
 }

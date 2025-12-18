@@ -25,7 +25,7 @@
     <modules>
         <module>saturday-lang</module>
         <module>saturday-backend</module>
-        <module>saturday-core</module>
+<!--        <module>saturday-core</module>-->
     </modules>
     <scm>
         <connection/>

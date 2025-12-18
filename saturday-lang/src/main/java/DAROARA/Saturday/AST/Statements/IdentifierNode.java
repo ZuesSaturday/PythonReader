@@ -1,6 +1,7 @@
 package DAROARA.Saturday.AST.Statements;
 
 import DAROARA.Saturday.AST.Node;
+import DAROARA.Saturday.Error.NameError;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
@@ -49,7 +50,7 @@ public class IdentifierNode extends Node {
     public Object evaluate(Environment env) {
         Object value = env.get(name);
         if (value == null) {
-            throw new RuntimeException("Undefined variable: " + name);
+            throw new NameError("Undefined variable: " + name);
         }
         return value;
     }

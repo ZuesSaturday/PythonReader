@@ -7,6 +7,7 @@ import DAROARA.Saturday.AST.Statements.BlockNode;
 import DAROARA.Saturday.AST.Statements.ForNode;
 import DAROARA.Saturday.AST.Statements.IfNode;
 import DAROARA.Saturday.AST.Statements.IdentifierNode;
+import DAROARA.Saturday.Error.SyntaxError;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Lexer.TokenType;
 
@@ -38,7 +39,7 @@ public class StatementParser {
 
             case NUMBER -> parseNumberStatement();
 
-            default -> throw new RuntimeException("Unexpected token: " + token);
+            default -> throw new SyntaxError("Unexpected: char(" + token.getValue() +") "+token.getLine());
         };
     }
 

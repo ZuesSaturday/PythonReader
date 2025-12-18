@@ -1,4 +1,4 @@
-package DAROARA.Application;
+package DAROARA.Application.config;
 
 
 import org.springframework.context.annotation.Bean;

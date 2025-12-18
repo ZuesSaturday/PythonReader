@@ -1,6 +1,7 @@
 package DAROARA.Saturday.AST.Expressions;
 
 import DAROARA.Saturday.AST.Node;
+import DAROARA.Saturday.Error.NameError;
 import DAROARA.Saturday.Lexer.Token;
 import DAROARA.Saturday.Interpreter.Environment;
 
@@ -17,7 +18,7 @@ public class VarAccessNode extends Node {
     public Object evaluate(Environment env) {
         Object value = env.get(varName);
         if (value == null) {
-            throw new RuntimeException("Undefined variable: " + varName);
+            throw new NameError("Undefined variable: " + varName);
         }
         return value;
     }

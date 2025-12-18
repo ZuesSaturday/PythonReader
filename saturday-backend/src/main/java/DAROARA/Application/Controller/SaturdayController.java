@@ -1,7 +1,8 @@
-package DAROARA.Saturday.Application.Controller;
+package DAROARA.Application.Controller;
 
-import DAROARA.Saturday.Application.Model.RunResult;
-import DAROARA.Saturday.Application.Service.SaturdayService;
+
+import DAROARA.Application.Model.RunResult;
+import DAROARA.Application.Service.SaturdayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

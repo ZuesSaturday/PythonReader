@@ -13,6 +13,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="saturday-core" target="21" />
       <module name="untitled" target="21" />
     </bytecodeTargetLevel>
   </component>

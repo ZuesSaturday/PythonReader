@@ -1,6 +1,7 @@
 package DAROARA.Saturday.AST.Expressions;
 
 import DAROARA.Saturday.AST.Node;
+import DAROARA.Saturday.Error.NameError;
 import DAROARA.Saturday.Interpreter.Environment;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class StringExpressionNode extends Node {
             else {
                 Object value = env.get(token);
                 if (value == null) {
-                    throw new RuntimeException("Undefined variable: " + token);
+                    throw new NameError("Undefined variable: " + token);
                 }
                 values.add(value);
             }
