@@ -35,6 +35,7 @@ public class SaturdayService {
             // Flush and get output
             System.out.flush();
             output = baos.toString();
+
         } catch (Exception e) {
             error = e.getMessage();
         } finally {

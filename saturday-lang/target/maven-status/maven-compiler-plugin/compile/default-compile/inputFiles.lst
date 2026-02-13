@@ -19,7 +19,13 @@
 /home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/AST/Statements/IdentifierNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/AST/Statements/IfNode.java
 /home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/AST/Statements/WhileNode.java
+/home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/IndentationError.java
+/home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/IndexError.java
+/home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/KeyError.java
+/home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/NameError.java
+/home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/SyntaxError.java
 /home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/TypeError.java
+/home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/UnboundError.java
 /home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Error/ValueError.java
 /home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Interpreter/Builtins.java
 /home/wtc/Documents/WEB_Home/PythonReader/saturday-lang/src/main/java/DAROARA/Saturday/Interpreter/Environment.java

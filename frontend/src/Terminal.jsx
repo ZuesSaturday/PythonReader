@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 export default function Terminal() {
-  const [lines, setLines] = useState([{ text: ">", color: "#0ff" }]); // cyan prompt
+  const [lines, setLines] = useState([{ text: "@Zues>", color: "#0ff" }]); // cyan prompt
   const [input, setInput] = useState("");
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -47,7 +47,7 @@ export default function Terminal() {
     }
 
     // New prompt
-    setLines((prev) => [...prev, { text: ">", color: "#0ff" }]);
+    setLines((prev) => [...prev, { text: "@Zues>", color: "#0ff" }]);
   };
 
   // Handle input + history navigation
@@ -59,7 +59,7 @@ export default function Terminal() {
       // Show typed command in terminal
       setLines((prev) => [
         ...prev.slice(0, -1), // remove current prompt
-        { text: "> " + command, color: "#0ff" },
+        { text: "@Zues> " + command ,color: "#0ff" },
       ]);
 
       // Add to history
@@ -120,7 +120,7 @@ export default function Terminal() {
 
       {/* Visible input line */}
       <div style={{ display: "flex", alignItems: "center", marginTop: "4px" }}>
-        <span style={{ color: "#0ff" }}>{">"}</span>
+        <span style={{ color: "#0ff" }}>{""}</span>
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}

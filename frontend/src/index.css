@@ -153,7 +153,7 @@ nav a:hover {
 
 .sidebar-bottom-section {
     position: absolute;
-    bottom: 20px;
+    bottom: 40px;
     width: 100%;
     text-align: center;
 }
@@ -161,7 +161,7 @@ nav a:hover {
 .code-editor {
     height: 100%;
     width: 100%;
-    background: rgb(32, 32, 32);
+    background:  rgb(37, 45, 53);
     font-family: monospace;
     font-size: medium;
 }
@@ -188,14 +188,26 @@ footer p {
     text-decoration: none;
 }
 
+.main-container {
+    position: relative;
+    margin-top: 40px; /* below header */
+    margin-left: 40px; /* beside sidebar */
+}
+
 /* main editor + terminal wrapper */
-.main-editor-terminal {
-  margin-top: 40px; /* below header */
-  margin-left: 40px; /* beside sidebar */
-  height: calc(100vh - 80px); /* full height minus header/footer */
-  width: calc(100vw - 40px);
-  display: flex;
-  flex-direction: column;
+.main-editor {
+    position: absolute;
+    height: calc(100vh - 80px);
+    width: calc(100vw - 40px);
+    z-index: 1;
+   
+}
+.terminal-container {
+   position: absolute;
+   
+   height: 50px;
+   width: calc(100vw - 40px);
+   z-index: 2;
 }
 
 /* CodeMirror full-fill the space like textarea */

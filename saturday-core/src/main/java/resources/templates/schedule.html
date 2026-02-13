@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Loadshedding Schedule</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --eskom-blue: #003b6f;
+            --eskom-yellow: #f8c028;
+            --bg-light: #eef3f8;
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: var(--eskom-blue);
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+        .day-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--eskom-blue);
+            margin-bottom: 10px;
+        }
+        .slot {
+            padding: 10px;
+            background: #e7edf7;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .no-slot {
+            font-size: 1.1rem;
+            color: gray;
+        }
+        .back {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--eskom-blue);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        .stage-box {
+            background: var(--eskom-yellow);
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Loadshedding Schedule</h1>
+
+<div th:if="${schedule}" class="schedule-box">
+    <h2 th:text="${town} + ', ' + ${province}"></h2>
+
+    <div class="stage-box">
+        Stage: <span th:text="${schedule.stage}"></span>
+    </div>
+
+    <div th:each="day, dayStat : ${schedule.days}" class="card">
+        <div class="day-title">Day <span th:text="${dayStat.index + 1}"></span></div>
+
+        <div th:if="${#lists.isEmpty(day.slots)}" class="no-slot">
+            No load-shedding scheduled
+        </div>
+
+        <div th:each="slot : ${day.slots}" class="slot">
+            <span th:text="${slot.start}"></span> -
+            <span th:text="${slot.end}"></span>
+        </div>
+    </div>
+</div>
+
+<div th:if="${error}" class="error-box">
+    <h2 th:text="${error}"></h2>
+</div>
+
+<a href="/" class="back">← Back</a>
+
+</body>
+</html>

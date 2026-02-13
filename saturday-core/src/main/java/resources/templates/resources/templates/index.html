@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Loadshedding Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --eskom-blue: #003b6f;
+            --eskom-yellow: #f8c028;
+            --bg-light: #eef3f8;
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: var(--eskom-blue);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            max-width: 500px;
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+            color: var(--eskom-blue);
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border-radius: 10px;
+            border: 1px solid #bbb;
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--eskom-yellow);
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .stage-box {
+            background: var(--eskom-blue);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Loadshedding Information</h1>
+
+        <div class="card">
+            <div class="stage-box">
+                Current Stage: <span th:text="${stage != null ? stage.stage : 'N/A'}"></span>
+            </div>
+
+            <form id="scheduleForm" action="/schedule" method="get">
+
+                <label for="province">Province</label>
+                <select name="province" id="province" required>
+                    <option value="" disabled selected>Select Province</option>
+                    <option th:each="p : ${provinces}" th:value="${p}" th:text="${p}"></option>
+                </select>
+
+                <label for="town">Town</label>
+                <select id="town" name="townName" disabled required>
+                    <option value="" disabled selected>Select Town</option>
+                </select>
+
+                <button type="submit">Get Schedule</button>
+            </form>
+        </div>
+
+    <script>
+        const provinceSelect = document.getElementById('province');
+        const townSelect = document.getElementById('town');
+
+        provinceSelect.addEventListener('change', function () {
+            const province = this.value;
+            townSelect.innerHTML = '<option disabled selected>Loading...</option>';
+            townSelect.disabled = true;
+
+            fetch('/towns?province=' + encodeURIComponent(province))
+                .then(r => r.json())
+                .then(data => {
+                    townSelect.innerHTML = '<option disabled selected>Select Town</option>';
+                    data.forEach(t => {
+                        const o = document.createElement('option');
+                        o.value = t.name;
+                        o.textContent = t.name;
+                        townSelect.appendChild(o);
+                    });
+                    townSelect.disabled = false;
+                });
+        });
+    </script>
+
+</body>
+</html>

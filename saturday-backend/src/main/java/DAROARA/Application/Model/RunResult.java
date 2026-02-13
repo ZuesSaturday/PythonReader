@@ -11,7 +11,7 @@ public class RunResult {
 
     public RunResult(String output, String error) {
         this.output = output != null ? output : "";
-        this.error = error != null ? error : "";
+//        this.error = error != null ? error : "";
     }
 
     public String getOutput() {

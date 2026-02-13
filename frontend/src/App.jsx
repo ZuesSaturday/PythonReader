@@ -27,7 +27,9 @@ function App() {
       });
 
       const result = await response.json();
-      alert(result.output || result.error);
+      
+      setTerminal(result.output|| result.error);
+      // alert(result.output || result.error);
     } catch (error) {
       console.error("Error sending code to backend:", error);
     }
@@ -37,16 +39,20 @@ function App() {
     <>
       <Header onRun={sendCode} toggleTerminal={toggleTerminal} />
       <Sidebar />
-      <div className='main-editor-terminal'>
-        <CodeEditor initialCode ="" onChange={handleCodeChange} />
+      <div className='main-container'>
+        <div className='main-editor'>
+          <CodeEditor initialCode ="" onChange={handleCodeChange} />
+        </div>
         {showTerminal && (
           <div id="terminal" className='terminal-container'>
-            <TerminalComponent />
+              <TerminalComponent />
           </div>
         )}
       </div>
+
       <Footer />
     </>
+    
   );
 }
 
